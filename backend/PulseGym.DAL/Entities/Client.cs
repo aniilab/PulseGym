@@ -26,6 +26,7 @@ namespace PulseGym.DAL.Entities
 
         public ICollection<Activity> Activities { get; set; }
         public ICollection<Workout> Workouts { get; set; }
+        public ICollection<WorkoutRequest> WorkoutRequests { get; set; }
 
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PulseGym.DAL.Entities
 {
-    public class WorkoutStatus
+    public class WorkoutRequest
     {
         public Guid Id { get; set; }
         public Guid ClientId { get; set; }
@@ -15,6 +15,7 @@ namespace PulseGym.DAL.Entities
         public int Status { get; set; }
         public Client Client { get; set; }
         public Trainer Trainer { get; set; }
+        public Workout Workout { get; set; }
 
     }
 }
