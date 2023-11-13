@@ -1,0 +1,24 @@
+.dropdown-toggle{
+background-color: transparent;
+border:none;
+}
+.dropdown-toggle:active{
+    background-color: rgb(135, 135, 192);
+}
+.names{
+    color:white;
+    font-size:15;
+    margin-left:10px;
+    margin-top:0px;
+    margin-bottom:0px;
+    padding-bottom:0;
+
+}
+.role{
+    color:rgb(153, 110, 221);
+    font-size:8;
+    margin-left:10px;
+    margin-top:0px;
+    margin-bottom:0px;
+    padding-top:0;
+}

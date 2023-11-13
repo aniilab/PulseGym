@@ -1,0 +1,15 @@
+<div class="card mb-3" style="margin:10px;max-width: 90%;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{activity.ImagePath}}" style="height:100%;object-fit: cover;" class="img-fluid rounded-start" alt="imagePath">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{activity.Title | uppercase}} </h5>
+        <p class="card-text">{{activity.Description}}</p>
+        <p class="card-text"><small class="text-muted">{{activity.Date | date: 'h:mm a, EEEE, MMMM d'}}</small></p>
+        <p *ngIf="activity.Trainer!=null" class="card-text"><small class="text-muted">Trainer: {{activity.Trainer.FirstName}} {{activity.Trainer.LastName}}</small></p>
+      </div>
+    </div>
+  </div>
+</div>

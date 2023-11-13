@@ -1,0 +1,13 @@
+<div *ngIf="currentRole === 'admin'">
+  <button
+    mat-raised-button
+    (click)="openCreateDialog()"
+    style="margin: 10px; color: #ffffff;"
+    class="btn btn-primary bg-dark"
+  >
+    Add new program
+  </button>
+</div>
+<ul class="list-group list-group-light">
+  <app-program *ngFor="let pr of programs" [program]="pr"></app-program>
+</ul>

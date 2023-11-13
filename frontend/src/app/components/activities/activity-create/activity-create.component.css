@@ -1,0 +1,9 @@
+.btn-primary{
+    background-color: #8787c0;
+    margin-bottom:30px;
+    margin:0 auto 30px auto;
+}
+
+input.ng-invalid.ng-touched{
+    background-color: lightpink;
+}

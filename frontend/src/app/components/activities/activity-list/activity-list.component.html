@@ -1,0 +1,9 @@
+<div *ngIf="currentRole === 'admin'">
+  <button routerLink="create" style="margin: 10px" class="btn btn-primary bg-dark">
+    Add new activity
+  </button>
+</div>
+<app-activity
+  *ngFor="let activity of activities"
+  [activity]="activity"
+></app-activity>

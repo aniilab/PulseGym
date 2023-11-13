@@ -1,0 +1,9 @@
+<div *ngIf="currentRole === 'admin'">
+  <button style="margin: 10px" class="btn btn-primary bg-dark">
+    Add new trainer
+  </button>
+</div>`
+<app-trainer
+  *ngFor="let tr of trainers"
+  [trainer]="tr"
+></app-trainer>

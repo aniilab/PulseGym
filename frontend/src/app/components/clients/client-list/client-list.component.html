@@ -1,0 +1,16 @@
+<div *ngIf="currentRole === 'admin'">
+  <button style="margin: 10px" class="btn btn-primary bg-dark">
+    Add new client
+  </button>
+</div>
+
+
+<ul class="list-group list-group-light" style="width:100%;">
+  <div style="display: grid; grid-template-columns: auto auto;">
+    <app-client
+    *ngFor="let cl of clients"
+    [client]="cl"
+  ></app-client>
+  </div>
+</ul>
+
