@@ -1,0 +1,28 @@
+.badge{
+    border-radius: 20px;
+    background-color: rgb(11, 11, 36);
+    color:white;
+    font-weight: bold;
+    display:block;
+    width:fit-content;
+    margin:3px;
+}
+.rounded-circle{
+    width: 45px; 
+    height: 45px;
+    display: inline;
+}
+.request-card{
+    margin:5px;
+    padding:5px;
+    padding-bottom: 0px;
+    border-radius: 10px;
+    border: lightgray solid 1px;
+}
+.request-card:hover{
+    border-color:#3f32ad;
+    cursor: pointer;
+}
+.btn-danger{
+    background-color: #3f32ad;
+}

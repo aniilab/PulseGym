@@ -32,6 +32,10 @@ import { ProgramListComponent } from './components/programs/program-list/program
 import { ProgramComponent } from './components/programs/program-list/program/program.component';
 import { ProgramService } from './services/program.service';
 import { ProgramCreateComponent } from './components/programs/program-create/program-create.component';
+import { WorkoutRequestService } from './services/workout-request.service';
+import { WorkoutRequestListComponent } from './components/workout-requests/workout-request-list/workout-request-list.component';
+import { WorkoutRequestComponent } from './components/workout-requests/workout-request/workout-request.component';
+import { ClientService } from './services/client.service';
 
 @NgModule({
   declarations: [
@@ -53,6 +57,8 @@ import { ProgramCreateComponent } from './components/programs/program-create/pro
     ProgramListComponent,
     ProgramComponent,
     ProgramCreateComponent,
+    WorkoutRequestListComponent,
+    WorkoutRequestComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +72,14 @@ import { ProgramCreateComponent } from './components/programs/program-create/pro
     MatInputModule,
     DragDropModule,
   ],
-  providers: [AuthService, ActivityService, TrainerService, ProgramService],
+  providers: [
+    AuthService,
+    ActivityService,
+    TrainerService,
+    ProgramService,
+    WorkoutRequestService,
+    ClientService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

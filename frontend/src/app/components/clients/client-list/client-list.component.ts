@@ -7,8 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
-  styleUrls: ['./client-list.component.css'],
-  providers: [ClientService],
+  styleUrls: ['./client-list.component.css']
 })
 export class ClientListComponent implements OnInit {
   public clients: Client[];

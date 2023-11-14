@@ -42,7 +42,11 @@
       >
     </li>
     <li *ngIf="role === 'trainer' || role === 'admin'">
-      <a style="color: rgb(144, 144, 255)" class="nav-link px-0 align-middle">
+      <a 
+      style="color: rgb(144, 144, 255)" 
+      class="nav-link px-0 align-middle"
+      routerLink="/requests"
+        routerLinkActive="active-route">
         <i class="fs-4 bi-send"></i>
         <span class="ms-1 d-none d-sm-inline">Workout requests</span></a
       >
