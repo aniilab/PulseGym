@@ -1,21 +1,51 @@
 <div id="demo" class="carousel slide" data-bs-ride="carousel">
-
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#demo" (click)="activeImageIndex=0" [className]="activeImageIndex===0 ? 'active' : 'inactive'">></button>
-      <button type="button" data-bs-target="#demo" (click)="activeImageIndex=1" [className]="activeImageIndex===1 ? 'active' : 'inactive'"></button>
-      <button type="button" data-bs-target="#demo" (click)="activeImageIndex=2" [className]="activeImageIndex===2 ? 'active' : 'inactive'"></button>
-    </div>
-  
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img style="height:300px; object-fit: cover;" src="{{imageSrcs[activeImageIndex]}}" alt="Gym" class="d-block w-100">
-      </div>
-    </div>
-  
-    <button class="carousel-control-prev" type="button" data-bs-target="#demo" (click)="onPrevious()">
-      <span class="carousel-control-prev-icon"></span>
+  <div class="carousel-indicators">
+    <button
+      type="button"
+      data-bs-target="#demo"
+      (click)="activeImageIndex = 0"
+      [className]="activeImageIndex === 0 ? 'active' : 'inactive'"
+    >
+      >
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#demo" (click)="onNext()">
-      <span class="carousel-control-next-icon"></span>
-    </button>
+    <button
+      type="button"
+      data-bs-target="#demo"
+      (click)="activeImageIndex = 1"
+      [className]="activeImageIndex === 1 ? 'active' : 'inactive'"
+    ></button>
+    <button
+      type="button"
+      data-bs-target="#demo"
+      (click)="activeImageIndex = 2"
+      [className]="activeImageIndex === 2 ? 'active' : 'inactive'"
+    ></button>
   </div>
+
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img
+        src="{{ imageSrcs[activeImageIndex] }}"
+        alt="Gym"
+        class="d-block w-100"
+      />
+    </div>
+  </div>
+
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#demo"
+    (click)="onPrevious()"
+  >
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#demo"
+    (click)="onNext()"
+  >
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>

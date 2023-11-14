@@ -1,0 +1,15 @@
+.h1 {
+  text-align: center;
+}
+label {
+  color: rgb(135, 135, 192);
+  margin-bottom: 2px;
+}
+.input-div {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+button {
+  margin: 0 auto;
+  margin-right: 5px;
+}

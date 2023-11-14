@@ -1,15 +1,10 @@
 <div>
-  <h1 style="text-align: center" mat-dialog-title>Login</h1>
+  <h1 mat-dialog-title>Login</h1>
   <mat-dialog-content>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <div style="margin-bottom: 15px">
-          <label
-            for="email"
-            class="form-label"
-            style="color: rgb(135, 135, 192); margin-bottom: 2px"
-            >Email:</label
-          >
+        <div class="input-div">
+          <label for="email" class="form-label">Email:</label>
           <input
             type="email"
             class="form-control"
@@ -23,17 +18,11 @@
               !loginForm.get('email').valid && loginForm.get('email').touched
             "
             class="help-block"
-            style="color: lightpink"
             >!Please enter a valid email</span
           >
         </div>
-        <div style="margin-top: 10px; margin-bottom: 15px">
-          <label
-            for="pwd"
-            class="form-label"
-            style="color: rgb(135, 135, 192); margin-bottom: 2px"
-            >Password:</label
-          >
+        <div class="input-div">
+          <label for="pwd" class="form-label">Password:</label>
           <input
             type="password"
             class="form-control"
@@ -46,25 +35,19 @@
         <mat-dialog-actions>
           <button
             [disabled]="!loginForm.valid"
-            style="margin: 0 auto; margin-right: 5px"
             class="btn btn-secondary"
             type="submit"
             mat-dialog-close
           >
             Submit
           </button>
-          <button
-            type="button"
-            mat-dialog-close
-            class="btn btn-light"
-            style="margin: 0 auto; margin-left: 5px"
-          >
+          <button type="button" mat-dialog-close class="btn btn-light">
             Close
           </button>
         </mat-dialog-actions>
       </div>
 
-      <span *ngIf="!successfulLogin" class="help-block" style="color: lightpink"
+      <span *ngIf="!successfulLogin" class="help-block"
         >Email or password is wrong!</span
       >
     </form>

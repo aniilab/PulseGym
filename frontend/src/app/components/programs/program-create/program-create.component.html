@@ -1,15 +1,10 @@
 <div cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
-  <h1 style="text-align: center" mat-dialog-title>Create program</h1>
+  <h1 mat-dialog-title>Create program</h1>
   <mat-dialog-content>
     <form [formGroup]="createProgramForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <div style="margin-bottom: 15px">
-          <label
-            for="name"
-            class="form-label"
-            style="color: rgb(135, 135, 192); margin-bottom: 2px"
-            >Name:</label
-          >
+        <div class="input-div">
+          <label for="name" class="form-label">Name:</label>
           <input
             type="text"
             class="form-control"
@@ -28,13 +23,8 @@
             >!Please enter a valid name</span
           >
         </div>
-        <div style="margin-top: 10px; margin-bottom: 15px">
-          <label
-            for="price"
-            class="form-label"
-            style="color: rgb(135, 135, 192); margin-bottom: 2px"
-            >Price:</label
-          >
+        <div class="input-div">
+          <label for="price" class="form-label">Price:</label>
           <input
             type="number"
             class="form-control"
@@ -47,19 +37,13 @@
         <mat-dialog-actions>
           <button
             [disabled]="!createProgramForm.valid"
-            style="margin: 0 auto; margin-right: 5px"
             class="btn btn-secondary"
             type="submit"
             mat-dialog-close
           >
             Submit
           </button>
-          <button
-            type="button"
-            mat-dialog-close
-            class="btn btn-light"
-            style="margin: 0 auto; margin-left: 5px"
-          >
+          <button type="button" mat-dialog-close class="btn btn-light">
             Close
           </button>
         </mat-dialog-actions>

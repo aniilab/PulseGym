@@ -1,0 +1,18 @@
+h1 {
+  text-align: center;
+}
+.input-div {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+label {
+  color: rgb(135, 135, 192);
+  margin-bottom: 2px;
+}
+.help-block {
+  color: lightpink;
+}
+button {
+  margin: 0 auto;
+  margin-left: 5px;
+}
