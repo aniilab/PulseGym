@@ -2,20 +2,12 @@
 {
     public enum TrainerCategory
     {
-        Bodybuilding = 0,
+        Junior = 0,
 
-        Fitness = 1,
+        Middle = 1,
 
-        Reabilitation = 2,
+        Senior = 2,
 
-        WeightLoss = 3,
-
-        WeightGain = 4,
-
-        Sports = 5,
-
-        Stretching = 6,
-
-        Yoga = 7
+        Master = 3,
     }
 }
