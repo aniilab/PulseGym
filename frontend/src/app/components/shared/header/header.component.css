@@ -1,24 +1,41 @@
-.dropdown-toggle{
-background-color: transparent;
-border:none;
+.dropdown-toggle {
+  background-color: transparent;
+  border: none;
 }
-.dropdown-toggle:active{
-    background-color: rgb(135, 135, 192);
+.dropdown-toggle:active {
+  background-color: rgb(135, 135, 192);
 }
-.names{
-    color:white;
-    font-size:15;
-    margin-left:10px;
-    margin-top:0px;
-    margin-bottom:0px;
-    padding-bottom:0;
-
+.dropdown-item {
+  cursor: pointer;
 }
-.role{
-    color:rgb(153, 110, 221);
-    font-size:8;
-    margin-left:10px;
-    margin-top:0px;
-    margin-bottom:0px;
-    padding-top:0;
+.names {
+  color: white;
+  font-size: 15;
+  margin-left: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-bottom: 0;
+}
+.role {
+  color: rgb(153, 110, 221);
+  font-size: 8;
+  margin-left: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0;
+}
+.navbar-brand {
+  cursor: pointer;
+  color: rgb(135, 135, 192);
+  margin-left: 20px;
+}
+.btn.btn-secondary {
+  background-color: rgb(135, 135, 192);
+}
+.nav-link {
+  color: white;
+  cursor: pointer;
+}
+.rounded-pill {
+  width: 40px;
 }
