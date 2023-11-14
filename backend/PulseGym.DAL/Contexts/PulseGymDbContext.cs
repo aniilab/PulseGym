@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
 using PulseGym.DAL.Entities;
 
 namespace PulseGym.DAL
@@ -7,11 +8,17 @@ namespace PulseGym.DAL
     public class PulseGymDbContext : IdentityDbContext
     {
         public DbSet<Activity> Activities { get; set; }
+
         public DbSet<Client> Clients { get; set; }
+
         public DbSet<MembershipProgram> MembershipPrograms { get; set; }
+
         public DbSet<Trainer> Trainers { get; set; }
+
         public DbSet<Workout> Workouts { get; set; }
+
         public DbSet<WorkoutRequest> WorkoutRequests { get; set; }
+
         public PulseGymDbContext(DbContextOptions<PulseGymDbContext> options) : base(options)
         {
 
