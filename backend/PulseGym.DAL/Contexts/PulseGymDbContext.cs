@@ -47,7 +47,7 @@ namespace PulseGym.DAL
 
             modelBuilder.Entity<Client>().HasOne(c => c.MembershipProgram)
                                          .WithMany(p => p.Clients)
-                                         .HasForeignKey(c => c.MembershipProgram)
+                                         .HasForeignKey(c => c.MembershipProgramId)
                                          .OnDelete(DeleteBehavior.Cascade);
 
 
@@ -82,6 +82,8 @@ namespace PulseGym.DAL
                                                  .WithMany(t => t.WorkoutRequests)
                                                  .HasForeignKey(w => w.TrainerId)
                                                  .OnDelete(DeleteBehavior.Cascade);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
