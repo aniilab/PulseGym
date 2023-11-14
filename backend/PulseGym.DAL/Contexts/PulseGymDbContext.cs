@@ -1,14 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PulseGym.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PulseGym.DAL
 {
-    public class PulseGymDbContext : DbContext
+    public class PulseGymDbContext : IdentityDbContext
     {
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Client> Clients { get; set; }
@@ -16,7 +12,8 @@ namespace PulseGym.DAL
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<WorkoutRequest> WorkoutRequests { get; set; }
-        public PulseGymDbContext(DbContextOptions<PulseGymDbContext> options) : base(options) {
+        public PulseGymDbContext(DbContextOptions<PulseGymDbContext> options) : base(options)
+        {
 
         }
 
@@ -34,23 +31,23 @@ namespace PulseGym.DAL
             modelBuilder.Entity<Client>().HasOne(c => c.User)
                                          .WithOne(u => u.Client)
                                          .HasForeignKey<Client>(c => c.UserId)
-                                         .OnDelete(DeleteBehavior.Cascade); 
+                                         .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Client>().HasOne(c => c.PersonalTrainer)
                                          .WithMany(t => t.Clients)
                                          .HasForeignKey(c => c.PersonalTrainerId)
-                                         .OnDelete(DeleteBehavior.SetNull); 
+                                         .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Client>().HasOne(c => c.MembershipProgram)
                                          .WithMany(p => p.Clients)
                                          .HasForeignKey(c => c.MembershipProgram)
-                                         .OnDelete(DeleteBehavior.Cascade); 
+                                         .OnDelete(DeleteBehavior.Cascade);
 
 
             modelBuilder.Entity<Trainer>().HasOne(t => t.User)
                                           .WithOne(u => u.Trainer)
                                           .HasForeignKey<Trainer>(t => t.UserId)
-                                          .OnDelete(DeleteBehavior.Cascade); 
+                                          .OnDelete(DeleteBehavior.Cascade);
 
 
             modelBuilder.Entity<Workout>().HasOne(w => w.Client)

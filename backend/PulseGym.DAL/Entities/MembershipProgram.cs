@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PulseGym.DAL.Entities
 {
@@ -11,8 +6,8 @@ namespace PulseGym.DAL.Entities
     {
         [Key]
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public double Price { get; set; }
-        public ICollection<Client> Clients { get; set; }
+        public ICollection<Client>? Clients { get; set; }
     }
 }

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PulseGym.DAL.Enums
+﻿namespace PulseGym.DAL.Enums
 {
     public enum WorkoutStatus
     {
-        Planned,
-        InProgress,
-        Passed
+        Planned = 0,
+
+        InProgress = 1,
+
+        Passed = 2
     }
 }
