@@ -16,16 +16,26 @@ namespace PulseGym.API.Controllers
             _authService = authService;
         }
 
-        [HttpPost]
-        public async Task<bool> Register(UserRegister user)
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(UserRegister user)
         {
-            return await _authService.RegisterUser(user);
+            if (await _authService.RegisterUser(user))
+            {
+                return Ok("Successfully registered!");
+            }
+
+            return BadRequest();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Login(UserLogin userLogin)
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(UserLogin user)
         {
-            return Ok();
+            if (await _authService.LoginUser(user))
+            {
+                return Ok("Done");
+            }
+
+            return BadRequest();
         }
     }
 }

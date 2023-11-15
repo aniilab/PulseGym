@@ -29,5 +29,16 @@ namespace PulseGym.Logic.Services.Auth
 
             return result.Succeeded;
         }
+
+        public async Task<bool> LoginUser(UserLogin user)
+        {
+            var existingUser = await _userManager.FindByNameAsync(user.UserName);
+            if (existingUser == null)
+            {
+                return false;
+            }
+
+            return await _userManager.CheckPasswordAsync(existingUser, user.Password);
+        }
     }
 }
