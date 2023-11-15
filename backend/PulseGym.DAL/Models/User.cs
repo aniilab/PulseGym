@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace PulseGym.DAL.Entities
+namespace PulseGym.DAL.Models
 {
     public class User : IdentityUser<Guid>
     {

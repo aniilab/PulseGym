@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 using PulseGym.DAL;
+using PulseGym.DAL.Models;
+using PulseGym.Logic.Services.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PulseGymDbContext>(options =>
             options
             .UseSqlServer(builder.Configuration.GetConnectionString("LocalConnectionString")));
+
+builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
+{
+
+}).AddEntityFrameworkStores<PulseGymDbContext>()
+  .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 
 var app = builder.Build();
 

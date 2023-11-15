@@ -1,4 +1,4 @@
-﻿namespace PulseGym.DAL.Entities
+﻿namespace PulseGym.DAL.Models
 {
     public class Workout
     {

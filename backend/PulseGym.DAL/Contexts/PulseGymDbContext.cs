@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-using PulseGym.DAL.Entities;
+using PulseGym.DAL.Models;
 
 namespace PulseGym.DAL
 {

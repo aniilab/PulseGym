@@ -1,0 +1,11 @@
+C:\Users\user\Documents\MentorshipProjects\PulseGym\backend\PulseGym.Entities\bin\Debug\net7.0\PulseGym.Entities.deps.json
+C:\Users\user\Documents\MentorshipProjects\PulseGym\backend\PulseGym.Entities\bin\Debug\net7.0\PulseGym.Entities.dll
+C:\Users\user\Documents\MentorshipProjects\PulseGym\backend\PulseGym.Entities\bin\Debug\net7.0\PulseGym.Entities.pdb
+C:\Users\user\Documents\MentorshipProjects\PulseGym\backend\PulseGym.Entities\obj\Debug\net7.0\PulseGym.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Documents\MentorshipProjects\PulseGym\backend\PulseGym.Entities\obj\Debug\net7.0\PulseGym.Entities.AssemblyInfoInputs.cache
+C:\Users\user\Documents\MentorshipProjects\PulseGym\backend\PulseGym.Entities\obj\Debug\net7.0\PulseGym.Entities.AssemblyInfo.cs
+C:\Users\user\Documents\MentorshipProjects\PulseGym\backend\PulseGym.Entities\obj\Debug\net7.0\PulseGym.Entities.csproj.CoreCompileInputs.cache
+C:\Users\user\Documents\MentorshipProjects\PulseGym\backend\PulseGym.Entities\obj\Debug\net7.0\PulseGym.Entities.dll
+C:\Users\user\Documents\MentorshipProjects\PulseGym\backend\PulseGym.Entities\obj\Debug\net7.0\refint\PulseGym.Entities.dll
+C:\Users\user\Documents\MentorshipProjects\PulseGym\backend\PulseGym.Entities\obj\Debug\net7.0\PulseGym.Entities.pdb
+C:\Users\user\Documents\MentorshipProjects\PulseGym\backend\PulseGym.Entities\obj\Debug\net7.0\ref\PulseGym.Entities.dll

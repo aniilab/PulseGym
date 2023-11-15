@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PulseGym.DAL.Entities
+namespace PulseGym.DAL.Models
 {
     public class Trainer
     {
