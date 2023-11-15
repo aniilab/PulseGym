@@ -2,13 +2,13 @@
 
 namespace PulseGym.DAL.Entities
 {
-    public class User : IdentityUser
+    public class User : IdentityUser<Guid>
     {
         public required string FirstName { get; set; }
 
         public required string LastName { get; set; }
 
-        public DateOnly Birthday { get; set; }
+        public DateTime Birthday { get; set; }
 
         public string? ImageUrl { get; set; }
 

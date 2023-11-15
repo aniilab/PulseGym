@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using PulseGym.DAL.Entities;
 
 namespace PulseGym.DAL
 {
-    public class PulseGymDbContext : IdentityDbContext
+    public class PulseGymDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public DbSet<Activity> Activities { get; set; }
 
@@ -38,7 +39,7 @@ namespace PulseGym.DAL
             modelBuilder.Entity<Client>().HasOne(c => c.User)
                                          .WithOne(u => u.Client)
                                          .HasForeignKey<Client>(c => c.UserId)
-                                         .OnDelete(DeleteBehavior.Cascade);
+                                         .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Client>().HasOne(c => c.PersonalTrainer)
                                          .WithMany(t => t.Clients)
@@ -48,13 +49,13 @@ namespace PulseGym.DAL
             modelBuilder.Entity<Client>().HasOne(c => c.MembershipProgram)
                                          .WithMany(p => p.Clients)
                                          .HasForeignKey(c => c.MembershipProgramId)
-                                         .OnDelete(DeleteBehavior.Cascade);
+                                         .OnDelete(DeleteBehavior.Restrict);
 
 
             modelBuilder.Entity<Trainer>().HasOne(t => t.User)
                                           .WithOne(u => u.Trainer)
                                           .HasForeignKey<Trainer>(t => t.UserId)
-                                          .OnDelete(DeleteBehavior.Cascade);
+                                          .OnDelete(DeleteBehavior.Restrict);
 
 
             modelBuilder.Entity<Workout>().HasOne(w => w.Client)
@@ -70,7 +71,7 @@ namespace PulseGym.DAL
             modelBuilder.Entity<Workout>().HasOne(w => w.WorkoutRequest)
                                           .WithOne(wr => wr.Workout)
                                           .HasForeignKey<Workout>(w => w.WorkoutRequestId)
-                                          .OnDelete(DeleteBehavior.SetNull);
+                                          .OnDelete(DeleteBehavior.NoAction);
 
 
             modelBuilder.Entity<WorkoutRequest>().HasOne(w => w.Client)

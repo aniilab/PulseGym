@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PulseGym.DAL.Entities
 {
     public class Client
     {
         [Key]
-        [ForeignKey("User")]
         public Guid UserId { get; set; }
 
         public required User User { get; set; }
