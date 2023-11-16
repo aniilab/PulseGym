@@ -1,5 +1,7 @@
 ﻿using System.Text;
 
+using Mapster;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +9,10 @@ using Microsoft.IdentityModel.Tokens;
 
 using PulseGym.DAL;
 using PulseGym.DAL.Models;
+using PulseGym.DAL.Repositories;
+using PulseGym.Entities.DTO.Trainer;
+using PulseGym.Entities.Enums;
+using PulseGym.Logic.Facades;
 using PulseGym.Logic.Services.Auth;
 using PulseGym.Logic.Services.Token;
 
@@ -20,14 +26,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<PulseGymDbContext>(options =>
-            options
-            .UseSqlServer(builder.Configuration.GetConnectionString("LocalConnectionString")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("LocalConnectionString")));
 
 builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
 {
     options.Password.RequireNonAlphanumeric = false;
-}).AddEntityFrameworkStores<PulseGymDbContext>()
-  .AddDefaultTokenProviders();
+})
+.AddRoles<IdentityRole<Guid>>()
+.AddEntityFrameworkStores<PulseGymDbContext>()
+.AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -47,6 +54,10 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value))
     };
 });
+
+builder.Services.AddScoped<ITrainerRepository, TrainerRepository>();
+
+builder.Services.AddScoped<ITrainerFacade, TrainerFacade>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -68,4 +79,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+ConfigureMapster();
+
 app.Run();
+
+void ConfigureMapster()
+{
+    TypeAdapterConfig<Trainer, TrainerListItem>.NewConfig()
+        .Map(dest => dest.FirstName, src => src.User.FirstName)
+        .Map(dest => dest.LastName, src => src.User.LastName)
+        .Map(dest => dest.Category, src => ((TrainerCategory)src.Category).ToString());
+
+}

@@ -28,7 +28,7 @@ namespace PulseGym.Logic.Services.Auth
                 FirstName = userRegister.FirstName,
                 LastName = userRegister.LastName,
                 Birthday = userRegister.Birthday,
-
+                UserName = userRegister.Email
             };
 
             var result = await _userManager.CreateAsync(newUser, userRegister.Password);

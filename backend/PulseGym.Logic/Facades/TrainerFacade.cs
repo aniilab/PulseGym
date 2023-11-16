@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Identity;
 
 using PulseGym.DAL.Models;
+using PulseGym.DAL.Repositories;
 using PulseGym.Entities.DTO.Trainer;
 using PulseGym.Entities.DTO.User;
 using PulseGym.Logic.Services.Auth;
@@ -22,6 +23,13 @@ namespace PulseGym.Logic.Facades
             _userManager = userManager;
         }
 
+        public async Task<ICollection<TrainerListItem>> GetTrainersAsync()
+        {
+            var trainers = await _trainerRepository.GetTrainersAsync();
+
+            return trainers.Adapt<List<TrainerListItem>>();
+        }
+
         public async Task<bool> CreateTrainerAsync(TrainerCreate newTrainer)
         {
             var registered = await _authService.RegisterUserAsync(newTrainer.Adapt<UserRegister>(), "trainer");
@@ -36,11 +44,5 @@ namespace PulseGym.Logic.Facades
             return result;
         }
 
-        public async Task<ICollection<TrainerListItem>> GetTrainersAsync()
-        {
-            var result = await _trainerRepository.GetAllTrainersAsync();
-
-            return result.Adapt<TrainerListItem>();
-        }
     }
 }
