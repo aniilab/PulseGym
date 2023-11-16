@@ -18,7 +18,7 @@ namespace PulseGym.Logic.Services.Token
             _configuration = configuration;
         }
 
-        public string GenerateToken(User user)
+        public string Generate(User user)
         {
             var claims = new List<Claim>
             {
@@ -43,5 +43,6 @@ namespace PulseGym.Logic.Services.Token
 
             return jwt;
         }
+
     }
 }

@@ -4,6 +4,6 @@ namespace PulseGym.Logic.Services.Token
 {
     public interface ITokenService
     {
-        string GenerateToken(User user);
+        string Generate(User user);
     }
 }

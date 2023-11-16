@@ -34,19 +34,25 @@ namespace PulseGym.Logic.Services.Auth
             return result.Succeeded;
         }
 
-        public async Task<string> LoginUser(UserLogin user)
+        public async Task<string?> LoginUser(UserLogin user)
         {
             var existingUser = await _userManager.FindByNameAsync(user.UserName);
-            if (existingUser == null)
+
+            if (existingUser != null)
             {
-                return null;
-            }
-            if (await _userManager.CheckPasswordAsync(existingUser, user.Password))
-            {
-                return _tokenService.GenerateToken(existingUser);
+                var result = await _userManager.CheckPasswordAsync(existingUser, user.Password);
+                if (result)
+                {
+                    return _tokenService.Generate(existingUser);
+                }
             }
 
             return null;
+        }
+
+        public async Task Logout()
+        {
+
         }
     }
 }
