@@ -26,8 +26,4 @@
     <ProjectReference Include="..\PulseGym.Logic\PulseGym.Logic.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

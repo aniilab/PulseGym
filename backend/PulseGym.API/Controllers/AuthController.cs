@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using PulseGym.Entities.DTO;
+using PulseGym.Entities.DTO.User;
 using PulseGym.Logic.Services.Auth;
 
 namespace PulseGym.API.Controllers
@@ -14,17 +14,6 @@ namespace PulseGym.API.Controllers
         public AuthController(IAuthService authService)
         {
             _authService = authService;
-        }
-
-        [HttpPost("Register")]
-        public async Task<IActionResult> Register(UserRegister user)
-        {
-            if (await _authService.RegisterUser(user))
-            {
-                return Ok("Successfully registered!");
-            }
-
-            return BadRequest();
         }
 
         [HttpPost("Login")]

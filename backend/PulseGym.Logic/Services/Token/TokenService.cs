@@ -22,7 +22,7 @@ namespace PulseGym.Logic.Services.Token
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.Email, user.Email)
             };
 
             var secret = Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value);

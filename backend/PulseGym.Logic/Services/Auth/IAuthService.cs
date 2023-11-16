@@ -1,12 +1,13 @@
-﻿using PulseGym.Entities.DTO;
+﻿using PulseGym.DAL.Models;
+using PulseGym.Entities.DTO.User;
 
 namespace PulseGym.Logic.Services.Auth
 {
     public interface IAuthService
     {
-        Task<string> LoginUser(UserLogin user);
+        Task<string?> LoginUser(UserLogin user);
 
-        Task<bool> RegisterUser(UserRegister userRegister);
+        Task<User?> RegisterUserAsync(UserRegister userRegister, string role);
 
         Task Logout();
     }
