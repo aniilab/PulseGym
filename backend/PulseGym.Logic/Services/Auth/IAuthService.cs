@@ -4,7 +4,7 @@ namespace PulseGym.Logic.Services.Auth
 {
     public interface IAuthService
     {
-        Task<bool> LoginUser(UserLogin user);
+        Task<string> LoginUser(UserLogin user);
         Task<bool> RegisterUser(UserRegister userRegister);
     }
 }

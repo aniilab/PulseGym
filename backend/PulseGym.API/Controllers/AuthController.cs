@@ -30,9 +30,10 @@ namespace PulseGym.API.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserLogin user)
         {
-            if (await _authService.LoginUser(user))
+            var token = await _authService.LoginUser(user);
+            if (token != null)
             {
-                return Ok("Done");
+                return Ok(token);
             }
 
             return BadRequest();

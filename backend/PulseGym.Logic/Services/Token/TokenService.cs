@@ -17,14 +17,15 @@ namespace PulseGym.Logic.Services.Token
         {
             _configuration = configuration;
         }
-        public async Task<string> GenerateTokenAsync(User user)
+
+        public string GenerateToken(User user)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName)
             };
 
-            var secret = Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value);
+            var secret = Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value);
 
             var key = new SymmetricSecurityKey(secret);
 
@@ -33,8 +34,10 @@ namespace PulseGym.Logic.Services.Token
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: DateTime.Now.AddDays(7),
+                issuer: _configuration.GetSection("Jwt:Issuer").Value,
+                audience: _configuration.GetSection("Jwt:Audience").Value,
                 signingCredentials: credentials
-                );
+            );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 

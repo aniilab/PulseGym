@@ -2,6 +2,7 @@
 
 using PulseGym.DAL.Models;
 using PulseGym.Entities.DTO;
+using PulseGym.Logic.Services.Token;
 
 namespace PulseGym.Logic.Services.Auth
 {
@@ -9,9 +10,12 @@ namespace PulseGym.Logic.Services.Auth
     {
         private readonly UserManager<User> _userManager;
 
-        public AuthService(UserManager<User> userManager)
+        private readonly ITokenService _tokenService;
+
+        public AuthService(UserManager<User> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         public async Task<bool> RegisterUser(UserRegister userRegister)
@@ -30,15 +34,19 @@ namespace PulseGym.Logic.Services.Auth
             return result.Succeeded;
         }
 
-        public async Task<bool> LoginUser(UserLogin user)
+        public async Task<string> LoginUser(UserLogin user)
         {
             var existingUser = await _userManager.FindByNameAsync(user.UserName);
             if (existingUser == null)
             {
-                return false;
+                return null;
+            }
+            if (await _userManager.CheckPasswordAsync(existingUser, user.Password))
+            {
+                return _tokenService.GenerateToken(existingUser);
             }
 
-            return await _userManager.CheckPasswordAsync(existingUser, user.Password);
+            return null;
         }
     }
 }
