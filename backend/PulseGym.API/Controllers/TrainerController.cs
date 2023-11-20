@@ -8,6 +8,7 @@ namespace PulseGym.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TrainerController : ControllerBase
     {
         ITrainerFacade _trainerFacade;
@@ -31,7 +32,6 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetTrainersAsync()
         {
             var trainerList = await _trainerFacade.GetTrainersAsync();
