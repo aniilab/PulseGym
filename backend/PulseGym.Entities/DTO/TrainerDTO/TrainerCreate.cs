@@ -1,4 +1,4 @@
-﻿namespace PulseGym.Entities.DTO.Trainer
+﻿namespace PulseGym.Entities.DTO.TrainerDTO
 {
     public class TrainerCreate
     {

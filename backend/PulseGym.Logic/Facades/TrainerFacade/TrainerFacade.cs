@@ -4,16 +4,18 @@ using Microsoft.AspNetCore.Identity;
 
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
-using PulseGym.Entities.DTO.Trainer;
-using PulseGym.Entities.DTO.User;
-using PulseGym.Logic.Services.Auth;
+using PulseGym.Entities.DTO.TrainerDTO;
+using PulseGym.Entities.DTO.UserDTO;
+using PulseGym.Logic.Services.AuthService;
 
-namespace PulseGym.Logic.Facades
+namespace PulseGym.Logic.Facades.TrainerFacade
 {
     public class TrainerFacade : ITrainerFacade
     {
         private readonly IAuthService _authService;
+
         ITrainerRepository _trainerRepository;
+
         private readonly UserManager<User> _userManager;
 
         public TrainerFacade(IAuthService authService, ITrainerRepository trainerRepository, UserManager<User> userManager)

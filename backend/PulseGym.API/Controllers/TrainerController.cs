@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-using PulseGym.Entities.DTO.Trainer;
-using PulseGym.Logic.Facades;
+using PulseGym.Entities.DTO.TrainerDTO;
+using PulseGym.Logic.Facades.TrainerFacade;
 
 namespace PulseGym.API.Controllers
 {
@@ -30,6 +31,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetTrainersAsync()
         {
             var trainerList = await _trainerFacade.GetTrainersAsync();

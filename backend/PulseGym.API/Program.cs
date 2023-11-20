@@ -10,11 +10,11 @@ using Microsoft.IdentityModel.Tokens;
 using PulseGym.DAL;
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
-using PulseGym.Entities.DTO.Trainer;
+using PulseGym.Entities.DTO.TrainerDTO;
 using PulseGym.Entities.Enums;
-using PulseGym.Logic.Facades;
-using PulseGym.Logic.Services.Auth;
-using PulseGym.Logic.Services.Token;
+using PulseGym.Logic.Facades.TrainerFacade;
+using PulseGym.Logic.Services.AuthService;
+using PulseGym.Logic.Services.TokenService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,6 +86,7 @@ app.Run();
 void ConfigureMapster()
 {
     TypeAdapterConfig<Trainer, TrainerListItem>.NewConfig()
+        .Map(dest => dest.Id, src => src.UserId)
         .Map(dest => dest.FirstName, src => src.User.FirstName)
         .Map(dest => dest.LastName, src => src.User.LastName)
         .Map(dest => dest.Category, src => ((TrainerCategory)src.Category).ToString());

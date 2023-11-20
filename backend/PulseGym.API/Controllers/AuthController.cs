@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using PulseGym.Entities.DTO.User;
-using PulseGym.Logic.Services.Auth;
+using PulseGym.Entities.DTO.UserDTO;
+using PulseGym.Logic.Services.AuthService;
 
 namespace PulseGym.API.Controllers
 {
