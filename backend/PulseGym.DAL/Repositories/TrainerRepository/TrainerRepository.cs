@@ -13,7 +13,7 @@ namespace PulseGym.DAL.Repositories
             _context = context;
         }
 
-        public async Task<ICollection<Trainer>> GetTrainersAsync()
+        public async Task<ICollection<Trainer>> GetAllAsync()
         {
             return await _context.Trainers.Include(t => t.User)
                                     .Include(t => t.Workouts)
@@ -22,7 +22,7 @@ namespace PulseGym.DAL.Repositories
                                     .ToListAsync();
         }
 
-        public async Task<bool> CreateTrainerAsync(Guid id, Trainer trainer)
+        public async Task<bool> CreateAsync(Guid id, Trainer trainer)
         {
             trainer.UserId = id;
 

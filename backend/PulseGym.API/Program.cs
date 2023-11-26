@@ -11,11 +11,10 @@ using Microsoft.OpenApi.Models;
 using PulseGym.DAL;
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
-using PulseGym.Entities.DTO.TrainerDTO;
+using PulseGym.Entities.DTO;
 using PulseGym.Entities.Enums;
-using PulseGym.Logic.Facades.TrainerFacade;
-using PulseGym.Logic.Services.AuthService;
-using PulseGym.Logic.Services.TokenService;
+using PulseGym.Logic.Facades;
+using PulseGym.Logic.Services;
 
 using Swashbuckle.AspNetCore.Filters;
 
@@ -54,9 +53,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<ITrainerRepository, TrainerRepository>();
 
 builder.Services.AddScoped<ITrainerFacade, TrainerFacade>();
+builder.Services.AddScoped<IClientFacade, ClientFacade>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -101,5 +102,11 @@ void ConfigureMapster()
         .Map(dest => dest.FirstName, src => src.User.FirstName)
         .Map(dest => dest.LastName, src => src.User.LastName)
         .Map(dest => dest.Category, src => ((TrainerCategory)src.Category).ToString());
+
+    TypeAdapterConfig<Client, ClientListItem>.NewConfig()
+        .Map(dest => dest.Id, src => src.UserId)
+        .Map(dest => dest.FirstName, src => src.User.FirstName)
+        .Map(dest => dest.LastName, src => src.User.LastName)
+        .Map(dest => dest.MembershipProgram, src => src.MembershipProgram.Name);
 
 }

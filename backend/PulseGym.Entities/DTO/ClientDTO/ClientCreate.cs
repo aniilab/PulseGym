@@ -1,6 +1,6 @@
 ﻿namespace PulseGym.Entities.DTO
 {
-    public class TrainerCreate
+    public class ClientCreate
     {
         public required string FirstName { get; set; }
 
@@ -8,7 +8,7 @@
 
         public DateTime Birthday { get; set; }
 
-        public int Category { get; set; }
+        public Guid MembershipProgramId { get; set; }
 
         public required string Email { get; set; }
 

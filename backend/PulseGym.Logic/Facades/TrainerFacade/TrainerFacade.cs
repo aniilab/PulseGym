@@ -1,14 +1,11 @@
 ﻿using Mapster;
 
-using Microsoft.AspNetCore.Identity;
-
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
-using PulseGym.Entities.DTO.TrainerDTO;
-using PulseGym.Entities.DTO.UserDTO;
-using PulseGym.Logic.Services.AuthService;
+using PulseGym.Entities.DTO;
+using PulseGym.Logic.Services;
 
-namespace PulseGym.Logic.Facades.TrainerFacade
+namespace PulseGym.Logic.Facades
 {
     public class TrainerFacade : ITrainerFacade
     {
@@ -16,18 +13,15 @@ namespace PulseGym.Logic.Facades.TrainerFacade
 
         ITrainerRepository _trainerRepository;
 
-        private readonly UserManager<User> _userManager;
-
-        public TrainerFacade(IAuthService authService, ITrainerRepository trainerRepository, UserManager<User> userManager)
+        public TrainerFacade(IAuthService authService, ITrainerRepository trainerRepository)
         {
             _authService = authService;
             _trainerRepository = trainerRepository;
-            _userManager = userManager;
         }
 
         public async Task<ICollection<TrainerListItem>> GetTrainersAsync()
         {
-            var trainers = await _trainerRepository.GetTrainersAsync();
+            var trainers = await _trainerRepository.GetAllAsync();
 
             return trainers.Adapt<List<TrainerListItem>>();
         }
@@ -41,7 +35,7 @@ namespace PulseGym.Logic.Facades.TrainerFacade
                 return false;
             }
 
-            var result = await _trainerRepository.CreateTrainerAsync(registered.Id, newTrainer.Adapt<Trainer>());
+            var result = await _trainerRepository.CreateAsync(registered.Id, newTrainer.Adapt<Trainer>());
 
             return result;
         }

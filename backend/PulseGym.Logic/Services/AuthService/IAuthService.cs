@@ -1,7 +1,7 @@
 ﻿using PulseGym.DAL.Models;
-using PulseGym.Entities.DTO.UserDTO;
+using PulseGym.Entities.DTO;
 
-namespace PulseGym.Logic.Services.AuthService
+namespace PulseGym.Logic.Services
 {
     public interface IAuthService
     {

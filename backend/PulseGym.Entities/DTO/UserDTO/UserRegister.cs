@@ -1,4 +1,4 @@
-﻿namespace PulseGym.Entities.DTO.UserDTO
+﻿namespace PulseGym.Entities.DTO
 {
     public class UserRegister
     {

@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using PulseGym.DAL.Models;
 
-namespace PulseGym.Logic.Services.TokenService
+namespace PulseGym.Logic.Services
 {
     public class TokenService : ITokenService
     {

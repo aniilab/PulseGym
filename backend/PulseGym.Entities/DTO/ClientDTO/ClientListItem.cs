@@ -1,6 +1,6 @@
 ﻿namespace PulseGym.Entities.DTO
 {
-    public class TrainerListItem
+    public class ClientListItem
     {
         public Guid Id { get; set; }
 
@@ -8,6 +8,6 @@
 
         public string LastName { get; set; }
 
-        public string Category { get; set; }
+        public string MembershipProgram { get; set; }
     }
 }

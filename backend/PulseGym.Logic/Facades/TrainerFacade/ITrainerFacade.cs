@@ -1,6 +1,6 @@
-﻿using PulseGym.Entities.DTO.TrainerDTO;
+﻿using PulseGym.Entities.DTO;
 
-namespace PulseGym.Logic.Facades.TrainerFacade
+namespace PulseGym.Logic.Facades
 {
     public interface ITrainerFacade
     {

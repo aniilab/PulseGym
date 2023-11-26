@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 using PulseGym.DAL.Models;
-using PulseGym.Entities.DTO.UserDTO;
-using PulseGym.Logic.Services.TokenService;
+using PulseGym.Entities.DTO;
 
-namespace PulseGym.Logic.Services.AuthService
+namespace PulseGym.Logic.Services
 {
     public class AuthService : IAuthService
     {

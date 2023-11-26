@@ -1,6 +1,6 @@
 ﻿using PulseGym.DAL.Models;
 
-namespace PulseGym.Logic.Services.TokenService
+namespace PulseGym.Logic.Services
 {
     public interface ITokenService
     {
