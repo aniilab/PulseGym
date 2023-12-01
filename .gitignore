@@ -48,5 +48,7 @@ Thumbs.db
 /backend/PulseGym.DAL/obj
 /backend/PulseGym.Logic/bin/Debug/net7.0
 /backend/PulseGym.Logic/obj
+/backend/PulseGym.Entities/bin/Debug/net7.0
+/backend/PulseGym.Entities/obj
 /frontend/.angular/cache/16.2.7
 /frontend/node_modules

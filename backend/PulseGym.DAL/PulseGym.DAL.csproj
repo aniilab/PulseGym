@@ -22,4 +22,8 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="7.0.13" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PulseGym.Entities\PulseGym.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

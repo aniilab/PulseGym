@@ -19,6 +19,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("Create")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Create(TrainerCreateDTO newTrainer)
         {
             var isCreated = await _trainerFacade.CreateTrainerAsync(newTrainer);
@@ -32,7 +33,8 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ICollection<TrainerListItemDTO>>> Get()
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<ICollection<TrainerViewDTO>>> Get()
         {
             var trainerList = await _trainerFacade.GetTrainersAsync();
 

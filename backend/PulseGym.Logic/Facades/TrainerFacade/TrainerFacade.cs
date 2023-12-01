@@ -19,11 +19,11 @@ namespace PulseGym.Logic.Facades
             _trainerRepository = trainerRepository;
         }
 
-        public async Task<ICollection<TrainerListItemDTO>> GetTrainersAsync()
+        public async Task<ICollection<TrainerViewDTO>> GetTrainersAsync()
         {
             var trainers = await _trainerRepository.GetAllAsync();
 
-            return trainers.Adapt<List<TrainerListItemDTO>>();
+            return trainers.Adapt<List<TrainerViewDTO>>();
         }
 
         public async Task<bool> CreateTrainerAsync(TrainerCreateDTO newTrainer)

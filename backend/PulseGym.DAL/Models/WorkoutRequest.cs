@@ -1,4 +1,6 @@
-﻿namespace PulseGym.DAL.Models
+﻿using PulseGym.Entities.Enums;
+
+namespace PulseGym.DAL.Models
 {
     public class WorkoutRequest
     {
@@ -6,7 +8,7 @@
 
         public DateTime DateTime { get; set; }
 
-        public int Status { get; set; }
+        public WorkoutRequestStatus Status { get; set; }
 
         public Guid ClientId { get; set; }
 

@@ -6,6 +6,6 @@ namespace PulseGym.Logic.Facades
     {
         Task<bool> CreateTrainerAsync(TrainerCreateDTO newTrainer);
 
-        Task<ICollection<TrainerListItemDTO>> GetTrainersAsync();
+        Task<ICollection<TrainerViewDTO>> GetTrainersAsync();
     }
 }

@@ -20,6 +20,7 @@ namespace PulseGym.DAL.Repositories
                                          .Include(c => c.Workouts)
                                          .Include(c => c.WorkoutRequests)
                                          .Include(c => c.Activities)
+                                         .Include(c => c.PersonalTrainer)
                                          .ToListAsync();
         }
 
