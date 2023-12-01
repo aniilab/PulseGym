@@ -1,18 +1,15 @@
 ﻿using System.Text;
 
-using Mapster;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
+using PulseGym.API.Extensions;
 using PulseGym.DAL;
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
-using PulseGym.Entities.DTO;
-using PulseGym.Entities.Enums;
 using PulseGym.Logic.Facades;
 using PulseGym.Logic.Services;
 
@@ -32,7 +29,7 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
 })
 .AddRoles<IdentityRole<Guid>>()
 .AddEntityFrameworkStores<PulseGymDbContext>()
-.AddDefaultTokenProviders();
+.AddTokenProvider(builder.Configuration.GetSection("ApplicationName").Value, typeof(DataProtectorTokenProvider<User>));
 
 builder.Services.AddAuthentication(options =>
 {
@@ -47,13 +44,17 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         RequireExpirationTime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
-        ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value))
+        ValidIssuer = builder.Configuration.GetSection("Authentication:Issuer").Value,
+        ValidAudience = builder.Configuration.GetSection("Authentication:Audience").Value,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Authentication:AccessTokenSecret").Value))
     };
 });
 
+// ConfigureMapster
+MapsterExtension.AddMapsterConfiguration();
+
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<ITrainerRepository, TrainerRepository>();
 
 builder.Services.AddScoped<ITrainerFacade, TrainerFacade>();
@@ -91,22 +92,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-ConfigureMapster();
-
 app.Run();
 
-void ConfigureMapster()
-{
-    TypeAdapterConfig<Trainer, TrainerListItem>.NewConfig()
-        .Map(dest => dest.Id, src => src.UserId)
-        .Map(dest => dest.FirstName, src => src.User.FirstName)
-        .Map(dest => dest.LastName, src => src.User.LastName)
-        .Map(dest => dest.Category, src => ((TrainerCategory)src.Category).ToString());
-
-    TypeAdapterConfig<Client, ClientListItem>.NewConfig()
-        .Map(dest => dest.Id, src => src.UserId)
-        .Map(dest => dest.FirstName, src => src.User.FirstName)
-        .Map(dest => dest.LastName, src => src.User.LastName)
-        .Map(dest => dest.MembershipProgram, src => src.MembershipProgram.Name);
-
-}

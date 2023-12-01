@@ -19,21 +19,16 @@ namespace PulseGym.Logic.Facades
             _clientRepository = clientRepository;
         }
 
-        public async Task<ICollection<ClientListItem>> GetClientsAsync()
+        public async Task<ICollection<ClientListItemDTO>> GetClientsAsync()
         {
             var clients = await _clientRepository.GetAllAsync();
 
-            return clients.Adapt<List<ClientListItem>>();
+            return clients.Adapt<List<ClientListItemDTO>>();
         }
 
-        public async Task<bool> CreateClientAsync(ClientCreate newClient)
+        public async Task<bool> CreateClientAsync(ClientCreateDTO newClient)
         {
-            var registered = await _authService.RegisterUserAsync(newClient.Adapt<UserRegister>(), "client");
-
-            if (registered == null)
-            {
-                return false;
-            }
+            var registered = await _authService.RegisterUserAsync(newClient.Adapt<UserRegisterDTO>(), "client");
 
             var result = await _clientRepository.CreateAsync(registered.Id, newClient.Adapt<Client>());
 

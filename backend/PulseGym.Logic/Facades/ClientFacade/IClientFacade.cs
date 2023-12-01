@@ -4,8 +4,8 @@ namespace PulseGym.Logic.Facades
 {
     public interface IClientFacade
     {
-        Task<ICollection<ClientListItem>> GetClientsAsync();
+        Task<ICollection<ClientListItemDTO>> GetClientsAsync();
 
-        Task<bool> CreateClientAsync(ClientCreate newClient);
+        Task<bool> CreateClientAsync(ClientCreateDTO newClient);
     }
 }

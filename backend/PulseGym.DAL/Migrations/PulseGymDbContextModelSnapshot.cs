@@ -168,7 +168,7 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Activity", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Activity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -198,7 +198,7 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("Activities");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Client", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Client", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -227,7 +227,7 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.MembershipProgram", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.MembershipProgram", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,7 +245,7 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("MembershipPrograms");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Trainer", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Trainer", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -258,7 +258,7 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("Trainers");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.User", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -338,7 +338,7 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Workout", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Workout", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -378,7 +378,7 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("Workouts");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.WorkoutRequest", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.WorkoutRequest", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -407,13 +407,13 @@ namespace PulseGym.DAL.Migrations
 
             modelBuilder.Entity("ActivityClient", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.Activity", null)
+                    b.HasOne("PulseGym.DAL.Models.Activity", null)
                         .WithMany()
                         .HasForeignKey("ActivitiesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PulseGym.DAL.Entities.Client", null)
+                    b.HasOne("PulseGym.DAL.Models.Client", null)
                         .WithMany()
                         .HasForeignKey("ClientsUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -431,7 +431,7 @@ namespace PulseGym.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.User", null)
+                    b.HasOne("PulseGym.DAL.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -440,7 +440,7 @@ namespace PulseGym.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.User", null)
+                    b.HasOne("PulseGym.DAL.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -455,7 +455,7 @@ namespace PulseGym.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PulseGym.DAL.Entities.User", null)
+                    b.HasOne("PulseGym.DAL.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -464,16 +464,16 @@ namespace PulseGym.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.User", null)
+                    b.HasOne("PulseGym.DAL.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Activity", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Activity", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.Trainer", "Trainer")
+                    b.HasOne("PulseGym.DAL.Models.Trainer", "Trainer")
                         .WithMany("Activities")
                         .HasForeignKey("TrainerId")
                         .OnDelete(DeleteBehavior.SetNull);
@@ -481,22 +481,22 @@ namespace PulseGym.DAL.Migrations
                     b.Navigation("Trainer");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Client", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Client", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.MembershipProgram", "MembershipProgram")
+                    b.HasOne("PulseGym.DAL.Models.MembershipProgram", "MembershipProgram")
                         .WithMany("Clients")
                         .HasForeignKey("MembershipProgramId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PulseGym.DAL.Entities.Trainer", "PersonalTrainer")
+                    b.HasOne("PulseGym.DAL.Models.Trainer", "PersonalTrainer")
                         .WithMany("Clients")
                         .HasForeignKey("PersonalTrainerId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("PulseGym.DAL.Entities.User", "User")
+                    b.HasOne("PulseGym.DAL.Models.User", "User")
                         .WithOne("Client")
-                        .HasForeignKey("PulseGym.DAL.Entities.Client", "UserId")
+                        .HasForeignKey("PulseGym.DAL.Models.Client", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -507,34 +507,34 @@ namespace PulseGym.DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Trainer", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Trainer", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.User", "User")
+                    b.HasOne("PulseGym.DAL.Models.User", "User")
                         .WithOne("Trainer")
-                        .HasForeignKey("PulseGym.DAL.Entities.Trainer", "UserId")
+                        .HasForeignKey("PulseGym.DAL.Models.Trainer", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Workout", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Workout", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.Client", "Client")
+                    b.HasOne("PulseGym.DAL.Models.Client", "Client")
                         .WithMany("Workouts")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PulseGym.DAL.Entities.Trainer", "Trainer")
+                    b.HasOne("PulseGym.DAL.Models.Trainer", "Trainer")
                         .WithMany("Workouts")
                         .HasForeignKey("TrainerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PulseGym.DAL.Entities.WorkoutRequest", "WorkoutRequest")
+                    b.HasOne("PulseGym.DAL.Models.WorkoutRequest", "WorkoutRequest")
                         .WithOne("Workout")
-                        .HasForeignKey("PulseGym.DAL.Entities.Workout", "WorkoutRequestId")
+                        .HasForeignKey("PulseGym.DAL.Models.Workout", "WorkoutRequestId")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Client");
@@ -544,15 +544,15 @@ namespace PulseGym.DAL.Migrations
                     b.Navigation("WorkoutRequest");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.WorkoutRequest", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.WorkoutRequest", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.Client", "Client")
+                    b.HasOne("PulseGym.DAL.Models.Client", "Client")
                         .WithMany("WorkoutRequests")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PulseGym.DAL.Entities.Trainer", "Trainer")
+                    b.HasOne("PulseGym.DAL.Models.Trainer", "Trainer")
                         .WithMany("WorkoutRequests")
                         .HasForeignKey("TrainerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -563,19 +563,19 @@ namespace PulseGym.DAL.Migrations
                     b.Navigation("Trainer");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Client", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Client", b =>
                 {
                     b.Navigation("WorkoutRequests");
 
                     b.Navigation("Workouts");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.MembershipProgram", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.MembershipProgram", b =>
                 {
                     b.Navigation("Clients");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Trainer", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Trainer", b =>
                 {
                     b.Navigation("Activities");
 
@@ -586,14 +586,14 @@ namespace PulseGym.DAL.Migrations
                     b.Navigation("Workouts");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.User", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.User", b =>
                 {
                     b.Navigation("Client");
 
                     b.Navigation("Trainer");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.WorkoutRequest", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.WorkoutRequest", b =>
                 {
                     b.Navigation("Workout");
                 });

@@ -19,7 +19,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> AddTrainerAsync(TrainerCreate newTrainer)
+        public async Task<ActionResult> Create(TrainerCreateDTO newTrainer)
         {
             var isCreated = await _trainerFacade.CreateTrainerAsync(newTrainer);
 
@@ -32,7 +32,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTrainersAsync()
+        public async Task<ActionResult<ICollection<TrainerListItemDTO>>> Get()
         {
             var trainerList = await _trainerFacade.GetTrainersAsync();
 

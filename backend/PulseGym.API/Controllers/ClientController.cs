@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using PulseGym.Entities.DTO;
 
@@ -9,7 +8,6 @@ namespace PulseGym.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ClientController : ControllerBase
     {
         IClientFacade _clientFacade;
@@ -20,7 +18,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> AddClientAsync(ClientCreate newClient)
+        public async Task<ActionResult> Create(ClientCreateDTO newClient)
         {
             var isCreated = await _clientFacade.CreateClientAsync(newClient);
 
@@ -33,7 +31,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetClientsAsync()
+        public async Task<ActionResult<ICollection<ClientListItemDTO>>> Get()
         {
             var clientList = await _clientFacade.GetClientsAsync();
 

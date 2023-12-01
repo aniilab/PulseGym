@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 using PulseGym.DAL.Models;
+using PulseGym.DAL.Repositories;
+using PulseGym.Entities.DTO;
 
 namespace PulseGym.Logic.Services
 {
@@ -16,25 +18,71 @@ namespace PulseGym.Logic.Services
 
         private readonly UserManager<User> _userManager;
 
-        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+        private readonly ITokenRepository _tokenRepository;
 
-        public TokenService(IConfiguration configuration, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
+        public TokenService(IConfiguration configuration, UserManager<User> userManager, ITokenRepository tokenRepository)
         {
             _configuration = configuration;
             _userManager = userManager;
-            _roleManager = roleManager;
+            _tokenRepository = tokenRepository;
         }
 
-        public async Task<string> GenerateAsync(User user)
+        public async Task<TokensDTO> GenerateTokensAsync(User user)
         {
+            var accessToken = await GenerateAccessTokenAsync(user);
+            var refreshToken = await GenerateRefreshTokenAsync();
+
+            await _userManager.SetAuthenticationTokenAsync(
+                        user,
+                        _configuration.GetSection("ApplicationName").Value,
+                        "RefreshToken",
+                        refreshToken);
+
+            return new TokensDTO
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+            };
+        }
+
+        public async Task<TokensDTO> RefreshAsync(string refreshToken)
+        {
+            if (!ValidateRefreshToken(refreshToken))
+            {
+                throw new Exception("Invalid refresh token.");
+            }
+
+            var user = await _tokenRepository.GetUserByTokenAsync(refreshToken);
+
+            //bool isVerified = await _userManager.VerifyUserTokenAsync(user, _configuration.GetSection("ApplicationName").Value, "RefreshToken", refreshToken);
+            //if (!isVerified)
+            //{
+            //    throw new Exception("Refresh token was not verified.");
+            //}
+
+            await _tokenRepository.DeleteByUserIdAsync(user.Id);
+
+            var tokens = await GenerateTokensAsync(user);
+
+            return tokens;
+        }
+
+        public async Task DeleteTokens(Guid userId)
+        {
+            await _tokenRepository.DeleteByUserIdAsync(userId);
+        }
+
+        private async Task<string> GenerateAccessTokenAsync(User user)
+        {
+            var role = (await _userManager.GetRolesAsync(user)).Single();
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim("Id", user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, role)
             };
 
-            claims.AddRange(await GetClaimsBasedOnRoleAsync(user));
-
-            var secret = Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value);
+            var secret = Encoding.UTF8.GetBytes(_configuration.GetSection("Authentication:AccessTokenSecret").Value);
 
             var key = new SymmetricSecurityKey(secret);
 
@@ -42,9 +90,9 @@ namespace PulseGym.Logic.Services
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(7),
-                issuer: _configuration.GetSection("Jwt:Issuer").Value,
-                audience: _configuration.GetSection("Jwt:Audience").Value,
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration.GetSection("Authentication:AccessTokenExpiration").Value)),
+                issuer: _configuration.GetSection("Authentication:Issuer").Value,
+                audience: _configuration.GetSection("Authentication:Audience").Value,
                 signingCredentials: credentials
             );
 
@@ -53,22 +101,51 @@ namespace PulseGym.Logic.Services
             return jwt;
         }
 
-        private async Task<ICollection<Claim>> GetClaimsBasedOnRoleAsync(User user)
+        private async Task<string> GenerateRefreshTokenAsync()
         {
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var result = new List<Claim>();
+            var secret = Encoding.UTF8.GetBytes(_configuration.GetSection("Authentication:RefreshTokenSecret").Value);
 
-            foreach (var role in userRoles)
+            var key = new SymmetricSecurityKey(secret);
+
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration.GetSection("Authentication:RefreshTokenExpirationMinutes").Value)),
+                issuer: _configuration.GetSection("Authentication:Issuer").Value,
+                audience: _configuration.GetSection("Authentication:Audience").Value,
+                signingCredentials: credentials
+            );
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
+        }
+
+        private bool ValidateRefreshToken(string refreshToken)
+        {
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+
+            TokenValidationParameters validationParameters = new TokenValidationParameters()
             {
-                var roleIdentity = _roleManager.Roles.FirstOrDefault(r => r.Name == role);
-                if (roleIdentity != null)
-                {
-                    var roleClaims = await _roleManager.GetClaimsAsync(roleIdentity);
-                    result.AddRange(roleClaims);
-                }
-            }
+                ValidateActor = true,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                RequireExpirationTime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = _configuration.GetSection("Authentication:Issuer").Value,
+                ValidAudience = _configuration.GetSection("Authentication:Audience").Value,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Authentication:RefreshTokenSecret").Value))
+            };
 
-            return result;
+            try
+            {
+                tokenHandler.ValidateToken(refreshToken, validationParameters, out SecurityToken validatedToken);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

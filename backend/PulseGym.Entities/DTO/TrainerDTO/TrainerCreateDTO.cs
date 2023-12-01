@@ -1,6 +1,6 @@
 ﻿namespace PulseGym.Entities.DTO
 {
-    public class TrainerCreate
+    public class TrainerCreateDTO
     {
         public required string FirstName { get; set; }
 

@@ -9,18 +9,15 @@ namespace PulseGym.Logic.Services
     {
         private readonly UserManager<User> _userManager;
 
-        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
-
         private readonly ITokenService _tokenService;
 
-        public AuthService(UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager, ITokenService tokenService)
+        public AuthService(UserManager<User> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
             _tokenService = tokenService;
-            _roleManager = roleManager;
         }
 
-        public async Task<User?> RegisterUserAsync(UserRegister userRegister, string role)
+        public async Task<User> RegisterUserAsync(UserRegisterDTO userRegister, string role)
         {
             var newUser = new User
             {
@@ -33,49 +30,44 @@ namespace PulseGym.Logic.Services
 
             var result = await _userManager.CreateAsync(newUser, userRegister.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                var identityRole = new IdentityRole<Guid>(role);
-
-                await _userManager.AddToRoleAsync(newUser, identityRole.Name);
-                await AddClaimsBasedOnRole(newUser, identityRole);
-
-                return newUser;
+                throw new Exception("Registration failed!");
             }
 
-            return null;
+            var identityRole = new IdentityRole<Guid>(role);
+
+            await _userManager.AddToRoleAsync(newUser, identityRole.Name);
+
+            return newUser;
         }
 
-        public async Task<string?> LoginUser(UserLogin user)
+        public async Task<TokensDTO> LoginUserAsync(UserLoginDTO user)
         {
             var existingUser = await _userManager.FindByEmailAsync(user.Email);
 
-            if (existingUser != null)
+            if (existingUser == null)
             {
-                var result = await _userManager.CheckPasswordAsync(existingUser, user.Password);
-                if (result)
-                {
-                    return await _tokenService.GenerateAsync(existingUser);
-                }
+                throw new Exception("User not found!");
             }
 
-            return null;
-        }
-
-        public async Task Logout()
-        {
-
-        }
-
-        private async Task AddClaimsBasedOnRole(User user, IdentityRole<Guid> role)
-        {
-            var roleClaims = await _roleManager.GetClaimsAsync(role);
-
-            if (roleClaims != null)
+            var result = await _userManager.CheckPasswordAsync(existingUser, user.Password);
+            if (!result)
             {
-                await _userManager.AddClaimsAsync(user, roleClaims);
+                throw new Exception("Invalid password!");
             }
+
+            var tokens = await _tokenService.GenerateTokensAsync(existingUser);
+
+            return tokens;
+
         }
+
+        public async Task LogoutAsync(Guid userId)
+        {
+            await _tokenService.DeleteTokens(userId);
+        }
+
 
     }
 }
