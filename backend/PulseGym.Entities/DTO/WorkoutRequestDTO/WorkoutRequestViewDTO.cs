@@ -12,6 +12,5 @@
 
         public required TrainerViewDTO Trainer { get; set; }
 
-        public WorkoutViewDTO? Workout { get; set; }
     }
 }

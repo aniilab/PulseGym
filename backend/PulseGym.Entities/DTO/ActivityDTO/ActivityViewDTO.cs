@@ -13,7 +13,5 @@
         public DateTime DateTime { get; set; }
 
         public TrainerViewDTO? Trainer { get; set; }
-
-        public required ICollection<ClientViewDTO> Clients { get; set; }
     }
 }

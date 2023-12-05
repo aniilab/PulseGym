@@ -18,10 +18,5 @@
 
         public TrainerViewDTO? PersonalTrainer { get; set; }
 
-        public ICollection<ActivityViewDTO>? Activities { get; set; }
-
-        public ICollection<WorkoutViewDTO>? Workouts { get; set; }
-
-        public ICollection<WorkoutRequestViewDTO>? WorkoutRequests { get; set; }
     }
 }

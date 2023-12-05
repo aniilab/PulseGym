@@ -24,4 +24,8 @@
     <ProjectReference Include="..\PulseGym.Entities\PulseGym.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Facades\WorkoutFacade\" />
+  </ItemGroup>
+
 </Project>

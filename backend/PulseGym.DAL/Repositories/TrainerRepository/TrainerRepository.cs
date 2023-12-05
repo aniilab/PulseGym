@@ -16,11 +16,11 @@ namespace PulseGym.DAL.Repositories
         public async Task<ICollection<Trainer>> GetAllAsync()
         {
             return await _context.Trainers.Include(t => t.User)
-                                    .Include(t => t.Workouts)
-                                    .Include(t => t.WorkoutRequests)
-                                    .Include(t => t.Activities)
-                                    .Include(t => t.Clients)
-                                    .ToListAsync();
+                                          .Include(t => t.Workouts)
+                                          .Include(t => t.WorkoutRequests)
+                                          .Include(t => t.Activities)
+                                          .Include(t => t.Clients)
+                                          .ToListAsync();
         }
 
         public async Task<bool> CreateAsync(Guid id, Trainer trainer)

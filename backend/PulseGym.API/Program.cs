@@ -53,13 +53,22 @@ builder.Services.AddAuthentication(options =>
 // ConfigureMapster
 MapsterExtension.AddMapsterConfiguration();
 
+// Repositories
+builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<ITrainerRepository, TrainerRepository>();
+builder.Services.AddScoped<IMembershipProgramRepository, MembershipProgramRepository>();
+builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
+builder.Services.AddScoped<IWorkoutRequestRepository, WorkoutRequestRepository>();
 
+// Facades
+builder.Services.AddScoped<IActivityFacade, ActivityFacade>();
 builder.Services.AddScoped<ITrainerFacade, TrainerFacade>();
 builder.Services.AddScoped<IClientFacade, ClientFacade>();
+builder.Services.AddScoped<IMembershipProgramFacade, MembershipProgramFacade>();
 
+// Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
