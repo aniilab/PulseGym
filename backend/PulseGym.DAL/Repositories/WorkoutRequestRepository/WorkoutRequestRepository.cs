@@ -13,12 +13,39 @@ namespace PulseGym.DAL.Repositories
             _context = context;
         }
 
+        public async Task CreateAsync(WorkoutRequest entity)
+        {
+            await _context.WorkoutRequests.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<ICollection<WorkoutRequest>> GetAllAsync()
         {
             return await _context.WorkoutRequests.Include(wr => wr.Trainer)
-                                           .Include(wr => wr.Client)
-                                           .Include(wr => wr.Workout)
-                                           .ToListAsync();
+                                                    .ThenInclude(t => t.User)
+                                                 .Include(wr => wr.Client)
+                                                    .ThenInclude(c => c.User)
+                                                 .Include(wr => wr.Workout)
+                                                 .ToListAsync();
+        }
+
+        public async Task<WorkoutRequest> GetByIdAsync(Guid id)
+        {
+            var foundWorkoutRequest = await _context.WorkoutRequests.FindAsync(id)
+                ?? throw new Exception($"Workout request with Id {id} not found.");
+
+            return foundWorkoutRequest;
+
+        }
+
+        public async Task UpdateAsync(Guid id, WorkoutRequest request)
+        {
+            var foundWorkoutRequest = await _context.WorkoutRequests.FindAsync(id)
+               ?? throw new Exception($"Workout request with Id {id} not found.");
+
+            _context.Update(request);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -2,6 +2,7 @@
 
 using PulseGym.DAL.Models;
 using PulseGym.Entities.DTO;
+using PulseGym.Entities.Enums;
 
 namespace PulseGym.API.Extensions
 {
@@ -22,13 +23,20 @@ namespace PulseGym.API.Extensions
                 .Map(dest => dest.MembershipProgram, src => src.MembershipProgram.Name);
 
             TypeAdapterConfig<Activity, ActivityViewDTO>.NewConfig()
-             .Map(dest => dest.Category, src => (src.Category).ToString());
+                .Map(dest => dest.Category, src => (src.Category).ToString());
 
             TypeAdapterConfig<Workout, WorkoutViewDTO>.NewConfig()
-            .Map(dest => dest.Status, src => (src.Status).ToString());
+                .Map(dest => dest.Status, src => (src.Status).ToString());
 
             TypeAdapterConfig<WorkoutRequest, WorkoutRequestViewDTO>.NewConfig()
-           .Map(dest => dest.Status, src => (src.Status).ToString());
+                .Map(dest => dest.Status, src => (src.Status).ToString());
+
+            TypeAdapterConfig<WorkoutRequest, Workout>.NewConfig()
+                .Map(dest => dest.WorkoutRequestId, src => src.Id)
+                .Map(dest => dest.Status, src => WorkoutStatus.Planned);
+
+            TypeAdapterConfig<WorkoutRequestInDTO, WorkoutRequest>.NewConfig()
+                .Map(dest => dest.Status, src => WorkoutRequestStatus.New);
         }
     }
 }

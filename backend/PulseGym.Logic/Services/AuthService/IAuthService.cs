@@ -5,7 +5,7 @@ namespace PulseGym.Logic.Services
 {
     public interface IAuthService
     {
-        Task<TokensDTO?> LoginUserAsync(UserLoginDTO user);
+        Task<TokensDTO?> LoginUserAsync(UserLoginRequestDTO user);
 
         Task<User> RegisterUserAsync(UserRegisterDTO userRegister, string role);
 

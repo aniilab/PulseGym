@@ -78,7 +78,6 @@ namespace PulseGym.Logic.Services
             var claims = new List<Claim>
             {
                 new Claim("Id", user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, role)
             };
 

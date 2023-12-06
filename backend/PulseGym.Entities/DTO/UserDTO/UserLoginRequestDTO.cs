@@ -1,6 +1,6 @@
 ﻿namespace PulseGym.Entities.DTO
 {
-    public class UserLoginDTO
+    public class UserLoginRequestDTO
     {
         public required string Email { get; set; }
 

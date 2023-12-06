@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 using PulseGym.API.Extensions;
+using PulseGym.API.Middlewares;
 using PulseGym.DAL;
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
@@ -67,10 +68,14 @@ builder.Services.AddScoped<IActivityFacade, ActivityFacade>();
 builder.Services.AddScoped<ITrainerFacade, TrainerFacade>();
 builder.Services.AddScoped<IClientFacade, ClientFacade>();
 builder.Services.AddScoped<IMembershipProgramFacade, MembershipProgramFacade>();
+builder.Services.AddScoped<IWorkoutFacade, WorkoutFacade>();
 
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+// Middlewares
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -95,6 +100,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

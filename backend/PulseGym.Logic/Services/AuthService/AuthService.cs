@@ -42,14 +42,10 @@ namespace PulseGym.Logic.Services
             return newUser;
         }
 
-        public async Task<TokensDTO> LoginUserAsync(UserLoginDTO user)
+        public async Task<TokensDTO> LoginUserAsync(UserLoginRequestDTO user)
         {
-            var existingUser = await _userManager.FindByEmailAsync(user.Email);
-
-            if (existingUser == null)
-            {
-                throw new Exception("User not found!");
-            }
+            var existingUser = await _userManager.FindByEmailAsync(user.Email)
+                ?? throw new Exception("User not found!");
 
             var result = await _userManager.CheckPasswordAsync(existingUser, user.Password);
             if (!result)
@@ -67,7 +63,5 @@ namespace PulseGym.Logic.Services
         {
             await _tokenService.DeleteTokens(userId);
         }
-
-
     }
 }

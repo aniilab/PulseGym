@@ -22,7 +22,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<string>> Login(UserLoginDTO user)
+        public async Task<ActionResult<string>> Login(UserLoginRequestDTO user)
         {
             var tokens = await _authService.LoginUserAsync(user);
             AddRefreshTokenToCookie(tokens.RefreshToken);
@@ -58,10 +58,9 @@ namespace PulseGym.API.Controllers
         [HttpDelete("Logout")]
         public async Task<ActionResult> Logout()
         {
-            var id = HttpContext;
-            var id1 = HttpContext.User.FindFirstValue("Id");
+            var id = HttpContext.User.FindFirstValue("Id");
 
-            if (!Guid.TryParse(id1, out Guid userId))
+            if (!Guid.TryParse(id, out Guid userId))
             {
                 return Unauthorized();
             }

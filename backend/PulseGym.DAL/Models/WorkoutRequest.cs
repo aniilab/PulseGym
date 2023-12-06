@@ -6,7 +6,7 @@ namespace PulseGym.DAL.Models
     {
         public Guid Id { get; set; }
 
-        public DateTime DateTime { get; set; }
+        public DateTime WorkoutDateTime { get; set; }
 
         public WorkoutRequestStatus Status { get; set; }
 
