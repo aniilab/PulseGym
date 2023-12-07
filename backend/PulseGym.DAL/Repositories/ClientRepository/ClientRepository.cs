@@ -24,13 +24,26 @@ namespace PulseGym.DAL.Repositories
                                          .ToListAsync();
         }
 
-        public async Task<bool> CreateAsync(Guid id, Client client)
+        public async Task<Client> GetByIdAsync(Guid userId)
+        {
+            var client = await _context.Clients.Include(c => c.User)
+                                               .Include(c => c.Workouts)
+                                               .Include(c => c.WorkoutRequests)
+                                               .Include(c => c.Activities)
+                                               .Include(c => c.PersonalTrainer)
+                                               .FirstOrDefaultAsync(t => t.UserId == userId)
+                                               ?? throw new Exception($"Client with Id {userId} not found!");
+
+            return client;
+        }
+
+        public async Task CreateAsync(Guid id, Client client)
         {
             client.UserId = id;
 
             await _context.Clients.AddAsync(client);
-            var added = await _context.SaveChangesAsync();
-            return added != 0;
+            await _context.SaveChangesAsync();
         }
+
     }
 }

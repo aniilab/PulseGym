@@ -52,7 +52,16 @@ namespace PulseGym.API.Controllers
             return Ok("Created successfully!");
         }
 
-        [HttpPut("AcceptRequest")]
+        [HttpPost("Create")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> CreateWorkout(WorkoutInDTO workout)
+        {
+            await _workoutFacade.CreateWorkoutAsync(workout);
+
+            return Ok("Created successfully!");
+        }
+
+        [HttpPut("AcceptRequest/{workoutRequestId}")]
         [Authorize(Roles = "trainer")]
         public async Task<ActionResult> AcceptWorkoutRequest(Guid workoutRequestId)
         {
@@ -68,7 +77,7 @@ namespace PulseGym.API.Controllers
             return Ok("Accepted successfully!");
         }
 
-        [HttpDelete("DeclineRequest")]
+        [HttpDelete("DeclineRequest/{workoutRequestId}")]
         public async Task<ActionResult> DeclineWorkoutRequest(Guid workoutRequestId)
         {
             var id = HttpContext.User.FindFirstValue("Id");
@@ -81,6 +90,37 @@ namespace PulseGym.API.Controllers
             await _workoutFacade.DeclineWorkoutRequestAsync(userId, workoutRequestId);
 
             return Ok("Declined successfully!");
+        }
+
+        [HttpPut("Update/{workoutId}")]
+        [Authorize(Roles = "trainer")]
+        public async Task<ActionResult> UpdateWorkout(Guid workoutId, WorkoutUpdateDTO workout)
+        {
+            var id = HttpContext.User.FindFirstValue("Id");
+
+            if (!Guid.TryParse(id, out Guid userId))
+            {
+                return Unauthorized();
+            }
+
+            await _workoutFacade.UpdateWorkoutAsync(workoutId, workout, userId);
+
+            return Ok("Updated successfully!");
+        }
+
+        [HttpDelete("Cancel/{id}")]
+        public async Task<ActionResult> CancelWorkout(Guid workoutId)
+        {
+            var id = HttpContext.User.FindFirstValue("Id");
+
+            if (!Guid.TryParse(id, out Guid userId))
+            {
+                return Unauthorized();
+            }
+
+            await _workoutFacade.CancelWorkoutAsync(userId, workoutId);
+
+            return Ok("Cancelled successfully!");
         }
     }
 }

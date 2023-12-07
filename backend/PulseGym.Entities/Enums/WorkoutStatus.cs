@@ -6,6 +6,12 @@
 
         InProgress = 1,
 
-        Passed = 2
+        Passed = 2,
+
+        CancelledByTrainer = 3,
+
+        CancelledByClient = 4,
+
+        CancelledByAdmin = 5
     }
 }

@@ -28,5 +28,23 @@ namespace PulseGym.DAL.Repositories
                                                .ThenInclude(c => c.User)
                                            .ToListAsync();
         }
+
+        public async Task<Workout> GetByIdAsync(Guid id)
+        {
+            var foundWorkout = await _context.Workouts.FindAsync(id)
+                 ?? throw new Exception($"Workout with Id {id} not found.");
+
+            return foundWorkout;
+        }
+
+        public async Task UpdateAsync(Guid id, Workout workout)
+        {
+            var foundWorkout = await _context.Workouts.FindAsync(id)
+             ?? throw new Exception($"Workout with Id {id} not found.");
+
+            _context.Update(workout);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

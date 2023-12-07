@@ -7,5 +7,11 @@ namespace PulseGym.Logic.Facades
         Task<ICollection<ClientViewDTO>> GetClientsAsync();
 
         Task<bool> CreateClientAsync(ClientCreateDTO newClient);
+
+        Task<bool> ExistsAsync(Guid userId);
+
+        Task<bool> CheckClientAvailabilityAsync(Guid clientId, DateTime dateTime);
+
+        Task<ICollection<DateTime>> GetOccupiedDateTimeAsync(Guid userId);
     }
 }

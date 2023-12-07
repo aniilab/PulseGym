@@ -10,24 +10,29 @@ namespace PulseGym.API.Extensions
     {
         public static void AddMapsterConfiguration()
         {
-            TypeAdapterConfig<Trainer, TrainerViewDTO>.NewConfig()
-                .Map(dest => dest.Id, src => src.UserId)
-                .Map(dest => dest.FirstName, src => src.User.FirstName)
-                .Map(dest => dest.LastName, src => src.User.LastName)
+            // Activity
+            TypeAdapterConfig<Activity, ActivityViewDTO>.NewConfig()
                 .Map(dest => dest.Category, src => (src.Category).ToString());
 
+            // Client
             TypeAdapterConfig<Client, ClientViewDTO>.NewConfig()
                 .Map(dest => dest.Id, src => src.UserId)
                 .Map(dest => dest.FirstName, src => src.User.FirstName)
                 .Map(dest => dest.LastName, src => src.User.LastName)
                 .Map(dest => dest.MembershipProgram, src => src.MembershipProgram.Name);
 
-            TypeAdapterConfig<Activity, ActivityViewDTO>.NewConfig()
+            // Trainer
+            TypeAdapterConfig<Trainer, TrainerViewDTO>.NewConfig()
+                .Map(dest => dest.Id, src => src.UserId)
+                .Map(dest => dest.FirstName, src => src.User.FirstName)
+                .Map(dest => dest.LastName, src => src.User.LastName)
                 .Map(dest => dest.Category, src => (src.Category).ToString());
 
+            // Workout
             TypeAdapterConfig<Workout, WorkoutViewDTO>.NewConfig()
                 .Map(dest => dest.Status, src => (src.Status).ToString());
 
+            // WorkoutRequest
             TypeAdapterConfig<WorkoutRequest, WorkoutRequestViewDTO>.NewConfig()
                 .Map(dest => dest.Status, src => (src.Status).ToString());
 

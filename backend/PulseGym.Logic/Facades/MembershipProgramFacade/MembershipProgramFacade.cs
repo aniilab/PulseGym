@@ -1,5 +1,6 @@
 ﻿using Mapster;
 
+using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
 using PulseGym.Entities.DTO;
 
@@ -19,6 +20,13 @@ namespace PulseGym.Logic.Facades
             var programs = await _membershipProgramRepository.GetAllAsync();
 
             return programs.Adapt<List<MembershipProgramViewDTO>>();
+        }
+
+        public async Task CreateProgramAsync(MembershipProgramInDTO membershipProgram)
+        {
+            var entity = membershipProgram.Adapt<MembershipProgram>();
+
+            await _membershipProgramRepository.CreateAsync(entity);
         }
     }
 }

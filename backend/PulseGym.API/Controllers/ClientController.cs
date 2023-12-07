@@ -40,5 +40,13 @@ namespace PulseGym.API.Controllers
 
             return Ok(clientList);
         }
+
+        [HttpGet("OccupiedTime/{id}")]
+        public async Task<ActionResult<ICollection<DateTime>>> GetClientOccupiedTime(Guid id)
+        {
+            var dateTimeList = await _clientFacade.GetOccupiedDateTimeAsync(id);
+
+            return Ok(dateTimeList);
+        }
     }
 }

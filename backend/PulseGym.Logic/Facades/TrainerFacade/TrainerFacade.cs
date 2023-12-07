@@ -3,6 +3,7 @@
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
 using PulseGym.Entities.DTO;
+using PulseGym.Entities.Enums;
 using PulseGym.Logic.Services;
 
 namespace PulseGym.Logic.Facades
@@ -19,6 +20,13 @@ namespace PulseGym.Logic.Facades
             _trainerRepository = trainerRepository;
         }
 
+        public async Task<bool> ExistsAsync(Guid userId)
+        {
+            var trainers = await _trainerRepository.GetAllAsync();
+
+            return trainers.Any(t => t.UserId == userId);
+        }
+
         public async Task<ICollection<TrainerViewDTO>> GetTrainersAsync()
         {
             var trainers = await _trainerRepository.GetAllAsync();
@@ -30,10 +38,37 @@ namespace PulseGym.Logic.Facades
         {
             var registered = await _authService.RegisterUserAsync(newTrainer.Adapt<UserRegisterDTO>(), "trainer");
 
-            var result = await _trainerRepository.CreateAsync(registered.Id, newTrainer.Adapt<Trainer>());
+            await _trainerRepository.CreateAsync(registered.Id, newTrainer.Adapt<Trainer>());
 
-            return result;
+            bool isCreated = await ExistsAsync(registered.Id);
+
+            return isCreated;
         }
 
+        public async Task<bool> CheckTrainerAvailabilityAsync(Guid userId, DateTime dateTime)
+        {
+            var trainer = await _trainerRepository.GetByIdAsync(userId);
+            bool isAvailable = true;
+
+            if (trainer.Workouts.Any(w => w.WorkoutDateTime == dateTime
+                  && (w.Status == WorkoutStatus.Planned || w.Status == WorkoutStatus.InProgress))
+               || trainer.Activities.Any(a => a.DateTime == dateTime))
+            {
+                isAvailable = false;
+            }
+
+            return isAvailable;
+        }
+
+        public async Task<ICollection<DateTime>> GetOccupiedDateTimeAsync(Guid userId)
+        {
+            var trainer = await _trainerRepository.GetByIdAsync(userId);
+
+            var occupiedDateTime = trainer.Workouts.Select(w => w.WorkoutDateTime).ToList();
+
+            occupiedDateTime.AddRange(trainer.Activities.Select(a => a.DateTime).ToList());
+
+            return occupiedDateTime;
+        }
     }
 }

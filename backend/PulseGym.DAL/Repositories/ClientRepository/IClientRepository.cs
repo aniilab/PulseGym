@@ -6,6 +6,8 @@ namespace PulseGym.DAL.Repositories
     {
         Task<ICollection<Client>> GetAllAsync();
 
-        Task<bool> CreateAsync(Guid id, Client client);
+        Task<Client> GetByIdAsync(Guid userId);
+
+        Task CreateAsync(Guid id, Client client);
     }
 }

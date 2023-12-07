@@ -17,5 +17,12 @@ namespace PulseGym.DAL.Repositories
         {
             return await _context.MembershipPrograms.Include(mp => mp.Clients).ToListAsync();
         }
+
+        public async Task CreateAsync(MembershipProgram membershipProgram)
+        {
+            await _context.MembershipPrograms.AddAsync(membershipProgram);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

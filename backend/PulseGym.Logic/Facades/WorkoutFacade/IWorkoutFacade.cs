@@ -10,8 +10,14 @@ namespace PulseGym.Logic.Facades
 
         Task CreateWorkoutRequestAsync(WorkoutRequestInDTO workoutRequestInDTO);
 
+        Task CreateWorkoutAsync(WorkoutInDTO workoutInDTO);
+
         Task AcceptWorkoutRequestAsync(Guid userId, Guid workoutRequestId);
 
         Task DeclineWorkoutRequestAsync(Guid userId, Guid workoutRequestId);
+
+        Task UpdateWorkoutAsync(Guid workoutId, WorkoutUpdateDTO workout, Guid userId);
+
+        Task CancelWorkoutAsync(Guid userId, Guid workoutId);
     }
 }

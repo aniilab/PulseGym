@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 using PulseGym.Entities.DTO;
 using PulseGym.Logic.Facades;
@@ -7,6 +8,7 @@ namespace PulseGym.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "admin")]
     public class MembershipProgramController : ControllerBase
     {
         private readonly IMembershipProgramFacade _membershipProgramFacade;
@@ -22,6 +24,14 @@ namespace PulseGym.API.Controllers
             var programList = await _membershipProgramFacade.GetMembershipProgramsAsync();
 
             return Ok(programList);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(MembershipProgramInDTO membershipProgram)
+        {
+            await _membershipProgramFacade.CreateProgramAsync(membershipProgram);
+
+            return Ok("Created successfully!");
         }
     }
 }
