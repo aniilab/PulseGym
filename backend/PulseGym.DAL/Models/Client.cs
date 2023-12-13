@@ -11,23 +11,18 @@ namespace PulseGym.DAL.Models
 
         public string? Goal { get; set; }
 
-        public double? InitialWeight { get; set; }
+        public decimal? InitialWeight { get; set; }
 
-        public double? InitialHeight { get; set; }
-
-        public Guid MembershipProgramId { get; set; }
-
-        public required MembershipProgram MembershipProgram { get; set; }
+        public decimal? InitialHeight { get; set; }
 
         public Guid? PersonalTrainerId { get; set; }
 
         public Trainer? PersonalTrainer { get; set; }
 
-        public ICollection<Activity>? Activities { get; set; }
-
         public ICollection<Workout>? Workouts { get; set; }
 
         public ICollection<WorkoutRequest>? WorkoutRequests { get; set; }
 
+        public ICollection<ClientMembershipProgram>? ClientMembershipPrograms { get; set; }
     }
 }

@@ -43,7 +43,9 @@ namespace PulseGym.DAL.Repositories
             var foundWorkoutRequest = await _context.WorkoutRequests.FindAsync(id)
                ?? throw new Exception($"Workout request with Id {id} not found.");
 
-            _context.Update(request);
+            request.Id = id;
+
+            _context.WorkoutRequests.Update(request);
 
             await _context.SaveChangesAsync();
         }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using PulseGym.Entities.Enums;
+using PulseGym.DAL.Enums;
 
 namespace PulseGym.DAL.Models
 {
@@ -12,8 +12,6 @@ namespace PulseGym.DAL.Models
         public required User User { get; set; }
 
         public TrainerCategory Category { get; set; }
-
-        public ICollection<Activity>? Activities { get; set; }
 
         public ICollection<Client>? Clients { get; set; }
 

@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
-using PulseGym.Entities.DTO;
+using PulseGym.Logic.DTO;
 
 namespace PulseGym.Logic.Services
 {
@@ -89,7 +89,7 @@ namespace PulseGym.Logic.Services
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration.GetSection("Authentication:AccessTokenExpiration").Value)),
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration.GetSection("Authentication:AccessTokenExpirationMinutes").Value)),
                 issuer: _configuration.GetSection("Authentication:Issuer").Value,
                 audience: _configuration.GetSection("Authentication:Audience").Value,
                 signingCredentials: credentials

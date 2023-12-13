@@ -1,4 +1,4 @@
-﻿using PulseGym.Entities.DTO;
+﻿using PulseGym.Logic.DTO;
 
 namespace PulseGym.Logic.Facades
 {

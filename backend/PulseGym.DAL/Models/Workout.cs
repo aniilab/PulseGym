@@ -1,4 +1,4 @@
-﻿using PulseGym.Entities.Enums;
+﻿using PulseGym.DAL.Enums;
 
 namespace PulseGym.DAL.Models
 {
@@ -8,22 +8,24 @@ namespace PulseGym.DAL.Models
 
         public DateTime WorkoutDateTime { get; set; }
 
-        public string? Title { get; set; }
-
-        public string? ExerciseDescription { get; set; }
+        public string? Notes { get; set; }
 
         public WorkoutStatus Status { get; set; }
 
-        public Guid ClientId { get; set; }
+        public WorkoutType WorkoutType { get; set; }
 
-        public required Client Client { get; set; }
+        public Guid? TrainerId { get; set; }
 
-        public Guid TrainerId { get; set; }
+        public Trainer? Trainer { get; set; }
 
-        public required Trainer Trainer { get; set; }
+        public Guid? GroupClassId { get; set; }
+
+        public GroupClass? GroupClass { get; set; }
 
         public Guid? WorkoutRequestId { get; set; }
 
         public WorkoutRequest? WorkoutRequest { get; set; }
+
+        public required ICollection<Client> Clients { get; set; }
     }
 }

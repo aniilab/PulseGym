@@ -1,4 +1,4 @@
-﻿using PulseGym.Entities.Enums;
+﻿using PulseGym.DAL.Enums;
 
 namespace PulseGym.DAL.Models
 {

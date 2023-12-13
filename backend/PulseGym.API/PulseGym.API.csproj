@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PulseGym.Entities\PulseGym.Entities.csproj" />
     <ProjectReference Include="..\PulseGym.Logic\PulseGym.Logic.csproj" />
   </ItemGroup>
 

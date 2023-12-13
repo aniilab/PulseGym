@@ -1,16 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PulseGym.DAL.Enums;
 
 namespace PulseGym.DAL.Models
 {
     public class MembershipProgram
     {
-        [Key]
         public Guid Id { get; set; }
 
         public required string Name { get; set; }
 
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
-        public ICollection<Client>? Clients { get; set; }
+        public int Duration { get; set; }
+
+        public WorkoutType WorkoutType { get; set; }
+
+        public int WorkoutNumber { get; set; }
+
+        public ICollection<ClientMembershipProgram>? ClientMembershipPrograms { get; set; }
     }
 }

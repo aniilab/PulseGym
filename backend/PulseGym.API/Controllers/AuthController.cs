@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using PulseGym.Entities.DTO;
+using PulseGym.Logic.DTO;
 using PulseGym.Logic.Services;
 
 namespace PulseGym.API.Controllers
@@ -68,6 +68,21 @@ namespace PulseGym.API.Controllers
             await _authService.LogoutAsync(userId);
 
             return Ok();
+        }
+        [HttpGet("User")]
+        [Authorize]
+        public async Task<ActionResult<UserLoginResponseDTO>> GetLoggedUser()
+        {
+            var id = HttpContext.User.FindFirstValue("Id");
+
+            if (!Guid.TryParse(id, out Guid userId))
+            {
+                return Unauthorized();
+            }
+
+            var user = await _authService.GetUserAsync(userId);
+
+            return Ok(user);
         }
 
         private void AddRefreshTokenToCookie(string refreshToken)

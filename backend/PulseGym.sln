@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PulseGym.Logic", "PulseGym.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PulseGym.API", "PulseGym.API\PulseGym.API.csproj", "{3B70D33A-6551-406C-A89B-49D5AA4A0B1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PulseGym.Entities", "PulseGym.Entities\PulseGym.Entities.csproj", "{FF587355-68C4-45D2-B23E-DF5AF8BE456E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{3B70D33A-6551-406C-A89B-49D5AA4A0B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B70D33A-6551-406C-A89B-49D5AA4A0B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B70D33A-6551-406C-A89B-49D5AA4A0B1A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF587355-68C4-45D2-B23E-DF5AF8BE456E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF587355-68C4-45D2-B23E-DF5AF8BE456E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF587355-68C4-45D2-B23E-DF5AF8BE456E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF587355-68C4-45D2-B23E-DF5AF8BE456E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

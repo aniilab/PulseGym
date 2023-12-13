@@ -1,4 +1,4 @@
-﻿namespace PulseGym.Entities.Enums
+﻿namespace PulseGym.DAL.Enums
 {
     public enum WorkoutStatus
     {

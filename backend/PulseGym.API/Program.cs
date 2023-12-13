@@ -56,18 +56,21 @@ MapsterExtension.AddMapsterConfiguration();
 
 // Repositories
 builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
+builder.Services.AddScoped<IClientMembershipProgramRepository, ClientMembershipProgramRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IGroupClassRepository, GroupClassRepository>();
+builder.Services.AddScoped<IMembershipProgramRepository, MembershipProgramRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<ITrainerRepository, TrainerRepository>();
-builder.Services.AddScoped<IMembershipProgramRepository, MembershipProgramRepository>();
 builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 builder.Services.AddScoped<IWorkoutRequestRepository, WorkoutRequestRepository>();
 
 // Facades
 builder.Services.AddScoped<IActivityFacade, ActivityFacade>();
-builder.Services.AddScoped<ITrainerFacade, TrainerFacade>();
 builder.Services.AddScoped<IClientFacade, ClientFacade>();
+builder.Services.AddScoped<IGroupClassFacade, GroupClassFacade>();
 builder.Services.AddScoped<IMembershipProgramFacade, MembershipProgramFacade>();
+builder.Services.AddScoped<ITrainerFacade, TrainerFacade>();
 builder.Services.AddScoped<IWorkoutFacade, WorkoutFacade>();
 
 // Services

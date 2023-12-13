@@ -1,5 +1,5 @@
 ﻿using PulseGym.DAL.Models;
-using PulseGym.Entities.DTO;
+using PulseGym.Logic.DTO;
 
 namespace PulseGym.Logic.Services
 {
@@ -10,5 +10,7 @@ namespace PulseGym.Logic.Services
         Task<User> RegisterUserAsync(UserRegisterDTO userRegister, string role);
 
         Task LogoutAsync(Guid userId);
+
+        Task<UserLoginResponseDTO> GetUserAsync(Guid userId);
     }
 }

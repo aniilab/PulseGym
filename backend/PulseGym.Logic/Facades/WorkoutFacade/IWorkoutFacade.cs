@@ -1,23 +1,27 @@
-﻿using PulseGym.Entities.DTO;
+﻿using PulseGym.Logic.DTO;
 
 namespace PulseGym.Logic.Facades
 {
     public interface IWorkoutFacade
     {
-        Task<ICollection<WorkoutViewDTO>> GetWorkoutsAsync();
+        Task<ICollection<WorkoutViewDTO>> GetGroupWorkoutsAsync(DateTime dateFrom, DateTime dateTo);
 
-        Task<ICollection<WorkoutRequestViewDTO>> GetWorkoutRequestsAsync();
-
-        Task CreateWorkoutRequestAsync(WorkoutRequestInDTO workoutRequestInDTO);
+        Task<ICollection<WorkoutViewDTO>> GetUserWorkoutsAsync(DateTime dateFrom, DateTime dateTo, string role, Guid userId);
 
         Task CreateWorkoutAsync(WorkoutInDTO workoutInDTO);
 
+        Task CancelWorkoutAsync(Guid userId, string role, Guid workoutId);
+
+        Task RemoveUserFromWorkoutAsync(Guid workoutId, Guid clientId);
+
+        Task UpdateWorkoutAsync(Guid workoutId, WorkoutUpdateDTO workout);
+
+        Task<ICollection<WorkoutRequestViewDTO>> GetUserWorkoutRequestsAsync(string role, Guid userId);
+
+        Task CreateWorkoutRequestAsync(WorkoutRequestInDTO workoutRequestInDTO);
+
         Task AcceptWorkoutRequestAsync(Guid userId, Guid workoutRequestId);
 
-        Task DeclineWorkoutRequestAsync(Guid userId, Guid workoutRequestId);
-
-        Task UpdateWorkoutAsync(Guid workoutId, WorkoutUpdateDTO workout, Guid userId);
-
-        Task CancelWorkoutAsync(Guid userId, Guid workoutId);
+        Task DeclineWorkoutRequestAsync(Guid userId, string role, Guid workoutRequestId);
     }
 }

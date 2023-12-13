@@ -18,7 +18,6 @@ namespace PulseGym.DAL.Repositories
             return await _context.Trainers.Include(t => t.User)
                                           .Include(t => t.Workouts)
                                           .Include(t => t.WorkoutRequests)
-                                          .Include(t => t.Activities)
                                           .Include(t => t.Clients)
                                           .ToListAsync();
         }
@@ -36,7 +35,6 @@ namespace PulseGym.DAL.Repositories
             var trainer = await _context.Trainers.Include(t => t.User)
                                                  .Include(t => t.Workouts)
                                                  .Include(t => t.WorkoutRequests)
-                                                 .Include(t => t.Activities)
                                                  .Include(t => t.Clients)
                                                  .FirstOrDefaultAsync(t => t.UserId == userId)
                                                  ?? throw new Exception($"Trainer with Id {userId} not found!");

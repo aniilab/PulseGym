@@ -1,9 +1,9 @@
 ﻿using Mapster;
 
+using PulseGym.DAL.Enums;
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
-using PulseGym.Entities.DTO;
-using PulseGym.Entities.Enums;
+using PulseGym.Logic.DTO;
 using PulseGym.Logic.Services;
 
 namespace PulseGym.Logic.Facades
@@ -51,8 +51,7 @@ namespace PulseGym.Logic.Facades
             bool isAvailable = true;
 
             if (trainer.Workouts.Any(w => w.WorkoutDateTime == dateTime
-                  && (w.Status == WorkoutStatus.Planned || w.Status == WorkoutStatus.InProgress))
-               || trainer.Activities.Any(a => a.DateTime == dateTime))
+                  && (w.Status == WorkoutStatus.Planned || w.Status == WorkoutStatus.InProgress)))
             {
                 isAvailable = false;
             }
@@ -64,9 +63,9 @@ namespace PulseGym.Logic.Facades
         {
             var trainer = await _trainerRepository.GetByIdAsync(userId);
 
-            var occupiedDateTime = trainer.Workouts.Select(w => w.WorkoutDateTime).ToList();
-
-            occupiedDateTime.AddRange(trainer.Activities.Select(a => a.DateTime).ToList());
+            var occupiedDateTime = trainer.Workouts.Where(w => w.Status == WorkoutStatus.Planned || w.Status == WorkoutStatus.InProgress)
+                                                   .Select(w => w.WorkoutDateTime)
+                                                   .ToList();
 
             return occupiedDateTime;
         }

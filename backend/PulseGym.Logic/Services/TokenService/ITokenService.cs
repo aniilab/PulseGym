@@ -1,5 +1,5 @@
 ﻿using PulseGym.DAL.Models;
-using PulseGym.Entities.DTO;
+using PulseGym.Logic.DTO;
 
 namespace PulseGym.Logic.Services
 {

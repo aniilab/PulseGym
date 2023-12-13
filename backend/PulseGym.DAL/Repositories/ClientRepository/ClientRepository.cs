@@ -16,10 +16,8 @@ namespace PulseGym.DAL.Repositories
         public async Task<ICollection<Client>> GetAllAsync()
         {
             return await _context.Clients.Include(c => c.User)
-                                         .Include(c => c.MembershipProgram)
                                          .Include(c => c.Workouts)
                                          .Include(c => c.WorkoutRequests)
-                                         .Include(c => c.Activities)
                                          .Include(c => c.PersonalTrainer)
                                          .ToListAsync();
         }
@@ -29,7 +27,6 @@ namespace PulseGym.DAL.Repositories
             var client = await _context.Clients.Include(c => c.User)
                                                .Include(c => c.Workouts)
                                                .Include(c => c.WorkoutRequests)
-                                               .Include(c => c.Activities)
                                                .Include(c => c.PersonalTrainer)
                                                .FirstOrDefaultAsync(t => t.UserId == userId)
                                                ?? throw new Exception($"Client with Id {userId} not found!");

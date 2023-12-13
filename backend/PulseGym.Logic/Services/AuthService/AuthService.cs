@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 using PulseGym.DAL.Models;
-using PulseGym.Entities.DTO;
+using PulseGym.Logic.DTO;
 
 namespace PulseGym.Logic.Services
 {
@@ -62,6 +62,24 @@ namespace PulseGym.Logic.Services
         public async Task LogoutAsync(Guid userId)
         {
             await _tokenService.DeleteTokens(userId);
+        }
+
+        public async Task<UserLoginResponseDTO> GetUserAsync(Guid userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString())
+                ?? throw new Exception("User not found");
+
+            var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
+                ?? throw new Exception("User does not have a role");
+
+            return new()
+            {
+                Id = userId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                ImageUrl = user.ImageUrl,
+                Role = role
+            };
         }
     }
 }
