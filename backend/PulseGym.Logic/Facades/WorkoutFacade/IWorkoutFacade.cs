@@ -23,5 +23,6 @@ namespace PulseGym.Logic.Facades
         Task AcceptWorkoutRequestAsync(Guid userId, Guid workoutRequestId);
 
         Task DeclineWorkoutRequestAsync(Guid userId, string role, Guid workoutRequestId);
+        Task UpdateWorkoutStatusAsync(Guid workoutId);
     }
 }

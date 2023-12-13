@@ -9,6 +9,7 @@ namespace PulseGym.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClientController : ControllerBase
     {
         IClientFacade _clientFacade;
@@ -33,7 +34,6 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult<ICollection<ClientViewDTO>>> Get()
         {
             var clientList = await _clientFacade.GetClientsAsync();
@@ -42,6 +42,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpGet("OccupiedTime/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<ICollection<DateTime>>> GetClientOccupiedTime(Guid id)
         {
             var dateTimeList = await _clientFacade.GetOccupiedDateTimeAsync(id);

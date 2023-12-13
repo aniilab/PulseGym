@@ -73,6 +73,11 @@ namespace PulseGym.Logic.Facades
 
         public async Task CreateWorkoutAsync(WorkoutInDTO workoutDTO)
         {
+            if (workoutDTO.WorkoutType == (int)WorkoutType.Solo && (workoutDTO.TrainerId.HasValue || workoutDTO.ClientIds.Count > 1))
+            {
+                throw new Exception("Wrong participants for Solo Workout");
+            }
+
             foreach (var clientId in workoutDTO.ClientIds)
             {
                 bool isAvailable = await _clientFacade.CheckClientAvailabilityAsync(clientId, workoutDTO.WorkoutDateTime);
@@ -156,6 +161,26 @@ namespace PulseGym.Logic.Facades
             foundWorkout.GroupClassId = workoutDTO.GroupClassId;
 
             await _workoutRepository.UpdateAsync(workoutId, foundWorkout);
+        }
+
+        public async Task UpdateWorkoutStatusAsync(Guid workoutId)
+        {
+            var workout = await _workoutRepository.GetByIdAsync(workoutId);
+
+            if (workout.Status == WorkoutStatus.Planned)
+            {
+                workout.Status = WorkoutStatus.InProgress;
+            }
+            else if (workout.Status == WorkoutStatus.InProgress)
+            {
+                workout.Status = WorkoutStatus.Passed;
+            }
+            else
+            {
+                throw new Exception("Unable to update cancelled Workout status");
+            }
+
+            await _workoutRepository.UpdateAsync(workoutId, workout);
         }
 
         public async Task<ICollection<WorkoutRequestViewDTO>> GetUserWorkoutRequestsAsync(string role, Guid userId)

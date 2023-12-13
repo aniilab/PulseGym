@@ -54,7 +54,8 @@ namespace PulseGym.API.Controllers
 
             if (!Guid.TryParse(id, out Guid requestUserId) || requestRole == null
                 || (requestRole == "trainer" && workout.TrainerId != requestUserId)
-                || (requestRole == "client" && ((WorkoutType)workout.WorkoutType != WorkoutType.Solo || !workout.ClientIds.Any(id => id == requestUserId))))
+                || (requestRole == "client" && ((WorkoutType)workout.WorkoutType != WorkoutType.Solo
+                    || !workout.ClientIds.Any(id => id == requestUserId))))
             {
                 return Unauthorized();
             }
@@ -116,6 +117,14 @@ namespace PulseGym.API.Controllers
             return Ok("Updated successfully!");
         }
 
+        [HttpPut("Status/{workoutId}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> UpdateWorkoutStatus(Guid workoutId)
+        {
+            await _workoutFacade.UpdateWorkoutStatusAsync(workoutId);
+
+            return Ok("Status successfully updated");
+        }
 
         [HttpGet("Requests/{role}/{userId}")]
         public async Task<ActionResult<ICollection<WorkoutRequestViewDTO>>> GetWorkoutRequestsByUserId(string role, Guid userId)
@@ -181,7 +190,5 @@ namespace PulseGym.API.Controllers
 
             return Ok("Declined successfully!");
         }
-
-
     }
 }

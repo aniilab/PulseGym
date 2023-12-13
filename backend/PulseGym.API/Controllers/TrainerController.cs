@@ -48,6 +48,5 @@ namespace PulseGym.API.Controllers
 
             return Ok(dateTimeList);
         }
-
     }
 }

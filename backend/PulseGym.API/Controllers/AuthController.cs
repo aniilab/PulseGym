@@ -42,6 +42,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("RegisterAdmin")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> RegisterAdmin(UserRegisterDTO admin)
         {
             var isRegistered = await _authService.RegisterUserAsync(admin, "admin");
@@ -54,8 +55,8 @@ namespace PulseGym.API.Controllers
             return BadRequest();
         }
 
-        [Authorize]
         [HttpDelete("Logout")]
+        [Authorize]
         public async Task<ActionResult> Logout()
         {
             var id = HttpContext.User.FindFirstValue("Id");
@@ -69,6 +70,7 @@ namespace PulseGym.API.Controllers
 
             return Ok();
         }
+
         [HttpGet("User")]
         [Authorize]
         public async Task<ActionResult<UserLoginResponseDTO>> GetLoggedUser()
