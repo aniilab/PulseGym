@@ -30,7 +30,7 @@ namespace PulseGym.Logic.Services
         public async Task<TokensDTO> GenerateTokensAsync(User user)
         {
             var accessToken = await GenerateAccessTokenAsync(user);
-            var refreshToken = await GenerateRefreshTokenAsync();
+            var refreshToken = GenerateRefreshToken();
 
             await _userManager.SetAuthenticationTokenAsync(
                         user,
@@ -53,12 +53,6 @@ namespace PulseGym.Logic.Services
             }
 
             var user = await _tokenRepository.GetUserByTokenAsync(refreshToken);
-
-            //bool isVerified = await _userManager.VerifyUserTokenAsync(user, _configuration.GetSection("ApplicationName").Value, "RefreshToken", refreshToken);
-            //if (!isVerified)
-            //{
-            //    throw new Exception("Refresh token was not verified.");
-            //}
 
             await _tokenRepository.DeleteByUserIdAsync(user.Id);
 
@@ -100,7 +94,7 @@ namespace PulseGym.Logic.Services
             return jwt;
         }
 
-        private async Task<string> GenerateRefreshTokenAsync()
+        private string GenerateRefreshToken()
         {
             var secret = Encoding.UTF8.GetBytes(_configuration.GetSection("Authentication:RefreshTokenSecret").Value);
 

@@ -25,20 +25,16 @@ namespace PulseGym.API.Controllers
         public async Task<ActionResult<string>> Login(UserLoginRequestDTO user)
         {
             var tokens = await _authService.LoginUserAsync(user);
-            AddRefreshTokenToCookie(tokens.RefreshToken);
 
-            return Ok(tokens.AccessToken);
+            return Ok(tokens);
         }
 
         [HttpPost("Refresh")]
-        public async Task<ActionResult<string>> RefreshToken()
+        public async Task<ActionResult<string>> RefreshToken(string refreshToken)
         {
-            var refreshToken = Request.Cookies["x-refresh-token"];
-
             var tokens = await _tokenService.RefreshAsync(refreshToken!);
-            AddRefreshTokenToCookie(tokens.RefreshToken);
 
-            return Ok(tokens.AccessToken);
+            return Ok(tokens);
         }
 
         [HttpPost("RegisterAdmin")]
@@ -85,15 +81,6 @@ namespace PulseGym.API.Controllers
             var user = await _authService.GetUserAsync(userId);
 
             return Ok(user);
-        }
-
-        private void AddRefreshTokenToCookie(string refreshToken)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true
-            };
-            Response.Cookies.Append("x-refresh-token", refreshToken, cookieOptions);
         }
     }
 }
