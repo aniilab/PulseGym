@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using PulseGym.DAL.Models;
+using PulseGym.Entities.Exceptions;
 
 namespace PulseGym.DAL.Repositories
 {
@@ -37,7 +38,7 @@ namespace PulseGym.DAL.Repositories
                                                  .Include(t => t.WorkoutRequests)
                                                  .Include(t => t.Clients)
                                                  .FirstOrDefaultAsync(t => t.UserId == userId)
-                                                 ?? throw new Exception($"Trainer with Id {userId} not found!");
+                ?? throw new NotFoundException(nameof(Trainer), userId);
 
             return trainer;
         }

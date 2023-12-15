@@ -1,6 +1,7 @@
 ﻿using Mapster;
 
-using PulseGym.DAL.Enums;
+using PulseGym.Entities.Enums;
+using PulseGym.Entities.Exceptions;
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
 using PulseGym.Logic.DTO;
@@ -71,7 +72,7 @@ namespace PulseGym.Logic.Facades
             var clientPrograms = await _clientMembershipProgramRepository.GetByClientIdAsync(clientId);
 
             var clientProgram = clientPrograms.Where(cmp => cmp.MembershipProgram!.WorkoutType == workoutType).FirstOrDefault()
-                ?? throw new Exception($"Client with Id {clientId} does not have program with Workout Type {workoutType}");
+                ?? throw new InvalidMembershipProgramException($"Client with Id = {clientId} does not have program with Workout Type {workoutType}");
 
             clientProgram.WorkoutRemainder = isUsed ? clientProgram.WorkoutRemainder-- : clientProgram.WorkoutRemainder++;
 

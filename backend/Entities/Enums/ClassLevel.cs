@@ -1,4 +1,4 @@
-﻿namespace PulseGym.DAL.Enums
+﻿namespace PulseGym.Entities.Enums
 {
     public enum ClassLevel
     {

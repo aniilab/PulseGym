@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using PulseGym.DAL.Models;
+using PulseGym.Entities.Exceptions;
 
 namespace PulseGym.DAL.Repositories
 {
@@ -28,7 +29,7 @@ namespace PulseGym.DAL.Repositories
                                                                            .ThenInclude(c => c!.User)
                                                                        .Include(cmp => cmp.MembershipProgram)
                                                                        .ToListAsync()
-                ?? throw new Exception($"Membership Program for Client with Id {clientId} not found.");
+                ?? throw new NotFoundException(nameof(ClientMembershipProgram), nameof(Client), clientId.ToString());
 
             return clientProgram;
         }
@@ -43,7 +44,7 @@ namespace PulseGym.DAL.Repositories
         public async Task UpdateAsync(Guid id, ClientMembershipProgram clientProgram)
         {
             var foundClientProgram = await _context.ClientMembershipPrograms.FindAsync(id)
-              ?? throw new Exception($"Client Membership Program with Id {id} not found.");
+              ?? throw new NotFoundException(nameof(ClientMembershipProgram), id);
 
             clientProgram.Id = id;
 

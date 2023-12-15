@@ -1,4 +1,4 @@
-﻿using PulseGym.DAL.Enums;
+﻿using PulseGym.Entities.Enums;
 using PulseGym.Logic.DTO;
 
 namespace PulseGym.Logic.Facades

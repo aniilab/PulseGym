@@ -3,7 +3,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using PulseGym.DAL.Enums;
+using PulseGym.Entities.Enums;
+using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
 using PulseGym.Logic.Facades;
 
@@ -36,7 +37,7 @@ namespace PulseGym.API.Controllers
             var requestRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
             if (!Guid.TryParse(id, out Guid requestUserId) || requestRole == null
-                || (requestRole != "admin" && requestUserId != userId))
+                || (requestRole != RoleNames.Admin && requestUserId != userId))
             {
                 return Unauthorized();
             }
@@ -53,8 +54,8 @@ namespace PulseGym.API.Controllers
             var requestRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
             if (!Guid.TryParse(id, out Guid requestUserId) || requestRole == null
-                || (requestRole == "trainer" && workout.TrainerId != requestUserId)
-                || (requestRole == "client" && ((WorkoutType)workout.WorkoutType != WorkoutType.Solo
+                || (requestRole == RoleNames.Trainer && workout.TrainerId != requestUserId)
+                || (requestRole == RoleNames.Client && ((WorkoutType)workout.WorkoutType != WorkoutType.Solo
                     || !workout.ClientIds.Any(id => id == requestUserId))))
             {
                 return Unauthorized();
@@ -82,14 +83,14 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpDelete("{workoutId}/Client/{clientId}")]
-        [Authorize(Roles = "client, admin")]
+        [Authorize(Roles = $"{RoleNames.Client}, {RoleNames.Admin}")]
         public async Task<ActionResult> RemoveUser(Guid workoutId, Guid clientId)
         {
             var requestRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
             var id = HttpContext.User.FindFirstValue("Id");
 
             if (!Guid.TryParse(id, out Guid userId) || requestRole == null
-                || (requestRole == "client" && userId != clientId))
+                || (requestRole == RoleNames.Client && userId != clientId))
             {
                 return Unauthorized();
             }
@@ -100,14 +101,14 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPut("{workoutId}")]
-        [Authorize(Roles = "trainer, admin")]
+        [Authorize(Roles = $"{RoleNames.Trainer}, {RoleNames.Admin}")]
         public async Task<ActionResult> UpdateWorkout(Guid workoutId, WorkoutUpdateDTO workout)
         {
             var requestRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
             var id = HttpContext.User.FindFirstValue("Id");
 
             if (!Guid.TryParse(id, out Guid userId) || requestRole == null
-                || (requestRole == "trainer" && userId != workout.TrainerId))
+                || (requestRole == RoleNames.Trainer && userId != workout.TrainerId))
             {
                 return Unauthorized();
             }
@@ -118,7 +119,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPut("Status/{workoutId}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult> UpdateWorkoutStatus(Guid workoutId)
         {
             await _workoutFacade.UpdateWorkoutStatusAsync(workoutId);
@@ -133,7 +134,7 @@ namespace PulseGym.API.Controllers
             var requestRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
             if (!Guid.TryParse(id, out Guid requestUserId) || requestRole == null
-                || (requestRole != "admin" && requestUserId != userId))
+                || (requestRole != RoleNames.Admin && requestUserId != userId))
             {
                 return Unauthorized();
             }
@@ -144,7 +145,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("Request")]
-        [Authorize(Roles = "client")]
+        [Authorize(Roles = RoleNames.Client)]
         public async Task<ActionResult> CreateWorkoutRequest(WorkoutRequestInDTO request)
         {
             var id = HttpContext.User.FindFirstValue("Id");
@@ -160,7 +161,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPut("AcceptRequest/{workoutRequestId}")]
-        [Authorize(Roles = "trainer")]
+        [Authorize(Roles = RoleNames.Trainer)]
         public async Task<ActionResult> AcceptWorkoutRequest(Guid workoutRequestId)
         {
             var id = HttpContext.User.FindFirstValue("Id");

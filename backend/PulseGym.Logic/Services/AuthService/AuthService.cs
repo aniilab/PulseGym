@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
+using PulseGym.Entities.Exceptions;
 using PulseGym.DAL.Models;
 using PulseGym.Logic.DTO;
 
@@ -32,12 +33,12 @@ namespace PulseGym.Logic.Services
 
             if (!result.Succeeded)
             {
-                throw new Exception("Registration failed!");
+                throw new BadInputException($"Registration failed. {result.Errors}");
             }
 
             var identityRole = new IdentityRole<Guid>(role);
 
-            await _userManager.AddToRoleAsync(newUser, identityRole.Name);
+            await _userManager.AddToRoleAsync(newUser, identityRole.Name!);
 
             return newUser;
         }
@@ -45,12 +46,12 @@ namespace PulseGym.Logic.Services
         public async Task<TokensDTO> LoginUserAsync(UserLoginRequestDTO user)
         {
             var existingUser = await _userManager.FindByEmailAsync(user.Email)
-                ?? throw new Exception("User not found!");
+                ?? throw new NotFoundException(nameof(User), nameof(user.Email), user.Email);
 
             var result = await _userManager.CheckPasswordAsync(existingUser, user.Password);
             if (!result)
             {
-                throw new Exception("Invalid password!");
+                throw new BadInputException("Invalid password!");
             }
 
             var tokens = await _tokenService.GenerateTokensAsync(existingUser);
@@ -67,10 +68,10 @@ namespace PulseGym.Logic.Services
         public async Task<UserLoginResponseDTO> GetUserAsync(Guid userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString())
-                ?? throw new Exception("User not found");
+                ?? throw new NotFoundException(nameof(User), userId);
 
             var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
-                ?? throw new Exception("User does not have a role");
+                ?? throw new NotFoundException("User does not have a role");
 
             return new()
             {

@@ -1,8 +1,9 @@
 ﻿using Mapster;
 
-using PulseGym.DAL.Enums;
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
+using PulseGym.Entities.Enums;
+using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
 using PulseGym.Logic.Services;
 
@@ -36,7 +37,7 @@ namespace PulseGym.Logic.Facades
 
         public async Task<bool> CreateTrainerAsync(TrainerCreateDTO newTrainer)
         {
-            var registered = await _authService.RegisterUserAsync(newTrainer.Adapt<UserRegisterDTO>(), "trainer");
+            var registered = await _authService.RegisterUserAsync(newTrainer.Adapt<UserRegisterDTO>(), RoleNames.Trainer);
 
             await _trainerRepository.CreateAsync(registered.Id, newTrainer.Adapt<Trainer>());
 
@@ -50,7 +51,7 @@ namespace PulseGym.Logic.Facades
             var trainer = await _trainerRepository.GetByIdAsync(userId);
             bool isAvailable = true;
 
-            if (trainer.Workouts.Any(w => w.WorkoutDateTime == dateTime
+            if (trainer.Workouts!.Any(w => w.WorkoutDateTime == dateTime
                   && (w.Status == WorkoutStatus.Planned || w.Status == WorkoutStatus.InProgress)))
             {
                 isAvailable = false;
@@ -63,9 +64,9 @@ namespace PulseGym.Logic.Facades
         {
             var trainer = await _trainerRepository.GetByIdAsync(userId);
 
-            var occupiedDateTime = trainer.Workouts.Where(w => w.Status == WorkoutStatus.Planned || w.Status == WorkoutStatus.InProgress)
-                                                   .Select(w => w.WorkoutDateTime)
-                                                   .ToList();
+            var occupiedDateTime = trainer.Workouts!.Where(w => w.Status == WorkoutStatus.Planned || w.Status == WorkoutStatus.InProgress)
+                                                    .Select(w => w.WorkoutDateTime)
+                                                    .ToList();
 
             return occupiedDateTime;
         }

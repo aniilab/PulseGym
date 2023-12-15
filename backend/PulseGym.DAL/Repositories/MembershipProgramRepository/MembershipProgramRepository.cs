@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using PulseGym.DAL.Models;
+using PulseGym.Entities.Exceptions;
 
 namespace PulseGym.DAL.Repositories
 {
@@ -21,7 +22,7 @@ namespace PulseGym.DAL.Repositories
         public async Task<MembershipProgram> GetByIdAsync(Guid id)
         {
             var membershipProgram = await _context.MembershipPrograms.FirstOrDefaultAsync(t => t.Id == id)
-                ?? throw new Exception($"Membership Program with Id {id} not found!");
+                ?? throw new NotFoundException(nameof(MembershipProgram), id);
 
             return membershipProgram;
         }
@@ -36,7 +37,7 @@ namespace PulseGym.DAL.Repositories
         public async Task UpdateAsync(Guid id, MembershipProgram program)
         {
             var foundProgram = await _context.MembershipPrograms.FindAsync(id)
-               ?? throw new Exception($"Membership Program with Id {id} not found.");
+               ?? throw new NotFoundException(nameof(MembershipProgram), id);
 
             program.Id = id;
 
@@ -48,7 +49,7 @@ namespace PulseGym.DAL.Repositories
         public async Task DeleteAsync(Guid id)
         {
             var foundProgram = await _context.MembershipPrograms.FindAsync(id)
-               ?? throw new Exception($"Membership Program with Id {id} not found.");
+               ?? throw new NotFoundException(nameof(MembershipProgram), id);
 
             _context.MembershipPrograms.Remove(foundProgram);
 

@@ -3,6 +3,8 @@ using System.Text.Json;
 
 using Microsoft.AspNetCore.Mvc;
 
+using PulseGym.Entities.Exceptions;
+
 namespace PulseGym.API.Middlewares
 {
     public class ExceptionHandlingMiddleware : IMiddleware
@@ -13,24 +15,44 @@ namespace PulseGym.API.Middlewares
             {
                 await next(context);
             }
-            catch (Exception ex)
+            catch (NotFoundException exception)
             {
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-                ProblemDetails problemDetails = new()
-                {
-                    Status = (int)HttpStatusCode.InternalServerError,
-                    Type = "Server error",
-                    Title = "Server error",
-                    Detail = ex.Message
-                };
-
-                string json = JsonSerializer.Serialize(problemDetails);
-
-                await context.Response.WriteAsync(json);
-
-                context.Response.ContentType = "application/json";
+                await SetExceptionResponseAsync(context, HttpStatusCode.NotFound, exception.Message);
             }
+            catch (BadInputException exception)
+            {
+                await SetExceptionResponseAsync(context, HttpStatusCode.BadRequest, exception.Message);
+            }
+            catch (InvalidMembershipProgramException exception)
+            {
+                await SetExceptionResponseAsync(context, HttpStatusCode.MethodNotAllowed, exception.Message);
+            }
+            catch (UnauthorizedException exception)
+            {
+                await SetExceptionResponseAsync(context, HttpStatusCode.Unauthorized, exception.Message);
+            }
+            catch (Exception exception)
+            {
+                await SetExceptionResponseAsync(context, HttpStatusCode.InternalServerError, exception.Message);
+            }
+        }
+
+        public async Task SetExceptionResponseAsync(HttpContext context, HttpStatusCode statusCode, string detail)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)statusCode;
+
+            ProblemDetails problemDetails = new ProblemDetails
+            {
+                Status = (int)statusCode,
+                Type = statusCode.ToString(),
+                Title = statusCode.ToString(),
+                Detail = detail
+            };
+
+            string json = JsonSerializer.Serialize(problemDetails);
+
+            await context.Response.WriteAsync(json);
         }
     }
 }

@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
 using PulseGym.Logic.Services;
 
@@ -38,10 +39,10 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("RegisterAdmin")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult> RegisterAdmin(UserRegisterDTO admin)
         {
-            var isRegistered = await _authService.RegisterUserAsync(admin, "admin");
+            var isRegistered = await _authService.RegisterUserAsync(admin, RoleNames.Admin);
 
             if (isRegistered != null)
             {

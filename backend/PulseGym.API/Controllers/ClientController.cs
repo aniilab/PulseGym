@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
 
 using PulseGym.Logic.Facades;
@@ -20,7 +21,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult> Create(ClientCreateDTO newClient)
         {
             var isCreated = await _clientFacade.CreateClientAsync(newClient);
@@ -42,7 +43,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpGet("OccupiedTime/{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult<ICollection<DateTime>>> GetClientOccupiedTime(Guid id)
         {
             var dateTimeList = await _clientFacade.GetOccupiedDateTimeAsync(id);

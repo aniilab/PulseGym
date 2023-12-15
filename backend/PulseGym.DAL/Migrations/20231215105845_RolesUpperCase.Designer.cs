@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PulseGym.DAL;
 
@@ -11,9 +12,11 @@ using PulseGym.DAL;
 namespace PulseGym.DAL.Migrations
 {
     [DbContext(typeof(PulseGymDbContext))]
-    partial class PulseGymDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231215105845_RolesUpperCase")]
+    partial class RolesUpperCase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
+using PulseGym.Entities.Exceptions;
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
 using PulseGym.Logic.DTO;
@@ -49,7 +50,7 @@ namespace PulseGym.Logic.Services
         {
             if (!ValidateRefreshToken(refreshToken))
             {
-                throw new Exception("Invalid refresh token.");
+                throw new UnauthorizedException("Invalid refresh token.");
             }
 
             var user = await _tokenRepository.GetUserByTokenAsync(refreshToken);

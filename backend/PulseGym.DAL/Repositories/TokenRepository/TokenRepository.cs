@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using PulseGym.DAL.Models;
+using PulseGym.Entities.Exceptions;
 
 namespace PulseGym.DAL.Repositories
 {
@@ -15,9 +16,11 @@ namespace PulseGym.DAL.Repositories
 
         public async Task<User> GetUserByTokenAsync(string refreshToken)
         {
-            var userToken = await _context.UserTokens.SingleAsync(ut => ut.Value == refreshToken);
+            var userToken = await _context.UserTokens.FirstOrDefaultAsync(ut => ut.Value == refreshToken)
+                ?? throw new NotFoundException("Refresh Token", "token", refreshToken);
 
-            var user = await _context.Users.SingleAsync(u => u.Id == userToken.UserId);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userToken.UserId)
+                ?? throw new NotFoundException(nameof(User), userToken.UserId);
 
             return user;
         }

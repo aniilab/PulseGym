@@ -2,7 +2,7 @@
 {
     public class WorkoutUpdateDTO
     {
-        public DateTime WorkoutDateTime { get; set; }
+        public DateTime? WorkoutDateTime { get; set; }
 
         public string? Notes { get; set; }
 

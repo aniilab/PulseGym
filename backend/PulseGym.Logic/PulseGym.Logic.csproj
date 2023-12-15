@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Entities\PulseGym.Entities.csproj" />
     <ProjectReference Include="..\PulseGym.DAL\PulseGym.DAL.csproj" />
   </ItemGroup>
 

@@ -1,10 +1,10 @@
 ﻿using Mapster;
 
-using Microsoft.AspNetCore.Identity;
-
-using PulseGym.DAL.Enums;
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
+using PulseGym.Entities.Enums;
+using PulseGym.Entities.Exceptions;
+using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
 
 namespace PulseGym.Logic.Facades
@@ -19,11 +19,8 @@ namespace PulseGym.Logic.Facades
         private readonly IClientFacade _clientFacade;
         private readonly ITrainerFacade _trainerFacade;
 
-        private readonly UserManager<User> _userManager;
-
         public WorkoutFacade(IWorkoutRequestRepository workoutRequestRepository,
                              IWorkoutRepository workoutRepository,
-                             UserManager<User> userManager,
                              ITrainerFacade trainerFacade,
                              IClientFacade clientFacade,
                              IMembershipProgramFacade programFacade,
@@ -31,7 +28,6 @@ namespace PulseGym.Logic.Facades
         {
             _workoutRequestRepository = workoutRequestRepository;
             _workoutRepository = workoutRepository;
-            _userManager = userManager;
             _trainerFacade = trainerFacade;
             _clientFacade = clientFacade;
             _programFacade = programFacade;
@@ -55,17 +51,17 @@ namespace PulseGym.Logic.Facades
                 .Where(w => w.WorkoutDateTime >= dateFrom && w.WorkoutDateTime.AddHours(1) <= dateTo);
 
             List<Workout> userWorkouts;
-            if (role == "client")
+            if (role == RoleNames.Client)
             {
                 userWorkouts = allWorkouts.Where(w => w.Clients.Any(c => c.UserId == userId)).ToList();
             }
-            else if (role == "trainer")
+            else if (role == RoleNames.Trainer)
             {
                 userWorkouts = allWorkouts.Where(w => w.TrainerId == userId).ToList();
             }
             else
             {
-                throw new Exception("Wrong role received!");
+                throw new BadInputException("Wrong role received!");
             }
 
             return userWorkouts.Adapt<List<WorkoutViewDTO>>();
@@ -75,7 +71,7 @@ namespace PulseGym.Logic.Facades
         {
             if (workoutDTO.WorkoutType == (int)WorkoutType.Solo && (workoutDTO.TrainerId.HasValue || workoutDTO.ClientIds.Count > 1))
             {
-                throw new Exception("Wrong participants for Solo Workout");
+                throw new BadInputException("Wrong participants for Solo Workout");
             }
 
             foreach (var clientId in workoutDTO.ClientIds)
@@ -85,13 +81,20 @@ namespace PulseGym.Logic.Facades
                                                                                              && p.ExpirationDate > workoutDTO.WorkoutDateTime
                                                                                              && p.WorkoutRemainder > 0);
 
-                if (!isAvailable || !hasAccess) throw new Exception("Client cannot take part in this workout!");
+                if (!hasAccess)
+                {
+                    throw new InvalidMembershipProgramException($"Client with Id {clientId} cannot take part in this workout!");
+                }
+                else if (!isAvailable)
+                {
+                    throw new BadInputException($"Client with Id {clientId} is not available at this time");
+                }
             }
 
             if (workoutDTO.TrainerId.HasValue)
             {
                 bool isAvailable = await _trainerFacade.CheckTrainerAvailabilityAsync((Guid)workoutDTO.TrainerId, workoutDTO.WorkoutDateTime) ? true
-                    : throw new Exception("Trainer is not available at this time!");
+                    : throw new BadInputException($"Trainer with Id {workoutDTO.TrainerId} is not available at this time!");
             }
 
             var entity = workoutDTO.Adapt<Workout>();
@@ -114,22 +117,27 @@ namespace PulseGym.Logic.Facades
                 foundWorkout.Status == WorkoutStatus.CancelledByTrainer ||
                 foundWorkout.Status == WorkoutStatus.CancelledByAdmin)
             {
-                throw new Exception("Workout has already been cancelled.");
+                throw new BadInputException("Workout has already been cancelled.");
             }
 
-            if (role == "admin")
+            if (role == RoleNames.Admin)
             {
                 foundWorkout.Status = WorkoutStatus.CancelledByAdmin;
             }
-            else if (role == "client" && foundWorkout.Clients.Any(c => c.UserId == userId) && foundWorkout.WorkoutType != WorkoutType.GroupClass)
+            else if (role == RoleNames.Client && foundWorkout.Clients.Any(c => c.UserId == userId))
             {
+                if (foundWorkout.WorkoutType == WorkoutType.GroupClass)
+                {
+                    throw new UnauthorizedException("Client cannot cancel Group Workout");
+                }
+
                 foundWorkout.Status = WorkoutStatus.CancelledByClient;
             }
-            else if (role == "trainer" && foundWorkout.TrainerId == userId && foundWorkout.WorkoutType != WorkoutType.Solo)
+            else if (role == RoleNames.Trainer && foundWorkout.TrainerId == userId)
             {
                 foundWorkout.Status = WorkoutStatus.CancelledByTrainer;
             }
-            else throw new Exception("User Id mismatch!");
+            else throw new UnauthorizedException("User Ids mismatch!");
 
             await _workoutRepository.UpdateAsync(workoutId, foundWorkout);
 
@@ -142,7 +150,7 @@ namespace PulseGym.Logic.Facades
 
             if (workout.WorkoutType != WorkoutType.GroupClass)
             {
-                throw new Exception("Unable to remove a Client from Solo or Personal Workout.");
+                throw new BadInputException("Unable to remove a Client from Solo or Personal Workout.");
             }
 
             var client = await _clientRepository.GetByIdAsync(clientId);
@@ -155,10 +163,10 @@ namespace PulseGym.Logic.Facades
         {
             var foundWorkout = await _workoutRepository.GetByIdAsync(workoutId);
 
-            foundWorkout.Notes = workoutDTO.Notes;
-            foundWorkout.WorkoutDateTime = workoutDTO.WorkoutDateTime;
-            foundWorkout.TrainerId = workoutDTO.TrainerId;
-            foundWorkout.GroupClassId = workoutDTO.GroupClassId;
+            foundWorkout.Notes = workoutDTO.Notes ?? foundWorkout.Notes;
+            foundWorkout.WorkoutDateTime = workoutDTO.WorkoutDateTime ?? foundWorkout.WorkoutDateTime;
+            foundWorkout.TrainerId = workoutDTO.TrainerId ?? foundWorkout.TrainerId;
+            foundWorkout.GroupClassId = workoutDTO.GroupClassId ?? foundWorkout.GroupClassId;
 
             await _workoutRepository.UpdateAsync(workoutId, foundWorkout);
         }
@@ -177,7 +185,7 @@ namespace PulseGym.Logic.Facades
             }
             else
             {
-                throw new Exception("Unable to update cancelled Workout status");
+                throw new BadInputException("Unable to update cancelled Workout status");
             }
 
             await _workoutRepository.UpdateAsync(workoutId, workout);
@@ -188,17 +196,17 @@ namespace PulseGym.Logic.Facades
             var workoutRequestList = await _workoutRequestRepository.GetAllAsync();
 
             List<WorkoutRequest> userWorkoutRequests;
-            if (role == "client")
+            if (role == RoleNames.Client)
             {
                 userWorkoutRequests = workoutRequestList.Where(w => w.ClientId == userId).ToList();
             }
-            else if (role == "trainer")
+            else if (role == RoleNames.Trainer)
             {
                 userWorkoutRequests = workoutRequestList.Where(w => w.TrainerId == userId).ToList();
             }
             else
             {
-                throw new Exception("Wrong role received!");
+                throw new BadInputException("Wrong role received!");
             }
 
             return workoutRequestList.Adapt<List<WorkoutRequestViewDTO>>();
@@ -209,23 +217,28 @@ namespace PulseGym.Logic.Facades
             bool isTrainerAvailable = await _trainerFacade.CheckTrainerAvailabilityAsync(workoutRequestDTO.TrainerId, workoutRequestDTO.WorkoutDateTime);
             bool isClientAvailable = await _clientFacade.CheckClientAvailabilityAsync(workoutRequestDTO.ClientId, workoutRequestDTO.WorkoutDateTime);
 
-            if (!isClientAvailable || !isTrainerAvailable) throw new Exception("Participants are not available at that time!");
+            if (!isClientAvailable || !isTrainerAvailable)
+            {
+                throw new BadInputException("Participants are not available at that time!");
+            }
 
             var entity = workoutRequestDTO.Adapt<WorkoutRequest>();
 
             await _workoutRequestRepository.CreateAsync(entity);
+
+            await _programFacade.ChangeWorkoutRemainderCount(workoutRequestDTO.ClientId, WorkoutType.Personal, true);
         }
 
         public async Task AcceptWorkoutRequestAsync(Guid userId, Guid workoutRequestId)
         {
             var foundRequest = await _workoutRequestRepository.GetByIdAsync(workoutRequestId);
 
+            if (userId != foundRequest.TrainerId) throw new UnauthorizedException("Trainer Id mismatch!");
+
             if (foundRequest.Status != WorkoutRequestStatus.New)
             {
-                throw new Exception("Workout request is not new.");
+                throw new BadInputException("Workout request is not new.");
             }
-
-            if (userId != foundRequest.TrainerId) throw new Exception("Trainer Id mismatch!");
 
             var newWorkout = foundRequest.Adapt<Workout>();
             await _workoutRepository.CreateAsync(newWorkout);
@@ -241,24 +254,26 @@ namespace PulseGym.Logic.Facades
 
             if (foundRequest.Status != WorkoutRequestStatus.New && foundRequest.Status != WorkoutRequestStatus.AcceptedToSchedule)
             {
-                throw new Exception("Workout request has already been declined.");
+                throw new BadInputException("Workout request has already been declined.");
             }
 
-            if (role == "admin")
+            if (role == RoleNames.Admin)
             {
                 foundRequest.Status = WorkoutRequestStatus.DeclinedByAdmin;
             }
-            else if (role == "client" && foundRequest.ClientId == userId)
+            else if (role == RoleNames.Client && foundRequest.ClientId == userId)
             {
                 foundRequest.Status = WorkoutRequestStatus.DeclinedByClient;
             }
-            else if (role == "trainer" && foundRequest.TrainerId == userId)
+            else if (role == RoleNames.Trainer && foundRequest.TrainerId == userId)
             {
                 foundRequest.Status = WorkoutRequestStatus.DeclinedByTrainer;
             }
-            else throw new Exception("User Id mismatch!");
+            else throw new UnauthorizedException("User Id mismatch!");
 
             await _workoutRequestRepository.UpdateAsync(workoutRequestId, foundRequest);
+
+            await _programFacade.ChangeWorkoutRemainderCount(foundRequest.ClientId, WorkoutType.Personal, false);
         }
     }
 }

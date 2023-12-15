@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using PulseGym.DAL.Models;
+using PulseGym.Entities.Exceptions;
 
 namespace PulseGym.DAL.Repositories
 {
@@ -21,7 +22,7 @@ namespace PulseGym.DAL.Repositories
         public async Task<GroupClass> GetByIdAsync(Guid id)
         {
             var groupClass = await _context.GroupClasses.FirstOrDefaultAsync(gc => gc.Id == id)
-                ?? throw new Exception($"Group Class with Id {id} not found!");
+                ?? throw new NotFoundException(nameof(GroupClass), id);
 
             return groupClass;
         }
@@ -35,7 +36,7 @@ namespace PulseGym.DAL.Repositories
         public async Task UpdateAsync(Guid id, GroupClass groupClass)
         {
             var foundGroupClass = await _context.GroupClasses.FindAsync(id)
-               ?? throw new Exception($"Group Class with Id {id} not found.");
+               ?? throw new NotFoundException(nameof(GroupClass), id);
 
             groupClass.Id = id;
 
@@ -46,10 +47,10 @@ namespace PulseGym.DAL.Repositories
 
         public async Task DeleteAsync(Guid id)
         {
-            var foundActivity = await _context.Activities.FindAsync(id)
-               ?? throw new Exception($"Activity with Id {id} not found.");
+            var foundGroupClass = await _context.GroupClasses.FindAsync(id)
+               ?? throw new NotFoundException(nameof(GroupClass), id);
 
-            _context.Activities.Remove(foundActivity);
+            _context.GroupClasses.Remove(foundGroupClass);
 
             await _context.SaveChangesAsync();
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
 using PulseGym.Logic.Facades;
 
@@ -19,7 +20,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult> Create(TrainerCreateDTO newTrainer)
         {
             var isCreated = await _trainerFacade.CreateTrainerAsync(newTrainer);
@@ -33,7 +34,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult<ICollection<TrainerViewDTO>>> Get()
         {
             var trainerList = await _trainerFacade.GetTrainersAsync();

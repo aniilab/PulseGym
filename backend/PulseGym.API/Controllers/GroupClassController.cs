@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
 using PulseGym.Logic.Facades;
 
@@ -34,7 +35,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult> Create(GroupClassInDTO groupClass)
         {
             await _groupClassFacade.CreateGroupClassAsync(groupClass);
@@ -43,7 +44,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _groupClassFacade.DeleteGroupClassAsync(id);
@@ -52,7 +53,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult> Update(Guid id, GroupClassInDTO groupClass)
         {
             await _groupClassFacade.UpdateGroupClassAsync(id, groupClass);

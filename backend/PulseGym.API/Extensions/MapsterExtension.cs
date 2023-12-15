@@ -1,6 +1,6 @@
 ﻿using Mapster;
 
-using PulseGym.DAL.Enums;
+using PulseGym.Entities.Enums;
 using PulseGym.DAL.Models;
 using PulseGym.Logic.DTO;
 

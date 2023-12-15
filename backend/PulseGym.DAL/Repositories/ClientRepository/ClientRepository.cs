@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using PulseGym.DAL.Models;
+using PulseGym.Entities.Exceptions;
 
 namespace PulseGym.DAL.Repositories
 {
@@ -29,7 +30,7 @@ namespace PulseGym.DAL.Repositories
                                                .Include(c => c.WorkoutRequests)
                                                .Include(c => c.PersonalTrainer)
                                                .FirstOrDefaultAsync(t => t.UserId == userId)
-                                               ?? throw new Exception($"Client with Id {userId} not found!");
+                                               ?? throw new NotFoundException(nameof(Client), userId);
 
             return client;
         }
@@ -41,6 +42,5 @@ namespace PulseGym.DAL.Repositories
             await _context.Clients.AddAsync(client);
             await _context.SaveChangesAsync();
         }
-
     }
 }

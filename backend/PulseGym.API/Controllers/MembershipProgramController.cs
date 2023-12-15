@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
 using PulseGym.Logic.Facades;
 
@@ -26,7 +27,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult> Create(MembershipProgramInDTO membershipProgram)
         {
             await _membershipProgramFacade.CreateProgramAsync(membershipProgram);
@@ -35,7 +36,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpDelete("{programId}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult> Delete(Guid programId)
         {
             await _membershipProgramFacade.DeleteProgramAsync(programId);
@@ -53,7 +54,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("Client/{clientId}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult> AddProgramToClient(Guid clientId, Guid programId)
         {
             await _membershipProgramFacade.AddClientProgramAsync(clientId, programId);

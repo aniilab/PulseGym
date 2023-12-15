@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using PulseGym.DAL.Models;
+using PulseGym.Entities.Exceptions;
 
 namespace PulseGym.DAL.Repositories
 {
@@ -32,7 +33,7 @@ namespace PulseGym.DAL.Repositories
         public async Task<WorkoutRequest> GetByIdAsync(Guid id)
         {
             var foundWorkoutRequest = await _context.WorkoutRequests.FindAsync(id)
-                ?? throw new Exception($"Workout request with Id {id} not found.");
+                ?? throw new NotFoundException(nameof(WorkoutRequest), id);
 
             return foundWorkoutRequest;
 
@@ -41,7 +42,7 @@ namespace PulseGym.DAL.Repositories
         public async Task UpdateAsync(Guid id, WorkoutRequest request)
         {
             var foundWorkoutRequest = await _context.WorkoutRequests.FindAsync(id)
-               ?? throw new Exception($"Workout request with Id {id} not found.");
+               ?? throw new NotFoundException(nameof(WorkoutRequest), id);
 
             request.Id = id;
 
