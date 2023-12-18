@@ -54,3 +54,4 @@ Thumbs.db
 /frontend/node_modules
 
 /backend/Entities/obj
+/backend/Entities/bin/Debug/net7.0
