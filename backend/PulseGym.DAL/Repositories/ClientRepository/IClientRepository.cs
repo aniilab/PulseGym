@@ -9,5 +9,9 @@ namespace PulseGym.DAL.Repositories
         Task<Client> GetByIdAsync(Guid userId);
 
         Task CreateAsync(Guid id, Client client);
+
+        Task UpdateAsync(Guid clientId, Client entity);
+
+        Task DeleteAsync(Guid clientId);
     }
 }

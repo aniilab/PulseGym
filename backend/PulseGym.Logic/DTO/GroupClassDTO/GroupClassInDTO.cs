@@ -1,4 +1,6 @@
-﻿namespace PulseGym.Logic.DTO
+﻿using PulseGym.Entities.Enums;
+
+namespace PulseGym.Logic.DTO
 {
     public class GroupClassInDTO
     {
@@ -8,6 +10,6 @@
 
         public int MaxClientNumber { get; set; }
 
-        public required int Level { get; set; }
+        public required ClassLevel Level { get; set; }
     }
 }

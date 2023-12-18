@@ -53,10 +53,20 @@ namespace PulseGym.Logic.Facades
             List<Workout> userWorkouts;
             if (role == RoleNames.Client)
             {
+                if (!await _clientFacade.ExistsAsync(userId))
+                {
+                    throw new NotFoundException(nameof(Client), userId);
+                }
+
                 userWorkouts = allWorkouts.Where(w => w.Clients.Any(c => c.UserId == userId)).ToList();
             }
             else if (role == RoleNames.Trainer)
             {
+                if (!await _trainerFacade.ExistsAsync(userId))
+                {
+                    throw new NotFoundException(nameof(Trainer), userId);
+                }
+
                 userWorkouts = allWorkouts.Where(w => w.TrainerId == userId).ToList();
             }
             else
@@ -69,15 +79,20 @@ namespace PulseGym.Logic.Facades
 
         public async Task CreateWorkoutAsync(WorkoutInDTO workoutDTO)
         {
-            if (workoutDTO.WorkoutType == (int)WorkoutType.Solo && (workoutDTO.TrainerId.HasValue || workoutDTO.ClientIds.Count > 1))
+            if (workoutDTO.WorkoutType == WorkoutType.Solo && (workoutDTO.TrainerId.HasValue || workoutDTO.ClientIds.Count > 1))
             {
                 throw new BadInputException("Wrong participants for Solo Workout");
             }
 
             foreach (var clientId in workoutDTO.ClientIds)
             {
+                if (!await _clientFacade.ExistsAsync(clientId))
+                {
+                    throw new NotFoundException(nameof(Client), clientId);
+                }
+
                 bool isAvailable = await _clientFacade.CheckClientAvailabilityAsync(clientId, workoutDTO.WorkoutDateTime);
-                bool hasAccess = (await _programFacade.GetClientProgramsAsync(clientId)).Any(p => p.WorkoutType == ((WorkoutType)workoutDTO.WorkoutType).ToString()
+                bool hasAccess = (await _programFacade.GetClientProgramsAsync(clientId)).Any(p => p.WorkoutType == workoutDTO.WorkoutType
                                                                                              && p.ExpirationDate > workoutDTO.WorkoutDateTime
                                                                                              && p.WorkoutRemainder > 0);
 
@@ -93,6 +108,11 @@ namespace PulseGym.Logic.Facades
 
             if (workoutDTO.TrainerId.HasValue)
             {
+                if (!await _trainerFacade.ExistsAsync((Guid)workoutDTO.TrainerId))
+                {
+                    throw new NotFoundException(nameof(Trainer), (Guid)workoutDTO.TrainerId);
+                }
+
                 bool isAvailable = await _trainerFacade.CheckTrainerAvailabilityAsync((Guid)workoutDTO.TrainerId, workoutDTO.WorkoutDateTime) ? true
                     : throw new BadInputException($"Trainer with Id {workoutDTO.TrainerId} is not available at this time!");
             }
@@ -144,7 +164,7 @@ namespace PulseGym.Logic.Facades
             await _programFacade.ChangeWorkoutRemainderCount(userId, foundWorkout.WorkoutType, false);
         }
 
-        public async Task RemoveUserFromWorkoutAsync(Guid workoutId, Guid clientId)
+        public async Task RemoveClientFromWorkoutAsync(Guid workoutId, Guid clientId)
         {
             var workout = await _workoutRepository.GetByIdAsync(workoutId);
 
@@ -154,19 +174,32 @@ namespace PulseGym.Logic.Facades
             }
 
             var client = await _clientRepository.GetByIdAsync(clientId);
+
+            if (!workout.Clients.Any(c => c == client))
+            {
+                throw new NotFoundException(nameof(Workout), nameof(Client), clientId.ToString());
+            }
+
             workout.Clients.Remove(client);
 
             await _workoutRepository.UpdateAsync(workoutId, workout);
+
+            await _programFacade.ChangeWorkoutRemainderCount(clientId, workout.WorkoutType, false);
         }
 
         public async Task UpdateWorkoutAsync(Guid workoutId, WorkoutUpdateDTO workoutDTO)
         {
             var foundWorkout = await _workoutRepository.GetByIdAsync(workoutId);
 
-            foundWorkout.Notes = workoutDTO.Notes ?? foundWorkout.Notes;
-            foundWorkout.WorkoutDateTime = workoutDTO.WorkoutDateTime ?? foundWorkout.WorkoutDateTime;
-            foundWorkout.TrainerId = workoutDTO.TrainerId ?? foundWorkout.TrainerId;
-            foundWorkout.GroupClassId = workoutDTO.GroupClassId ?? foundWorkout.GroupClassId;
+            foundWorkout.Notes = workoutDTO.Notes;
+            foundWorkout.WorkoutDateTime = workoutDTO.WorkoutDateTime;
+
+            if (workoutDTO.TrainerId.HasValue && await _trainerFacade.ExistsAsync((Guid)workoutDTO.TrainerId))
+            {
+                foundWorkout.TrainerId = workoutDTO.TrainerId;
+            }
+
+            foundWorkout.GroupClassId = workoutDTO.GroupClassId;
 
             await _workoutRepository.UpdateAsync(workoutId, foundWorkout);
         }
@@ -214,6 +247,16 @@ namespace PulseGym.Logic.Facades
 
         public async Task CreateWorkoutRequestAsync(WorkoutRequestInDTO workoutRequestDTO)
         {
+            bool hasClientAccess = (await _programFacade.GetClientProgramsAsync(workoutRequestDTO.ClientId))
+                                                        .Any(p => p.WorkoutType == WorkoutType.Personal
+                                                             && p.ExpirationDate > workoutRequestDTO.WorkoutDateTime
+                                                             && p.WorkoutRemainder > 0);
+
+            if (!hasClientAccess)
+            {
+                throw new InvalidMembershipProgramException($"Client with Id {workoutRequestDTO.ClientId} cannot take part in this workout!");
+            }
+
             bool isTrainerAvailable = await _trainerFacade.CheckTrainerAvailabilityAsync(workoutRequestDTO.TrainerId, workoutRequestDTO.WorkoutDateTime);
             bool isClientAvailable = await _clientFacade.CheckClientAvailabilityAsync(workoutRequestDTO.ClientId, workoutRequestDTO.WorkoutDateTime);
 

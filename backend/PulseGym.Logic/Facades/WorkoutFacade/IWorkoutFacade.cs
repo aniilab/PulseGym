@@ -12,7 +12,7 @@ namespace PulseGym.Logic.Facades
 
         Task CancelWorkoutAsync(Guid userId, string role, Guid workoutId);
 
-        Task RemoveUserFromWorkoutAsync(Guid workoutId, Guid clientId);
+        Task RemoveClientFromWorkoutAsync(Guid workoutId, Guid clientId);
 
         Task UpdateWorkoutAsync(Guid workoutId, WorkoutUpdateDTO workout);
 

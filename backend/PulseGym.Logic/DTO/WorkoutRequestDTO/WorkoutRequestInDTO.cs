@@ -7,6 +7,5 @@
         public Guid ClientId { get; set; }
 
         public Guid TrainerId { get; set; }
-
     }
 }

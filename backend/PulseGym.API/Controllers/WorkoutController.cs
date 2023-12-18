@@ -95,7 +95,7 @@ namespace PulseGym.API.Controllers
                 return Unauthorized();
             }
 
-            await _workoutFacade.RemoveUserFromWorkoutAsync(workoutId, clientId);
+            await _workoutFacade.RemoveClientFromWorkoutAsync(workoutId, clientId);
 
             return Ok("Removed successfully!");
         }

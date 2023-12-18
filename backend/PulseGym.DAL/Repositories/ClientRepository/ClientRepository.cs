@@ -42,5 +42,27 @@ namespace PulseGym.DAL.Repositories
             await _context.Clients.AddAsync(client);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateAsync(Guid clientId, Client client)
+        {
+            var foundClient = await _context.Clients.FindAsync(clientId)
+                ?? throw new NotFoundException(nameof(Client), clientId);
+
+            client.UserId = clientId;
+
+            _context.Clients.Update(client);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Guid clientId)
+        {
+            var foundClient = await _context.Clients.FindAsync(clientId)
+                ?? throw new NotFoundException(nameof(Client), clientId);
+
+            _context.Clients.Remove(foundClient);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

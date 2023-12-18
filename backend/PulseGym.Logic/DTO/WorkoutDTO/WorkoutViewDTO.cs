@@ -1,4 +1,6 @@
-﻿namespace PulseGym.Logic.DTO
+﻿using PulseGym.Entities.Enums;
+
+namespace PulseGym.Logic.DTO
 {
     public class WorkoutViewDTO
     {
@@ -8,9 +10,9 @@
 
         public string? Notes { get; set; }
 
-        public required string Status { get; set; }
+        public required WorkoutStatus Status { get; set; }
 
-        public required string WorkoutType { get; set; }
+        public required WorkoutType WorkoutType { get; set; }
 
         public TrainerViewDTO? Trainer { get; set; }
 

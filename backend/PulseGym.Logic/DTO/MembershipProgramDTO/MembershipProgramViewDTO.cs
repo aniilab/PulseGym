@@ -1,4 +1,6 @@
-﻿namespace PulseGym.Logic.DTO
+﻿using PulseGym.Entities.Enums;
+
+namespace PulseGym.Logic.DTO
 {
     public class MembershipProgramViewDTO
     {
@@ -10,7 +12,7 @@
 
         public int Duration { get; set; }
 
-        public required string WorkoutType { get; set; }
+        public required WorkoutType WorkoutType { get; set; }
 
         public int WorkoutNumber { get; set; }
     }

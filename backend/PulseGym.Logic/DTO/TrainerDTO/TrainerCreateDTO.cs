@@ -1,4 +1,6 @@
-﻿namespace PulseGym.Logic.DTO
+﻿using PulseGym.Entities.Enums;
+
+namespace PulseGym.Logic.DTO
 {
     public class TrainerCreateDTO
     {
@@ -8,7 +10,7 @@
 
         public DateTime Birthday { get; set; }
 
-        public int Category { get; set; }
+        public WorkoutType Category { get; set; }
 
         public required string Email { get; set; }
 
