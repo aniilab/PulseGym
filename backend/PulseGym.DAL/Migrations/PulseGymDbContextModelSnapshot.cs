@@ -22,19 +22,19 @@ namespace PulseGym.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ActivityClient", b =>
+            modelBuilder.Entity("ClientWorkout", b =>
                 {
-                    b.Property<Guid>("ActivitiesId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("ClientsUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ActivitiesId", "ClientsUserId");
+                    b.Property<Guid>("WorkoutsId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("ClientsUserId");
+                    b.HasKey("ClientsUserId", "WorkoutsId");
 
-                    b.ToTable("ActivityClient");
+                    b.HasIndex("WorkoutsId");
+
+                    b.ToTable("ClientWorkout");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -168,14 +168,11 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Activity", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Activity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
@@ -184,21 +181,19 @@ namespace PulseGym.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TrainerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TrainerId");
 
                     b.ToTable("Activities");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Client", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Client", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -206,46 +201,102 @@ namespace PulseGym.DAL.Migrations
                     b.Property<string>("Goal")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("InitialHeight")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("InitialHeight")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double?>("InitialWeight")
-                        .HasColumnType("float");
-
-                    b.Property<Guid>("MembershipProgramId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<decimal?>("InitialWeight")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("PersonalTrainerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("MembershipProgramId");
-
                     b.HasIndex("PersonalTrainerId");
 
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.MembershipProgram", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.ClientMembershipProgram", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("MembershipProgramId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("WorkoutRemainder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("MembershipProgramId");
+
+                    b.ToTable("ClientMembershipPrograms");
+                });
+
+            modelBuilder.Entity("PulseGym.DAL.Models.GroupClass", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxClientNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.HasKey("Id");
+
+                    b.ToTable("GroupClasses");
+                });
+
+            modelBuilder.Entity("PulseGym.DAL.Models.MembershipProgram", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("WorkoutNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkoutType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("MembershipPrograms");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Trainer", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Trainer", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -258,7 +309,7 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("Trainers");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.User", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -338,25 +389,22 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Workout", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Workout", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClientId")
+                    b.Property<Guid?>("GroupClassId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ExerciseDescription")
+                    b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TrainerId")
+                    b.Property<Guid?>("TrainerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("WorkoutDateTime")
@@ -365,9 +413,12 @@ namespace PulseGym.DAL.Migrations
                     b.Property<Guid?>("WorkoutRequestId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("WorkoutType")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
+                    b.HasIndex("GroupClassId");
 
                     b.HasIndex("TrainerId");
 
@@ -378,7 +429,7 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("Workouts");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.WorkoutRequest", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.WorkoutRequest", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -387,14 +438,14 @@ namespace PulseGym.DAL.Migrations
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<Guid>("TrainerId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("WorkoutDateTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -405,17 +456,17 @@ namespace PulseGym.DAL.Migrations
                     b.ToTable("WorkoutRequests");
                 });
 
-            modelBuilder.Entity("ActivityClient", b =>
+            modelBuilder.Entity("ClientWorkout", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.Activity", null)
+                    b.HasOne("PulseGym.DAL.Models.Client", null)
                         .WithMany()
-                        .HasForeignKey("ActivitiesId")
+                        .HasForeignKey("ClientsUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PulseGym.DAL.Entities.Client", null)
+                    b.HasOne("PulseGym.DAL.Models.Workout", null)
                         .WithMany()
-                        .HasForeignKey("ClientsUserId")
+                        .HasForeignKey("WorkoutsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -431,7 +482,7 @@ namespace PulseGym.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.User", null)
+                    b.HasOne("PulseGym.DAL.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -440,7 +491,7 @@ namespace PulseGym.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.User", null)
+                    b.HasOne("PulseGym.DAL.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -455,7 +506,7 @@ namespace PulseGym.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PulseGym.DAL.Entities.User", null)
+                    b.HasOne("PulseGym.DAL.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -464,95 +515,94 @@ namespace PulseGym.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.User", null)
+                    b.HasOne("PulseGym.DAL.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Activity", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Client", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.Trainer", "Trainer")
-                        .WithMany("Activities")
-                        .HasForeignKey("TrainerId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Trainer");
-                });
-
-            modelBuilder.Entity("PulseGym.DAL.Entities.Client", b =>
-                {
-                    b.HasOne("PulseGym.DAL.Entities.MembershipProgram", "MembershipProgram")
-                        .WithMany("Clients")
-                        .HasForeignKey("MembershipProgramId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PulseGym.DAL.Entities.Trainer", "PersonalTrainer")
+                    b.HasOne("PulseGym.DAL.Models.Trainer", "PersonalTrainer")
                         .WithMany("Clients")
                         .HasForeignKey("PersonalTrainerId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("PulseGym.DAL.Entities.User", "User")
+                    b.HasOne("PulseGym.DAL.Models.User", "User")
                         .WithOne("Client")
-                        .HasForeignKey("PulseGym.DAL.Entities.Client", "UserId")
+                        .HasForeignKey("PulseGym.DAL.Models.Client", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("MembershipProgram");
 
                     b.Navigation("PersonalTrainer");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Trainer", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.ClientMembershipProgram", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.User", "User")
+                    b.HasOne("PulseGym.DAL.Models.Client", "Client")
+                        .WithMany("ClientMembershipPrograms")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PulseGym.DAL.Models.MembershipProgram", "MembershipProgram")
+                        .WithMany("ClientMembershipPrograms")
+                        .HasForeignKey("MembershipProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("MembershipProgram");
+                });
+
+            modelBuilder.Entity("PulseGym.DAL.Models.Trainer", b =>
+                {
+                    b.HasOne("PulseGym.DAL.Models.User", "User")
                         .WithOne("Trainer")
-                        .HasForeignKey("PulseGym.DAL.Entities.Trainer", "UserId")
+                        .HasForeignKey("PulseGym.DAL.Models.Trainer", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Workout", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Workout", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.Client", "Client")
+                    b.HasOne("PulseGym.DAL.Models.GroupClass", "GroupClass")
                         .WithMany("Workouts")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PulseGym.DAL.Entities.Trainer", "Trainer")
-                        .WithMany("Workouts")
-                        .HasForeignKey("TrainerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PulseGym.DAL.Entities.WorkoutRequest", "WorkoutRequest")
-                        .WithOne("Workout")
-                        .HasForeignKey("PulseGym.DAL.Entities.Workout", "WorkoutRequestId")
+                        .HasForeignKey("GroupClassId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("Client");
+                    b.HasOne("PulseGym.DAL.Models.Trainer", "Trainer")
+                        .WithMany("Workouts")
+                        .HasForeignKey("TrainerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PulseGym.DAL.Models.WorkoutRequest", "WorkoutRequest")
+                        .WithOne("Workout")
+                        .HasForeignKey("PulseGym.DAL.Models.Workout", "WorkoutRequestId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("GroupClass");
 
                     b.Navigation("Trainer");
 
                     b.Navigation("WorkoutRequest");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.WorkoutRequest", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.WorkoutRequest", b =>
                 {
-                    b.HasOne("PulseGym.DAL.Entities.Client", "Client")
+                    b.HasOne("PulseGym.DAL.Models.Client", "Client")
                         .WithMany("WorkoutRequests")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PulseGym.DAL.Entities.Trainer", "Trainer")
+                    b.HasOne("PulseGym.DAL.Models.Trainer", "Trainer")
                         .WithMany("WorkoutRequests")
                         .HasForeignKey("TrainerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -563,37 +613,40 @@ namespace PulseGym.DAL.Migrations
                     b.Navigation("Trainer");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.Client", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.Client", b =>
                 {
+                    b.Navigation("ClientMembershipPrograms");
+
+                    b.Navigation("WorkoutRequests");
+                });
+
+            modelBuilder.Entity("PulseGym.DAL.Models.GroupClass", b =>
+                {
+                    b.Navigation("Workouts");
+                });
+
+            modelBuilder.Entity("PulseGym.DAL.Models.MembershipProgram", b =>
+                {
+                    b.Navigation("ClientMembershipPrograms");
+                });
+
+            modelBuilder.Entity("PulseGym.DAL.Models.Trainer", b =>
+                {
+                    b.Navigation("Clients");
+
                     b.Navigation("WorkoutRequests");
 
                     b.Navigation("Workouts");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.MembershipProgram", b =>
-                {
-                    b.Navigation("Clients");
-                });
-
-            modelBuilder.Entity("PulseGym.DAL.Entities.Trainer", b =>
-                {
-                    b.Navigation("Activities");
-
-                    b.Navigation("Clients");
-
-                    b.Navigation("WorkoutRequests");
-
-                    b.Navigation("Workouts");
-                });
-
-            modelBuilder.Entity("PulseGym.DAL.Entities.User", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.User", b =>
                 {
                     b.Navigation("Client");
 
                     b.Navigation("Trainer");
                 });
 
-            modelBuilder.Entity("PulseGym.DAL.Entities.WorkoutRequest", b =>
+            modelBuilder.Entity("PulseGym.DAL.Models.WorkoutRequest", b =>
                 {
                     b.Navigation("Workout");
                 });

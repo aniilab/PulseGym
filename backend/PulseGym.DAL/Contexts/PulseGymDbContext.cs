@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-using PulseGym.DAL.Entities;
+using PulseGym.DAL.Models;
 
 namespace PulseGym.DAL
 {
@@ -11,6 +11,10 @@ namespace PulseGym.DAL
         public DbSet<Activity> Activities { get; set; }
 
         public DbSet<Client> Clients { get; set; }
+
+        public DbSet<ClientMembershipProgram> ClientMembershipPrograms { get; set; }
+
+        public DbSet<GroupClass> GroupClasses { get; set; }
 
         public DbSet<MembershipProgram> MembershipPrograms { get; set; }
 
@@ -27,15 +31,6 @@ namespace PulseGym.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Activity>().HasOne(a => a.Trainer)
-                                           .WithMany(t => t.Activities)
-                                           .HasForeignKey(a => a.TrainerId)
-                                           .OnDelete(DeleteBehavior.SetNull);
-
-            modelBuilder.Entity<Activity>().HasMany(a => a.Clients)
-                                           .WithMany(c => c.Activities);
-
-
             modelBuilder.Entity<Client>().HasOne(c => c.User)
                                          .WithOne(u => u.Client)
                                          .HasForeignKey<Client>(c => c.UserId)
@@ -46,11 +41,15 @@ namespace PulseGym.DAL
                                          .HasForeignKey(c => c.PersonalTrainerId)
                                          .OnDelete(DeleteBehavior.SetNull);
 
-            modelBuilder.Entity<Client>().HasOne(c => c.MembershipProgram)
-                                         .WithMany(p => p.Clients)
-                                         .HasForeignKey(c => c.MembershipProgramId)
-                                         .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ClientMembershipProgram>().HasOne(cmp => cmp.Client)
+                                                          .WithMany(c => c.ClientMembershipPrograms)
+                                                          .HasForeignKey(cmp => cmp.ClientId)
+                                                          .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<ClientMembershipProgram>().HasOne(cmp => cmp.MembershipProgram)
+                                                          .WithMany(p => p.ClientMembershipPrograms)
+                                                          .HasForeignKey(cmp => cmp.MembershipProgramId)
+                                                          .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Trainer>().HasOne(t => t.User)
                                           .WithOne(u => u.Trainer)
@@ -58,10 +57,8 @@ namespace PulseGym.DAL
                                           .OnDelete(DeleteBehavior.Restrict);
 
 
-            modelBuilder.Entity<Workout>().HasOne(w => w.Client)
-                                          .WithMany(c => c.Workouts)
-                                          .HasForeignKey(w => w.ClientId)
-                                          .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Workout>().HasMany(w => w.Clients)
+                                          .WithMany(c => c.Workouts);
 
             modelBuilder.Entity<Workout>().HasOne(w => w.Trainer)
                                           .WithMany(t => t.Workouts)
@@ -71,6 +68,11 @@ namespace PulseGym.DAL
             modelBuilder.Entity<Workout>().HasOne(w => w.WorkoutRequest)
                                           .WithOne(wr => wr.Workout)
                                           .HasForeignKey<Workout>(w => w.WorkoutRequestId)
+                                          .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Workout>().HasOne(w => w.GroupClass)
+                                          .WithMany(gc => gc.Workouts)
+                                          .HasForeignKey(w => w.GroupClassId)
                                           .OnDelete(DeleteBehavior.NoAction);
 
 
