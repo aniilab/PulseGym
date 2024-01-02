@@ -1,0 +1,53 @@
+<div class="login-dialog">
+  <h1 mat-dialog-title>Login</h1>
+  <mat-dialog-content>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="input-area">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            placeholder="Enter email"
+            type="email"
+            formControlName="email"
+            class="input-space"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            placeholder="Enter password"
+            type="password"
+            formControlName="password"
+            class="input-space"
+          />
+        </mat-form-field>
+
+        <mat-dialog-actions>
+          <button
+            type="submit"
+            class="submit-button"
+            [disabled]="!loginForm.valid"
+            mat-raised-button
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            class="close-button"
+            mat-button
+            mat-dialog-close
+          >
+            Close
+          </button>
+        </mat-dialog-actions>
+      </div>
+
+      <span *ngIf="!successfulLogin" class="help-block"
+        >Email or password is wrong!</span
+      >
+    </form>
+  </mat-dialog-content>
+</div>

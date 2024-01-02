@@ -1,37 +1,35 @@
-import { Subject} from 'rxjs';
+import { Subject } from 'rxjs';
 import { Activity } from '../models/activity.model';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ACTIVITY_PATH, PATH } from '../constants/uri-paths';
+import { ActivityViewDTO } from '../models/activity/activity-view-dto';
+import { Observable } from 'rxjs';
+import { ActivityInDTO } from '../models/activity/activity-in-dto';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ActivityService {
-  public activitiesChanged = new Subject<Activity[]>();
+  constructor(private http: HttpClient) {}
 
-  private activities: Activity[] = [
-    new Activity(
-      'Football competition',
-      'Our gym organized huge football competition!',
-      'https://i0.wp.com/sportsclinicfootball.com.au/wp-content/uploads/2023/05/GYM-2.jpg?fit=1920%2C1080&ssl=1',
-      new Date('2023-10-25'),
-      null
-    ),
-
-    new Activity(
-      'Stretching in groups',
-      'Try stretching in our club!',
-      'https://stretch.com/video-platform/static/stretch-community.webp',
-      new Date('2023-10-30'),
-      null
-    ),
-  ];
-
-  constructor() {}
-
-  getActivities(): Activity[] {
-    return this.activities.slice();
+  getAllActivities(): Observable<ActivityViewDTO[]> {
+    return this.http.get<ActivityViewDTO[]>(PATH + ACTIVITY_PATH);
   }
 
-  addActivity(newActivity: Activity) {
-    this.activities.push(newActivity);
-    this.activitiesChanged.next(this.activities);
+  getActivity(id: string): Observable<ActivityViewDTO> {
+    return this.http.get<ActivityViewDTO>(PATH + ACTIVITY_PATH + '/' + id);
+  }
+
+  addActivity(activity: ActivityInDTO): Observable<void> {
+    return this.http.post<any>(PATH + ACTIVITY_PATH, activity);
+  }
+
+  updateActivity(id: string, activity: ActivityInDTO): Observable<void> {
+    return this.http.put<any>(PATH + ACTIVITY_PATH + '/' + id, activity);
+  }
+
+  deleteActivity(id: string): Observable<void> {
+    return this.http.delete<any>(PATH + ACTIVITY_PATH + '/' + id);
   }
 }

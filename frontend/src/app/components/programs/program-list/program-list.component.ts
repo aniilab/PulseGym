@@ -4,6 +4,7 @@ import { Program } from 'src/app/models/program.model';
 import { ProgramService } from 'src/app/services/program.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProgramCreateComponent } from '../program-create/program-create.component';
+import { ProgramViewDTO } from 'src/app/models/program/program-view-dto';
 
 @Component({
   selector: 'app-program-list',
@@ -11,7 +12,7 @@ import { ProgramCreateComponent } from '../program-create/program-create.compone
   styleUrls: ['./program-list.component.css'],
 })
 export class ProgramListComponent implements OnInit {
-  public programs: Program[];
+  public programs: ProgramViewDTO[];
   public currentRole: string = '';
 
   constructor(
@@ -21,18 +22,21 @@ export class ProgramListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.programs = this.programService.getPrograms();
-    this.programService.programsChanged.subscribe((programs) => {
-      this.programs = programs;
-    });
+    this.getProgramsList();
 
-    this.currentRole = this.authService.getRole();
-    this.authService.authRoleChanged.subscribe((role: string) => {
-      this.currentRole = role;
-    });
+    // this.currentRole = this.authService.getRole();
+    // this.authService.authRoleChanged.subscribe((role: string) => {
+    //   this.currentRole = role;
+    // });
   }
 
-  openCreateDialog(){
+  getProgramsList(): void {
+    this.programService
+      .getAllPrograms()
+      .subscribe((programs: ProgramViewDTO[]) => (this.programs = programs));
+  }
+
+  openCreateDialog() {
     this.matDialog.open(ProgramCreateComponent, {
       width: '350px',
     });

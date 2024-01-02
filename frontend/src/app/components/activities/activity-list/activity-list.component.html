@@ -1,9 +1,10 @@
-<div *ngIf="currentRole === 'admin'">
-  <button routerLink="create" class="btn btn-primary bg-dark">
+<div *ngIf="currentRole === 'Admin'">
+  <button mat-raised-button  routerLink="create" class="add-button">
     Add new activity
   </button>
 </div>
 <app-activity
   *ngFor="let activity of activities"
   [activity]="activity"
+  (onDelete)="onDelete($event)"
 ></app-activity>

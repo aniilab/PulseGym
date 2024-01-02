@@ -20,9 +20,9 @@ export class TrainerListComponent implements OnInit {
   ngOnInit(): void {
     this.trainers = this.trainerService.getTrainers();
 
-    this.currentRole = this.authService.getRole();
-    this.authService.authRoleChanged.subscribe((role: string) => {
-      this.currentRole = role;
-    });
+    // this.currentRole = this.authService.getRole();
+    // this.authService.authRoleChanged.subscribe((role: string) => {
+    //   this.currentRole = role;
+    // });
   }
 }

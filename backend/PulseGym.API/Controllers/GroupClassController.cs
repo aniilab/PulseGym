@@ -40,7 +40,7 @@ namespace PulseGym.API.Controllers
         {
             await _groupClassFacade.CreateGroupClassAsync(groupClass);
 
-            return Ok("Created successfully");
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -49,7 +49,7 @@ namespace PulseGym.API.Controllers
         {
             await _groupClassFacade.DeleteGroupClassAsync(id);
 
-            return Ok("Deleted successfully");
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -58,7 +58,7 @@ namespace PulseGym.API.Controllers
         {
             await _groupClassFacade.UpdateGroupClassAsync(id, groupClass);
 
-            return Ok("Updated successfully");
+            return Ok();
         }
     }
 }

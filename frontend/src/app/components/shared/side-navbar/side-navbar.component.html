@@ -1,75 +1,77 @@
-<div class="container align-items-sm-start px-3 pt-2 text-white bg-dark">
+<div class="container">
   <ul
-    class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+  class="nav nav-pills"
   >
-    <li class="nav-item">
+    <li>
       <a
         routerLink="/activities"
         routerLinkActive="active-route"
-        class="nav-link align-middle px-0"
+        class="nav-link"
       >
-        <i class="fs-4 bi-heart-pulse"></i>
-        <span class="ms-1 d-none d-sm-inline">Pulse Activities</span>
+        <i class="bi-heart-pulse"></i>
+        Activities
       </a>
     </li>
 
-    <li *ngIf="role === 'trainer' || role === 'admin'">
+    <li *ngIf="isLoggedIn && (role === 'Trainer' || role === 'Admin')">
       <a
-        class="nav-link px-0 align-middle"
+        class="nav-link"
         routerLink="/clients"
         routerLinkActive="active-route"
       >
-        <i class="fs-4 bi-people"></i>
-        <span class="ms-1 d-none d-sm-inline">Clients</span></a
+        <i class="bi-people"></i>
+        Clients</a
       >
     </li>
-    <li *ngIf="role === 'admin' || role === 'client'">
+
+    <li *ngIf="isLoggedIn && (role === 'Admin' || role === 'Client')">
       <a
-        class="nav-link px-0 align-middle"
+        class="nav-link"
         routerLink="/trainers"
         routerLinkActive="active-route"
       >
-        <i class="fs-4 bi-person-arms-up"></i>
-        <span class="ms-1 d-none d-sm-inline">Trainers</span></a
+        <i class="bi-person-arms-up"></i>
+        Trainers</a
       >
     </li>
-    <li *ngIf="role != ''">
-      <a class="nav-link px-0 align-middle">
-        <i class="fs-4 bi-calendar"></i>
-        <span class="ms-1 d-none d-sm-inline">Schedule</span></a
+    <li *ngIf="isLoggedIn">
+      <a class="nav-link">
+        <i class="bi-calendar"></i>
+        Schedule</a
       >
     </li>
-    <li *ngIf="role === 'trainer' || role === 'admin'">
+    <li *ngIf="isLoggedIn && (role === 'Trainer' || role === 'Admin')">
       <a
-        class="nav-link px-0 align-middle"
+        class="nav-link"
         routerLink="/requests"
         routerLinkActive="active-route"
       >
-        <i class="fs-4 bi-send"></i>
-        <span class="ms-1 d-none d-sm-inline">Workout requests</span></a
+        <i class="bi-send"></i>
+        Requests</a
       >
     </li>
 
-    <li *ngIf="role === 'admin'">
+    <li>
       <a
-        class="nav-link px-0 align-middle"
+        class="nav-link"
         routerLink="/programs"
         routerLinkActive="active-route"
       >
-        <i class="fs-4 bi-file-earmark-person"></i>
-        <span class="ms-1 d-none d-sm-inline">Programs</span></a
+        <i class="bi-coin"></i>
+         Programs</a
       >
     </li>
 
-    <li *ngIf="role != 'admin' && role != 'trainer'">
+    <li *ngIf="!isLoggedIn">
       <a
-        class="nav-link px-0 align-middle"
+        class="nav-link"
         routerLink="/contact"
         routerLinkActive="active-route"
       >
-        <i class="fs-4 bi-telephone"></i>
-        <span class="ms-1 d-none d-sm-inline">Contact Us</span></a
+        <i class="bi-telephone"></i>
+        Contact Us</a
       >
     </li>
   </ul>
 </div>
+

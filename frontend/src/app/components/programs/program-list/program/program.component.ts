@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Program } from 'src/app/models/program.model';
+import { ProgramViewDTO } from 'src/app/models/program/program-view-dto';
 
 @Component({
   selector: 'app-program',
@@ -8,6 +9,6 @@ import { Program } from 'src/app/models/program.model';
 })
 export class ProgramComponent {
   @Input() 
-  public program: Program;
+  public program: ProgramViewDTO;
 }
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -7,12 +8,17 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./side-navbar.component.css'],
 })
 export class SideNavbarComponent implements OnInit {
+  public isLoggedIn: boolean = false;
   public role: string = '';
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.authRoleChanged.subscribe((role: string) => {
+    this.authService.isAuthenticated.subscribe((isLogged: boolean) => {
+      this.isLoggedIn = isLogged;
+    });
+
+    this.authService.currentRole.subscribe((role: string) => {
       this.role = role;
     });
   }

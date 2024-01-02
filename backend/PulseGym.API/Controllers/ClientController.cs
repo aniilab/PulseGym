@@ -30,7 +30,7 @@ namespace PulseGym.API.Controllers
 
             if (isCreated)
             {
-                return Ok("Created successfully!");
+                return Ok();
             }
 
             return BadRequest();
@@ -76,7 +76,7 @@ namespace PulseGym.API.Controllers
 
             await _clientFacade.UpdateClientAsync(clientId, client);
 
-            return Ok("Updated successfully!");
+            return Ok();
         }
 
         [HttpDelete("{clientId}")]
@@ -85,7 +85,7 @@ namespace PulseGym.API.Controllers
         {
             await _clientFacade.DeleteClientAsync(clientId);
 
-            return Ok("Deleted successfully!");
+            return Ok();
         }
 
         [HttpPut("{clientId}/AddTrainer/{trainerId}")]
@@ -103,7 +103,7 @@ namespace PulseGym.API.Controllers
 
             await _clientFacade.AddPersonalTrainer(clientId, trainerId);
 
-            return Ok("Added successfully!");
+            return Ok();
         }
     }
 }

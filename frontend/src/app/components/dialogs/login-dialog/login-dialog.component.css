@@ -1,0 +1,22 @@
+.login-dialog {
+  text-align: center;
+}
+
+.input-area {
+  margin: 15px;
+}
+
+.submit-button {
+  background-color: rgb(135, 135, 192);
+  margin-left: auto;
+  margin-right: 2px;
+}
+
+.close-button {
+  margin-left: 2px;
+  margin-right: auto;
+}
+
+.help-block {
+  color: rgb(255, 111, 111);
+}

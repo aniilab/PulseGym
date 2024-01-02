@@ -39,6 +39,5 @@ export class ProgramCreateComponent {
       Price: _price,
     };
 
-    this.programService.addProgram(program);
   }
 }

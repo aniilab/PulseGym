@@ -21,9 +21,9 @@ export class ClientListComponent implements OnInit {
   ngOnInit(): void {
     this.clients = this.clientService.getClients();
 
-    this.currentRole = this.authService.getRole();
-    this.authService.authRoleChanged.subscribe((role: string) => {
-      this.currentRole = role;
-    });
+    // this.currentRole = this.authService.getRole();
+    // this.authService.authRoleChanged.subscribe((role: string) => {
+    //   this.currentRole = role;
+    // });
   }
 }

@@ -38,9 +38,12 @@ namespace PulseGym.DAL.Repositories
             var foundActivity = await _context.Activities.FindAsync(id)
                ?? throw new NotFoundException(nameof(Activity), id);
 
-            activity.Id = id;
+            foundActivity.Title = activity.Title;
+            foundActivity.Description = activity.Description;
+            foundActivity.ImageUrl = activity.ImageUrl;
+            foundActivity.DateTime = activity.DateTime;
 
-            _context.Activities.Update(activity);
+            _context.Activities.Update(foundActivity);
 
             await _context.SaveChangesAsync();
         }

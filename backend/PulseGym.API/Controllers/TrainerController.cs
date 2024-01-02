@@ -27,7 +27,7 @@ namespace PulseGym.API.Controllers
 
             if (isCreated)
             {
-                return Ok("Created successfully!");
+                return Ok();
             }
 
             return BadRequest();

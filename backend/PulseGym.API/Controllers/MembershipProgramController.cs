@@ -32,7 +32,7 @@ namespace PulseGym.API.Controllers
         {
             await _membershipProgramFacade.CreateProgramAsync(membershipProgram);
 
-            return Ok("Created successfully!");
+            return Ok();
         }
 
         [HttpDelete("{programId}")]
@@ -41,7 +41,7 @@ namespace PulseGym.API.Controllers
         {
             await _membershipProgramFacade.DeleteProgramAsync(programId);
 
-            return Ok("Deleted successfully!");
+            return Ok();
         }
 
         [HttpGet("Client/{clientId}")]
@@ -59,7 +59,7 @@ namespace PulseGym.API.Controllers
         {
             await _membershipProgramFacade.AddClientProgramAsync(clientId, programId);
 
-            return Ok("Added successfully");
+            return Ok();
         }
     }
 }

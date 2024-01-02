@@ -23,7 +23,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<string>> Login(UserLoginRequestDTO user)
+        public async Task<ActionResult<TokensDTO>> Login(UserLoginRequestDTO user)
         {
             var tokens = await _authService.LoginUserAsync(user);
 
@@ -31,7 +31,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpPost("Refresh")]
-        public async Task<ActionResult<string>> RefreshToken(string refreshToken)
+        public async Task<ActionResult<TokensDTO>> RefreshToken(string refreshToken)
         {
             var tokens = await _tokenService.RefreshAsync(refreshToken!);
 
@@ -46,7 +46,7 @@ namespace PulseGym.API.Controllers
 
             if (isRegistered != null)
             {
-                return Ok("Created successfully!");
+                return Ok();
             }
 
             return BadRequest();

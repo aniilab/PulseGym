@@ -40,7 +40,7 @@ namespace PulseGym.API.Controllers
         {
             await _activityFacade.CreateActivityAsync(activityDTO);
 
-            return Ok("Created successfully");
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -49,7 +49,7 @@ namespace PulseGym.API.Controllers
         {
             await _activityFacade.UpdateActivityAsync(id, activityDTO);
 
-            return Ok("Updated successfully");
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -58,7 +58,7 @@ namespace PulseGym.API.Controllers
         {
             await _activityFacade.DeleteActivityAsync(id);
 
-            return Ok("Deleted successfully");
+            return Ok();
         }
     }
 }

@@ -1,27 +1,33 @@
-<div class="card mb-3" style="margin: 10px; max-width: 90%">
-  <div class="row g-0">
-    <div class="col-md-4">
+<div class="card">
+  <div class="row">
+    <div *ngIf="activity.imageUrl" class="col">
       <img
-        src="{{ activity.ImagePath }}"
+        src="{{ activity.imageUrl }}"
         class="img-fluid rounded-start"
         alt="imagePath"
       />
     </div>
-    <div class="col-md-8">
+    <div [ngClass]="activity.imageUrl ? 'col-md-7' : 'col'">
       <div class="card-body">
-        <h5 class="card-title">{{ activity.Title | uppercase }}</h5>
-        <p class="card-text">{{ activity.Description }}</p>
-        <p class="card-text">
-          <small class="text-muted">{{
-            activity.Date | date : "h:mm a, EEEE, MMMM d"
-          }}</small>
-        </p>
-        <p *ngIf="activity.Trainer != null" class="card-text">
-          <small class="text-muted"
-            >Trainer: {{ activity.Trainer.FirstName }}
-            {{ activity.Trainer.LastName }}</small
-          >
-        </p>
+        <div>
+          <h5 class="card-title">{{ activity.title | uppercase }}</h5>
+          <p class="card-text">{{ activity.description }}</p>
+        </div>
+        <div class="row bottom">
+          <p class="col card-text">
+            <small class="text-muted">{{
+              activity.dateTime | date : "EEEE, MMMM d, YYYY"
+            }}</small>
+          </p>
+          <div *ngIf="currentRole === 'Admin'" class="col-md-3 actions">
+            <button mat-fab routerLink="/activities/edit/{{activity.id}}">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-fab (click)="onDelete()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -63,7 +63,7 @@ namespace PulseGym.API.Controllers
 
             await _workoutFacade.CreateWorkoutAsync(workout);
 
-            return Ok("Created successfully!");
+            return Ok();
         }
 
         [HttpDelete("{workoutId}")]
@@ -79,7 +79,7 @@ namespace PulseGym.API.Controllers
 
             await _workoutFacade.CancelWorkoutAsync(userId, requestRole, workoutId);
 
-            return Ok("Cancelled successfully!");
+            return Ok();
         }
 
         [HttpDelete("{workoutId}/Client/{clientId}")]
@@ -97,7 +97,7 @@ namespace PulseGym.API.Controllers
 
             await _workoutFacade.RemoveClientFromWorkoutAsync(workoutId, clientId);
 
-            return Ok("Removed successfully!");
+            return Ok();
         }
 
         [HttpPut("{workoutId}")]
@@ -115,7 +115,7 @@ namespace PulseGym.API.Controllers
 
             await _workoutFacade.UpdateWorkoutAsync(workoutId, workout);
 
-            return Ok("Updated successfully!");
+            return Ok();
         }
 
         [HttpPut("Status/{workoutId}")]
@@ -124,7 +124,7 @@ namespace PulseGym.API.Controllers
         {
             await _workoutFacade.UpdateWorkoutStatusAsync(workoutId);
 
-            return Ok("Status successfully updated");
+            return Ok();
         }
 
         [HttpGet("Requests/{role}/{userId}")]
@@ -157,7 +157,7 @@ namespace PulseGym.API.Controllers
 
             await _workoutFacade.CreateWorkoutRequestAsync(request);
 
-            return Ok("Created successfully!");
+            return Ok();
         }
 
         [HttpPut("AcceptRequest/{workoutRequestId}")]
@@ -173,7 +173,7 @@ namespace PulseGym.API.Controllers
 
             await _workoutFacade.AcceptWorkoutRequestAsync(userId, workoutRequestId);
 
-            return Ok("Accepted successfully!");
+            return Ok();
         }
 
         [HttpDelete("DeclineRequest/{workoutRequestId}")]
@@ -189,7 +189,7 @@ namespace PulseGym.API.Controllers
 
             await _workoutFacade.DeclineWorkoutRequestAsync(userId, requestRole, workoutRequestId);
 
-            return Ok("Declined successfully!");
+            return Ok();
         }
     }
 }

@@ -4,6 +4,7 @@
   color: white;
   font-weight: bold;
 }
+
 .list-group-item {
   margin: 10px;
   border-radius: 10px;
@@ -11,3 +12,9 @@
   justify-content: space-between;
   display: flex;
 }
+
+.list-group-item:hover{
+  border-color:blueviolet;
+  cursor: pointer;
+}
+

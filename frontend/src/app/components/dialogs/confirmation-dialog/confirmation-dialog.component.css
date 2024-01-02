@@ -1,0 +1,14 @@
+.confirm-dialog {
+  text-align: center;
+}
+
+.yes-button {
+  background-color: rgb(135, 135, 192) !important;
+  margin-left: auto;
+  margin-right: 2px;
+}
+
+.no-button {
+  margin-left: 2px;
+  margin-right: auto;
+}

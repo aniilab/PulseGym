@@ -1,41 +1,85 @@
-.dropdown-toggle {
-  background-color: transparent;
-  border: none;
+.dark-toolbar{
+  background-color: rgb(23, 23, 23);
 }
-.dropdown-toggle:active {
-  background-color: rgb(135, 135, 192);
-}
-.dropdown-item {
-  cursor: pointer;
-}
-.names {
-  color: white;
-  font-size: 15;
-  margin-left: 10px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-bottom: 0;
-}
-.role {
-  color: rgb(153, 110, 221);
-  font-size: 8;
-  margin-left: 10px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-top: 0;
-}
-.navbar-brand {
+
+.title {
   cursor: pointer;
   color: rgb(135, 135, 192);
   margin-left: 20px;
+  font-size: 24px;
+  font-weight: bold;
 }
-.btn.btn-secondary {
+
+.title:hover{
+  color: rgb(185, 129, 255);
+}
+
+button.login-button {
   background-color: rgb(135, 135, 192);
 }
-.nav-link {
-  color: white;
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.currentUser {
+  display: flex;
+  flex-direction: row;
+  width:200px;
+  padding-left:10px;
+}
+
+.currentUser:hover{
   cursor: pointer;
 }
-.rounded-pill {
-  width: 40px;
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    margin: auto;
 }
+
+.info {
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  align-items: flex-start;
+}
+
+.names {
+  position: absolute;
+  color: white;
+  top: 10px;
+  font-size: 16px;
+  margin-left: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+.names:hover{
+  text-decoration: underline;
+}
+
+.role {
+  color: rgb(153, 110, 221);
+  position: absolute;
+  top: 30px;
+  font-size: 12px;
+  margin-left: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  text-align: left;
+}
+
+.icon{
+  color:white;
+  margin: auto;
+}
+

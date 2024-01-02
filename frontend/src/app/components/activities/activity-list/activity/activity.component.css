@@ -2,3 +2,38 @@ img {
   height: 100%;
   object-fit: cover;
 }
+
+.card {
+  margin: 10px;
+  max-width: 90%;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.col-md-3.actions {
+  text-align: right !important;
+
+  button {
+    background-color: transparent;
+    margin: 3px;
+    box-shadow: none;
+    width: 30px;
+    height: 30px;
+    color: gray;
+  }
+
+  button:hover {
+    background-color: rgb(135, 135, 192, 0.3);
+    color: black;
+  }
+}

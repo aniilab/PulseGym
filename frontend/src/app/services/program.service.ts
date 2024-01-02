@@ -1,29 +1,19 @@
 import { Subject, Observable } from 'rxjs';
 import { Program } from '../models/program.model';
 import { Injectable } from '@angular/core';
+import { MEMBERSHIP_PROGRAM_PATH, PATH } from '../constants/uri-paths';
+import { HttpClient } from '@angular/common/http';
+import { ProgramViewDTO } from '../models/program/program-view-dto';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProgramService {
-  public programsChanged = new Subject<Program[]>();
+  private path: string = PATH + MEMBERSHIP_PROGRAM_PATH;
 
-  private programs: Program[] = [
-    new Program('basic', 600),
-    new Program('super', 900),
-    new Program('premium', 1300),
-  ];
+  constructor(private http: HttpClient) {}
 
-  constructor() {}
-
-  getPrograms(): Program[] {
-    return this.programs.slice();
-  }
-
-  getProgram(id: number): Program {
-    return this.programs.at(id);
-  }
-
-  addProgram(newProgram: Program) {
-    this.programs.push(newProgram);
-    this.programsChanged.next(this.programs);
+  getAllPrograms(): Observable<ProgramViewDTO[]> {
+    return this.http.get<ProgramViewDTO[]>(this.path);
   }
 }

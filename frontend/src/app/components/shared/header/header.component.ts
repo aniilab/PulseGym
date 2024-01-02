@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { LoginDialogComponent } from '../../login-dialog/login-dialog.component';
+import { LoginDialogComponent } from '../../dialogs/login-dialog/login-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UserLoginResponseDTO } from 'src/app/models/user/user-login-response-dto';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -10,8 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  public currentRole: string = '';
   public isLoggedIn: boolean = false;
+  public currentUser: UserLoginResponseDTO;
 
   constructor(
     private authService: AuthService,
@@ -20,12 +22,12 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.authChanged.subscribe((isLogged) => {
+    this.authService.isAuthenticated.subscribe((isLogged) => {
       this.isLoggedIn = isLogged;
     });
 
-    this.authService.authRoleChanged.subscribe((role: string) => {
-      this.currentRole = role;
+    this.authService.currentUser.subscribe((user: UserLoginResponseDTO) => {
+      this.currentUser = user;
     });
   }
 
@@ -36,7 +38,16 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogOut() {
-    this.authService.logOut();
-    this.router.navigate(['/']);
+    const dialogRef = this.matDialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: 'Are you sure that you want to log out?',
+    });
+
+    dialogRef.afterClosed().subscribe((dialogResult) => {
+      if (dialogResult) {
+        this.authService.logOut().subscribe();
+        this.router.navigate(['/']);
+      }
+    });
   }
 }

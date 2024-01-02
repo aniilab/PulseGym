@@ -1,47 +1,85 @@
-import { Subject } from 'rxjs';
-import { UserRequest } from '../models/userRequest.model';
+import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AUTH_PATH, PATH } from '../constants/uri-paths';
+import { TokenStorageService } from './token-storage.service';
+import { UserLoginResponseDTO } from '../models/user/user-login-response-dto';
+import { TokensDTO } from '../models/token/tokens-dto';
+import { UserLoginRequestDTO } from '../models/user/user-login-request-dto';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthService {
-  public authChanged = new Subject<boolean>();
-  public authRoleChanged = new Subject<string>();
+  public isAuthenticated = new BehaviorSubject<boolean>(false);
+  public currentRole = new BehaviorSubject<string>('');
+  public currentUser = new BehaviorSubject<UserLoginResponseDTO>(undefined);
 
-  private isLoggedIn = false;
-  private role: string = '';
-  private users: UserRequest[] = [
-    new UserRequest(0, 'admin@gmail.com', 'admin123', 'admin'),
-    new UserRequest(1, 'trainer@gmail.com', 'trainer123', 'trainer'),
-    new UserRequest(2, 'client@gmail.com', 'client123', 'client'),
-  ];
+  constructor(
+    private http: HttpClient,
+    private tokenStorageService: TokenStorageService
+  ) {
+    const token = this.tokenStorageService.getAccessToken();
+    const refreshToken = this.tokenStorageService.getRefreshToken();
+    const user = this.tokenStorageService.getUser();
 
-  isAuthenticated(): boolean {
-    return this.isLoggedIn;
-  }
-
-  getRole() {
-    return this.role;
-  }
-
-  getUser(id: number) {
-    return this.users.at(id);
-  }
-
-  logIn(email: string, password: string): boolean {
-    for (let user of this.users) {
-      if (user.LoginName === email && user.Password === password) {
-        this.role = user.Role;
-        this.isLoggedIn = true;
-        this.authChanged.next(this.isLoggedIn);
-        this.authRoleChanged.next(this.role);
-        return true;
-      }
+    if (token && refreshToken && user) {
+      this.isAuthenticated.next(true);
+      this.currentRole.next(user.role);
+      this.currentUser.next(user);
     }
-    return false;
+  }
+
+  login(email: string, password: string): Observable<boolean> {
+    return this.http
+      .post<TokensDTO>(
+        PATH + AUTH_PATH + '/Login',
+        new UserLoginRequestDTO(email, password)
+      )
+      .pipe(
+        tap((tokens: TokensDTO) => {
+          this.tokenStorageService.setAccessToken(tokens.accessToken);
+          this.tokenStorageService.setRefreshToken(tokens.refreshToken);
+          this.getUser().subscribe();
+        }),
+        map(() => true),
+        catchError((error) => of(false)),
+        tap((success: boolean) => this.isAuthenticated.next(success))
+      );
+  }
+
+  getUser(): Observable<string> {
+    return this.http.get<UserLoginResponseDTO>(PATH + AUTH_PATH + '/User').pipe(
+      tap((user: UserLoginResponseDTO) => {
+        if (!user.imageUrl) {
+          user.imageUrl = '../../assets/ava.jpg';
+        }
+        this.tokenStorageService.setUser(user);
+        this.currentRole.next(user.role);
+        this.currentUser.next(user);
+      }),
+      map(() => this.tokenStorageService.getUser()),
+      catchError((error) => {
+        return of(undefined);
+      })
+    );
   }
 
   logOut() {
-    this.role = '';
-    this.isLoggedIn = false;
-    this.authChanged.next(this.isLoggedIn);
-    this.authRoleChanged.next(this.role);
+    return this.http.delete(PATH + AUTH_PATH + '/Logout').pipe(
+      tap((response) => {
+        this.tokenStorageService.signOut();
+        this.currentRole.next('');
+        this.currentUser.next(undefined);
+        this.isAuthenticated.next(false);
+      })
+    );
+  }
+
+  refreshToken(refreshToken: string) {
+    debugger;
+    const params = new HttpParams().set('refreshToken', refreshToken);
+
+    return this.http.post<TokensDTO>(PATH + AUTH_PATH + '/Refresh', null, { params });
   }
 }

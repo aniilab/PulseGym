@@ -5,7 +5,4 @@ export class Program {
     ) {}
 }
 
-// export interface Program {
-//   Name: string;
-//   Price: number;
-// }
+
