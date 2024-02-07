@@ -1,0 +1,73 @@
+.detail-page {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  justify-content: left;
+
+  @media screen and (min-width: 900px) {
+    flex-direction: row;
+
+    .right-side {
+      width: 70%;
+    }
+
+    .left-side {
+      width: 30%;
+    }
+  }
+
+  @media screen and (max-width: 899px) {
+    flex-direction: column;
+
+    .right-side,
+    .left-side {
+      width: 100%;
+    }
+  }
+}
+
+.right-side {
+  margin: 0.5rem;
+  max-width: 100%;
+}
+
+.left-side {
+  margin: 0.5rem;
+  text-align: center;
+}
+
+.name {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem;
+}
+
+.ava {
+  width: 90%;
+  border-radius: 50%;
+  object-fit: cover;
+  max-width: 100%; 
+  aspect-ratio: 1/1;
+}
+
+.actions {
+  text-align: center;
+  max-width: 100%;
+
+  button {
+    border-radius: 1rem;
+    border: none;
+    width: 80%;
+    background-color: rgba(126, 126, 126, 0.36) !important;
+    box-shadow: none;
+    font-size: large;
+  }
+}
+
+.router {
+  max-width: 100%;
+}
+
+.tab-bar {
+  max-width: 100%;
+}

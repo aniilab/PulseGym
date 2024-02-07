@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { WorkoutRequest } from 'src/app/models/workout-request.model';
-import { AuthService } from 'src/app/services/auth.service';
-import { WorkoutRequestService } from 'src/app/services/workout-request.service';
 
 @Component({
   selector: 'app-workout-request-list',
@@ -13,10 +11,10 @@ export class WorkoutRequestListComponent {
   public currentRole: string = '';
 
   constructor(
-    private requestService: WorkoutRequestService
+    // private requestService: WorkoutRequestService
   ) {}
 
   ngOnInit(): void {
-    this.requests = this.requestService.getRequests();
+    // this.requests = this.requestService.getRequests();
   }
 }

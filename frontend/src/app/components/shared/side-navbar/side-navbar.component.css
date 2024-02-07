@@ -1,36 +1,47 @@
 .active-route {
-  font-size:22px !important;
+  font-size:1.35rem !important;
   font-weight: bolder;
   color: rgb(185, 129, 255) !important;
   background-color: rgba(99, 35, 162, 0.1);
 }
-.container {
-  margin-bottom: 0%;
+
+.container-fluid {
+  margin-bottom: 0;
+  padding-right: 0;
   height: 100%;
-  min-height: 500px;
+  min-height: 35rem;
   display: flex;
   flex-direction: column;
   background: rgb(23, 23, 23);
   color: white;
 }
+
 .nav-link {
   color: rgb(144, 144, 255);
   vertical-align: middle;
-  font-size:20px;
+  font-size:1.25rem;
+  
+  @media screen and (min-width: 600px) {
+    text-align: left;
+  }
+
+  @media screen and (max-width: 599px) {
+    text-align: center;
+  }
 }
 
 .nav-link:hover{
-  font-size:21px;
+  font-size:1.35rem;
   color: rgb(185, 129, 255) !important;
 }
 
 .nav.nav-pills{
   display: flex;
   flex-direction: column; 
-  margin-bottom: 0px;
-text-align: left;
+  margin-bottom: 0;
+  text-align: left;
 }
 
 i{
-  margin-right:3px;
+  margin-right:0.3rem;
 }

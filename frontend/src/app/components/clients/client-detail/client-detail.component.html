@@ -1,0 +1,30 @@
+<div class="detail-page">
+  <div class="left-side">
+    <img src="{{ client.imageUrl }}" alt="" class="ava" />
+
+    <h1 class="name">{{ client.firstName + " " + client.lastName }}</h1>
+
+    <div *ngIf="currentRole === adminRole" class="actions">
+      <button mat-raised-button (click)="onDelete()">Delete</button>
+    </div>
+  </div>
+
+  <div class="right-side">
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel" class="tab-bar">
+      <a
+        mat-tab-link
+        *ngFor="let link of navLinks"
+        [routerLink]="link.link"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [active]="rla.isActive"
+      >
+        {{ link.label }}
+      </a>
+    </nav>
+
+    <mat-tab-nav-panel #tabPanel class="router">
+      <router-outlet (activate)="onOutletLoaded($event)"></router-outlet>
+    </mat-tab-nav-panel>
+  </div>
+</div>

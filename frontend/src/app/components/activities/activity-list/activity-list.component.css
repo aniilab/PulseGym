@@ -3,3 +3,15 @@
   background-color:black !important;
   color:white !important;
 }
+
+.dummy {
+  color: gray;
+  font-weight: bold;
+  text-align: center;
+  min-height: 100%;
+  max-width: 100%;
+
+  p {
+    margin-top: 2rem;
+  }
+}

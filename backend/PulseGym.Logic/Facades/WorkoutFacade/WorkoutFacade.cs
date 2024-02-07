@@ -45,10 +45,9 @@ namespace PulseGym.Logic.Facades
 
         }
 
-        public async Task<ICollection<WorkoutViewDTO>> GetUserWorkoutsAsync(DateTime dateFrom, DateTime dateTo, string role, Guid userId)
+        public async Task<ICollection<WorkoutViewDTO>> GetUserWorkoutsAsync(string role, Guid userId)
         {
-            var allWorkouts = (await _workoutRepository.GetAllAsync())
-                .Where(w => w.WorkoutDateTime >= dateFrom && w.WorkoutDateTime.AddHours(1) <= dateTo);
+            var allWorkouts = (await _workoutRepository.GetAllAsync());
 
             List<Workout> userWorkouts;
             if (role == RoleNames.Client)

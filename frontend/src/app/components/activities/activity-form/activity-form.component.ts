@@ -17,6 +17,7 @@ import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/c
 })
 export class ActivityFormComponent implements OnInit, CanComponentDeactivate {
   public activityForm: FormGroup;
+  public minDate = Date.now();
 
   private activityEditId: string;
   private changesSaved: boolean = false;
@@ -41,16 +42,16 @@ export class ActivityFormComponent implements OnInit, CanComponentDeactivate {
     }
   }
 
-  private initializeForm(): void {
+  initializeForm(): void {
     this.activityForm = this.formBuilder.group({
       title: [null, Validators.required],
       description: [null, Validators.required],
       imageUrl: [null],
-      date: [Date.now, Validators.required],
+      date: [new Date(), Validators.required],
     });
   }
 
-  private determineEditMode(): void {
+  determineEditMode(): void {
     const routeSegment = this.router.url.split('/')[2];
     this.createMode = routeSegment === 'create';
     if (!this.createMode) {
@@ -58,7 +59,7 @@ export class ActivityFormComponent implements OnInit, CanComponentDeactivate {
     }
   }
 
-  private fillFormWithActivity(): void {
+  fillFormWithActivity(): void {
     if (!this.activityEditId) {
       throw new Error('No activity id was passed');
     }
@@ -93,10 +94,7 @@ export class ActivityFormComponent implements OnInit, CanComponentDeactivate {
     const _description = this.activityForm.get('description').value;
     const _imageUrl = this.activityForm.get('imageUrl').value;
     const _date = new Date(this.activityForm.get('date').value); 
-    console.log(_date);
-    // const _dateString = new Date(_date.getTime() - (_date.getTimezoneOffset() * 60000)).toISOString();
-    const _dateString = this.formatWithTimezone(_date);
-    console.log(_dateString);
+    const _dateString = new Date(_date.getTime() - (_date.getTimezoneOffset() * 60000)).toISOString();
 
     this.newActivity = new ActivityInDTO(
       _title,
@@ -106,15 +104,7 @@ export class ActivityFormComponent implements OnInit, CanComponentDeactivate {
     );
   }
 
-  private formatWithTimezone(date: Date): string {
-    const isoString = date.toISOString();
-    const timezoneOffset = (date.getTimezoneOffset() / 60);
-    const timezone = (timezoneOffset >= 0 ? '+' : '-') + Math.abs(timezoneOffset).toString().padStart(2, '0') + ':00';
-  
-    return isoString.slice(0, 19) + '.' + isoString.slice(20) + ' ' + timezone;
-  }
-
-  private addActivity(): void {
+  addActivity(): void {
     this.activityService
       .addActivity(this.newActivity)
       .pipe(
@@ -125,7 +115,7 @@ export class ActivityFormComponent implements OnInit, CanComponentDeactivate {
       .subscribe();
   }
 
-  private editActivity(): void {
+  editActivity(): void {
     if (this.newActivity && this.isFormChanged()) {
       debugger;
       this.activityService
@@ -141,7 +131,7 @@ export class ActivityFormComponent implements OnInit, CanComponentDeactivate {
     }
   }
 
-  private resetFormAndNavigate(relativePath: string): void {
+  resetFormAndNavigate(relativePath: string): void {
     this.activityForm.reset();
     this.changesSaved = true;
     this.router.navigate([relativePath], { relativeTo: this.route });
@@ -180,4 +170,14 @@ export class ActivityFormComponent implements OnInit, CanComponentDeactivate {
       return true;
     }
   }
+
+  myFilter = (d: Date | null): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+  
+    const dateToCompare = d ? new Date(d) : today;
+    dateToCompare.setHours(0, 0, 0, 0);
+  
+    return dateToCompare.getTime() >= today.getTime();
+  };
 }

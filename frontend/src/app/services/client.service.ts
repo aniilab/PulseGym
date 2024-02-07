@@ -1,28 +1,47 @@
-import { Subject } from 'rxjs';
-import { Client } from '../models/client.model';
+import { Observable, tap} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
-import { TrainerService } from './trainer.service';
-import { Program } from '../models/program.model';
-import { ProgramService } from './program.service';
+import { HttpClient } from '@angular/common/http';
+import { ClientViewDTO } from '../models/client/client-view-dto';
+import { CLIENT_PATH, PATH } from '../constants/uri-paths';
+import { ClientInDTO } from '../models/client/client-in-dto';
 
 @Injectable()
 export class ClientService {
-  public clientsChanged = new Subject<Client[]>();
+  private path: string = PATH + CLIENT_PATH;
 
-  private clients: Client[] = [];
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private authService: AuthService,
-    private trainerService: TrainerService,
-    private programService: ProgramService
-  ) {}
-
-  getClients(): Client[] {
-    return this.clients.slice();
+  getAllClients(): Observable<ClientViewDTO[]> {
+    return this.http.get<ClientViewDTO[]>(this.path).pipe(
+      tap((clients: ClientViewDTO[])=>{
+        clients.map(client=>{
+          if (!client.imageUrl) {
+            client.imageUrl = '../../assets/ava.jpg';
+          }
+        })
+      })
+    );
   }
 
-  getClient(id: number): Client {
-    return this.clients.at(id);
+  getClient(id: string): Observable<ClientViewDTO> {
+    return this.http.get<ClientViewDTO>(this.path + '/' + id).pipe(
+      tap((client: ClientViewDTO)=>{
+          if (!client.imageUrl) {
+            client.imageUrl = '../../assets/ava.jpg';
+          }
+        })
+    );
+  }
+
+  addClient(client: ClientInDTO): Observable<void> {
+    return this.http.post<any>(this.path, client);
+  }
+
+  // updateActivity(id: string, activity: ActivityInDTO): Observable<void> {
+  //   return this.http.put<any>(PATH + ACTIVITY_PATH + '/' + id, activity);
+  // }
+
+  deleteClient(id: string): Observable<void> {
+    return this.http.delete<any>(this.path + '/' + id);
   }
 }

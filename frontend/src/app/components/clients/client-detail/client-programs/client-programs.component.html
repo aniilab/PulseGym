@@ -1,0 +1,43 @@
+<div>
+  <div class="dummy" *ngIf="activePrograms.length < 1">
+    <p>This client has no active programs.</p>
+  </div>
+  <div *ngFor="let program of activePrograms" class="program-item">
+    <p class="program-name">{{ program.name }}</p>
+    <div class="content">
+      <p class="title">Available workouts:</p>
+      <p>{{ workoutTypes[program.workoutType] }}</p>
+    </div>
+    <div class="content">
+      <p class="title">Left workouts amount:</p>
+      <p>{{ program.workoutRemainder }}</p>
+    </div>
+    <div class="content">
+      <p class="title">Valid until:</p>
+      <p>{{ program.expirationDate | date : "MMMM d, YYYY" }}</p>
+    </div>
+  </div>
+</div>
+
+<span (click)="onShowHistory()" class="history-tab">
+  <mat-icon>{{ historyButton.icon }}</mat-icon>
+  <p>  {{ historyButton.label }}</p>
+</span>
+
+<div *ngIf="!historyButton.hidden">
+  <div class="dummy" *ngIf="expiredPrograms.length < 1">
+    <p>This client has no expired programs.</p>
+  </div>
+
+  <div *ngFor="let program of expiredPrograms" class="program-item">
+    <p class="program-name">{{ program.name }}</p>
+    <div class="content">
+      <p class="title">Available workouts:</p>
+      <p>{{ workoutTypes[program.workoutType] }}</p>
+    </div>
+    <div class="content">
+      <p class="title">Expiration date:</p>
+      <p>{{ program.expirationDate | date : "MMMM d, YYYY" }}</p>
+    </div>
+  </div>
+</div>

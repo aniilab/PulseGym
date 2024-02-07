@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Client } from 'src/app/models/client.model';
-import { Trainer } from 'src/app/models/trainer.model';
 import { ClientService } from 'src/app/services/client.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ClientViewDTO } from 'src/app/models/client/client-view-dto';
+import { ADMIN } from 'src/app/constants/role-names';
 
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
-  styleUrls: ['./client-list.component.css']
+  styleUrls: ['./client-list.component.css'],
 })
 export class ClientListComponent implements OnInit {
-  public clients: Client[];
+  public clients: ClientViewDTO[];
   public currentRole: string = '';
+  public adminRole: string = ADMIN;
 
   constructor(
     private authService: AuthService,
@@ -19,11 +20,16 @@ export class ClientListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.clients = this.clientService.getClients();
+    this.getClients();
 
-    // this.currentRole = this.authService.getRole();
-    // this.authService.authRoleChanged.subscribe((role: string) => {
-    //   this.currentRole = role;
-    // });
+    this.authService.currentRole.subscribe((role: string) => {
+      this.currentRole = role;
+    });
+  }
+
+  getClients(): void {
+    this.clientService
+      .getAllClients()
+      .subscribe((clients: ClientViewDTO[]) => (this.clients = clients));
   }
 }

@@ -1,8 +1,7 @@
-import { UserRequest } from "./userRequest.model";
+
 
 export class Trainer {
   constructor(
-    public User: UserRequest,
     public FirstName: string,
     public LastName: string,
     public PicturePath: string,

@@ -1,4 +1,4 @@
-<div *ngIf="currentRole === 'Admin'">
+<div *ngIf="currentRole === adminRole">
   <button mat-raised-button  routerLink="create" class="add-button">
     Add new activity
   </button>
@@ -8,3 +8,8 @@
   [activity]="activity"
   (onDelete)="onDelete($event)"
 ></app-activity>
+
+<div class="dummy" *ngIf="activities.length< 1">
+  <p>There are no activities yet.</p>
+</div>
+

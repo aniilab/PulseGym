@@ -1,20 +1,18 @@
-form {
-  margin-left: 30px;
-}
-
 .input-area {
-  margin: 15px;
+  margin: 1.5rem;
   display: flex;
   flex-direction: column;
-  width: 600px;
+  max-width: 40rem; 
 }
 
 .submit-button {
-  background-color: rgb(135, 135, 192) !important;
+  background-color: rgb(135, 135, 192);
   margin: auto;
-  width: 300px !important;
+  width: 18rem; 
 }
 
 #picker {
   color: rgb(135, 135, 192);
 }
+
+

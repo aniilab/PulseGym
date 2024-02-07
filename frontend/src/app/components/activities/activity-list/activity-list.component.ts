@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Activity } from 'src/app/models/activity.model';
 import { ActivityViewDTO } from 'src/app/models/activity/activity-view-dto';
 import { ActivityService } from 'src/app/services/activity.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { catchError, of, tap } from 'rxjs';
+import { ADMIN } from 'src/app/constants/role-names';
 
 @Component({
   selector: 'app-activity-list',
@@ -15,6 +15,7 @@ import { catchError, of, tap } from 'rxjs';
 export class ActivityListComponent implements OnInit {
   public activities: ActivityViewDTO[] = [];
   public currentRole: string = '';
+  public adminRole: string = ADMIN;
 
   constructor(
     private activityService: ActivityService,

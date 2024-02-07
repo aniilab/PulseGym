@@ -22,7 +22,7 @@ namespace PulseGym.API.Controllers
             _clientFacade = clientFacade;
         }
 
-        [HttpPost("Create")]
+        [HttpPost()]
         [Authorize(Roles = RoleNames.Admin)]
         public async Task<ActionResult> Create(ClientCreateDTO newClient)
         {
@@ -61,7 +61,7 @@ namespace PulseGym.API.Controllers
             return Ok(dateTimeList);
         }
 
-        [HttpPost("{clientId}")]
+        [HttpPut("{clientId}")]
         [Authorize(Roles = $"{RoleNames.Admin}, {RoleNames.Client}")]
         public async Task<ActionResult> UpdateClient(Guid clientId, ClientUpdateDTO client)
         {

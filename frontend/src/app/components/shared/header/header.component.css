@@ -1,4 +1,4 @@
-.dark-toolbar{
+.dark-toolbar {
   background-color: rgb(23, 23, 23);
 }
 
@@ -10,7 +10,7 @@
   font-weight: bold;
 }
 
-.title:hover{
+.title:hover {
   color: rgb(185, 129, 255);
 }
 
@@ -30,18 +30,19 @@ button.login-button {
 .currentUser {
   display: flex;
   flex-direction: row;
-  width:200px;
-  padding-left:10px;
+  width: 200px;
+  padding-left: 10px;
 }
 
-.currentUser:hover{
+.currentUser:hover {
   cursor: pointer;
 }
 
 .avatar {
-    width: 40px;
-    height: 40px;
-    margin: auto;
+  width: 40px;
+  height: 40px;
+  margin: auto;
+  border-radius: 50%;
 }
 
 .info {
@@ -62,7 +63,7 @@ button.login-button {
   padding-bottom: 0px;
 }
 
-.names:hover{
+.names:hover {
   text-decoration: underline;
 }
 
@@ -78,8 +79,7 @@ button.login-button {
   text-align: left;
 }
 
-.icon{
-  color:white;
+.icon {
+  color: white;
   margin: auto;
 }
-

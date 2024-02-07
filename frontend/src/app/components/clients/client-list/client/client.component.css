@@ -1,17 +1,33 @@
-.badge {
-  border-radius: 20px;
-  background-color: rgb(11, 11, 36);
-  color: white;
-  font-weight: bold;
-}
-.list-group-item {
-  margin: 10px;
-  border-radius: 10px;
-  align-items: center;
-  justify-content: space-between;
+.client-info {
+  text-align: left;
   display: flex;
+  vertical-align: middle;
+  padding: 0.5rem;
+  border-radius: 1rem;
 }
-.rounded-circle {
+
+.card {
+  background-color: white;
+  border-radius: 1rem;
+  margin: 0.5rem;
+}
+
+.card:hover {
+  cursor: pointer;
+  background-color: rgb(200, 185, 255);
+}
+
+.ava {
   width: 45px;
   height: 45px;
+  border-radius: 1rem;
+  object-fit: cover;
+}
+
+.names {
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin-bottom: 0;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
 }

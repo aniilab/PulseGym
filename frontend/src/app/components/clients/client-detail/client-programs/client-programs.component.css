@@ -1,0 +1,53 @@
+.dummy {
+  color: gray;
+  font-weight: bold;
+  text-align: center;
+  min-height: 100%;
+  max-width: 100%;
+
+  p {
+    margin-top: 2rem;
+  }
+}
+
+.program-item {
+  background-color: white;
+  border-radius: 1rem;
+  width: 90%;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.program-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.content {
+  display: flex;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+}
+
+.history-tab {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  margin: 1rem;
+  border-top: solid 1px rgba(128, 128, 128, 0.181);
+  color: gray;
+  font-weight: bold;
+  
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.history-tab:hover {
+  background-color: rgba(255, 255, 255, 0.375);
+  cursor: pointer;
+}

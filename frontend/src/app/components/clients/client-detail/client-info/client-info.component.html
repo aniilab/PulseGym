@@ -1,0 +1,60 @@
+<div class="info-card">
+  <h1 class="title">Personal</h1>
+
+  <p>{{infoForm.touched}}</p>
+  <form [formGroup]="infoForm">
+    <div class="info-field">
+      <p class="category">FIRST NAME</p>
+        <input type="text" formControlName="firstName" class="static-data-input"/>
+    </div>
+
+    <div class="info-field">
+      <p class="category">LAST NAME</p>
+        <input type="text" formControlName="lastName" class="static-data-input"/>
+    </div>
+
+    <div class="info-field">
+      <p class="category">EMAIL</p>
+      <input type="email" formControlName="email" class="static-data-input"/>
+    </div>
+
+    <div *ngIf="client.personalTrainer || infoForm.touched" class="info-field">
+      <p class="category">TRAINER</p>
+      <p>
+        {{
+          client.personalTrainer.firstName +
+            " " +
+            client.personalTrainer.lastName
+        }}
+      </p>
+    </div>
+
+    <h1
+      *ngIf="client.goal || client.initialHeight || client.initialWeight"
+      class="title"
+    >
+      Motivation
+    </h1>
+    <div *ngIf="client.goal" class="info-field">
+      <p class="category">
+        <mat-icon>grade</mat-icon>
+        GOAL
+      </p>
+      <p>{{ client.goal }}</p>
+    </div>
+    <div *ngIf="client.goal" class="info-field">
+      <p class="category">
+        <mat-icon>grade</mat-icon>
+        INITIAL WEIGHT
+      </p>
+      <p>{{ client.initialWeight }}</p>
+    </div>
+    <div *ngIf="client.goal" class="info-field">
+      <p class="category">
+        <mat-icon>grade</mat-icon>
+        INITIAL HEIGHT
+      </p>
+      <p>{{ client.initialHeight }}</p>
+    </div>
+  </form>
+</div>

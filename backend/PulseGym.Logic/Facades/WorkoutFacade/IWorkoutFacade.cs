@@ -6,7 +6,7 @@ namespace PulseGym.Logic.Facades
     {
         Task<ICollection<WorkoutViewDTO>> GetGroupWorkoutsAsync(DateTime dateFrom, DateTime dateTo);
 
-        Task<ICollection<WorkoutViewDTO>> GetUserWorkoutsAsync(DateTime dateFrom, DateTime dateTo, string role, Guid userId);
+        Task<ICollection<WorkoutViewDTO>> GetUserWorkoutsAsync(string role, Guid userId);
 
         Task CreateWorkoutAsync(WorkoutInDTO workoutInDTO);
 

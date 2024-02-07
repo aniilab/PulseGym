@@ -10,6 +10,6 @@ namespace PulseGym.Logic.DTO
 
         public required string LastName { get; set; }
 
-        public required WorkoutType Category { get; set; }
+        public required TrainerCategory Category { get; set; }
     }
 }

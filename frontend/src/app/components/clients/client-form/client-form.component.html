@@ -1,0 +1,70 @@
+<form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+  <div class="input-area">
+    <h2>Enter information about new Client</h2>
+
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input
+        matInput
+        placeholder="Enter first name"
+        type="text"
+        formControlName="firstName"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input
+        matInput
+        placeholder="Enter last name"
+        type="text"
+        formControlName="lastName"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Choose a birthday</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        readonly="true"
+        formControlName="birthday"
+      />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        placeholder="Enter email"
+        type="email"
+        formControlName="email"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        placeholder="Enter password"
+        type="password"
+        formControlName="password"
+      />
+    </mat-form-field>
+
+    <button
+      [disabled]="!clientForm.valid"
+      type="submit"
+      class="submit-button"
+      mat-raised-button
+    >
+      Submit
+    </button>
+  </div>
+</form>

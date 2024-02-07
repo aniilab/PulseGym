@@ -1,0 +1,28 @@
+<div class="dummy" *ngIf="workouts.length < 1">
+  <p>This client has no workouts.</p>
+</div>
+
+<div *ngFor="let workout of workouts" class="workout-item">
+  <div class="row">
+    <div class="badge">
+      {{ workout.workoutDateTime | date : "M/d/yy, h:mm a" }}
+    </div>
+    <div class="badge">
+      {{ workoutTypes[workout.workoutType] }}
+    </div>
+    <div class="badge" *ngIf="workout.groupClass">
+      {{ workout.groupClass.name }}
+    </div>
+    <div class="badge">
+      {{ workoutStatus[workout.status] }}
+    </div>
+  </div>
+  <div class="content" *ngIf="workout.trainer">
+    <p class="title">Trainer:</p>
+    <p>{{ workout.trainer.firstName + " " + workout.trainer.lastName }}</p>
+  </div>
+  <div class="content">
+    <p class="title">Notes:</p>
+    <p>{{ workout.notes }}</p>
+  </div>
+</div>

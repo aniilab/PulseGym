@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { MEMBERSHIP_PROGRAM_PATH, PATH } from '../constants/uri-paths';
 import { HttpClient } from '@angular/common/http';
 import { ProgramViewDTO } from '../models/program/program-view-dto';
+import { ClientProgramViewDTO } from '../models/program/client-program-view-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -15,5 +16,11 @@ export class ProgramService {
 
   getAllPrograms(): Observable<ProgramViewDTO[]> {
     return this.http.get<ProgramViewDTO[]>(this.path);
+  }
+
+  getClientPrograms(clientId: string): Observable<ClientProgramViewDTO[]> {
+    return this.http.get<ClientProgramViewDTO[]>(
+      this.path + '/Client/' + clientId
+    );
   }
 }

@@ -6,7 +6,7 @@
 }
 
 .router {
-  width: 85%;
+  width: 82rem;
   margin: 10px;
 }
 
@@ -16,5 +16,9 @@
 }
 
 .sidebar {
-  width: 15%;
+  width: 18rem;
+}
+
+* {
+  box-sizing: border-box;
 }

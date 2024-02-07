@@ -1,77 +1,77 @@
-<div class="container">
-  <ul
-  class="nav nav-pills"
-  >
-    <li>
-      <a
-        routerLink="/activities"
-        routerLinkActive="active-route"
-        class="nav-link"
-      >
-        <i class="bi-heart-pulse"></i>
-        Activities
-      </a>
-    </li>
+<div class="container-fluid">
+  <div class="row flex-nowrap">
+      <ul class="nav nav-pills">
+        <li>
+          <a
+            routerLink="/activities"
+            routerLinkActive="active-route"
+            class="nav-link"
+          >
+            <i class="bi-heart-pulse"></i>
+            <span class="d-none d-sm-inline">Activities</span>
+          </a>
+        </li>
 
-    <li *ngIf="isLoggedIn && (role === 'Trainer' || role === 'Admin')">
-      <a
-        class="nav-link"
-        routerLink="/clients"
-        routerLinkActive="active-route"
-      >
-        <i class="bi-people"></i>
-        Clients</a
-      >
-    </li>
+        <li *ngIf="isLoggedIn && (role === 'Trainer' || role === 'Admin')">
+          <a
+            class="nav-link"
+            routerLink="/clients"
+            routerLinkActive="active-route"
+          >
+            <i class="bi-people"></i>
+            <span class="d-none d-sm-inline">Clients</span>
+            </a>
+        </li>
 
-    <li *ngIf="isLoggedIn && (role === 'Admin' || role === 'Client')">
-      <a
-        class="nav-link"
-        routerLink="/trainers"
-        routerLinkActive="active-route"
-      >
-        <i class="bi-person-arms-up"></i>
-        Trainers</a
-      >
-    </li>
-    <li *ngIf="isLoggedIn">
-      <a class="nav-link">
-        <i class="bi-calendar"></i>
-        Schedule</a
-      >
-    </li>
-    <li *ngIf="isLoggedIn && (role === 'Trainer' || role === 'Admin')">
-      <a
-        class="nav-link"
-        routerLink="/requests"
-        routerLinkActive="active-route"
-      >
-        <i class="bi-send"></i>
-        Requests</a
-      >
-    </li>
+        <li *ngIf="isLoggedIn && (role === 'Admin' || role === 'Client')">
+          <a
+            class="nav-link"
+            routerLink="/trainers"
+            routerLinkActive="active-route"
+          >
+            <i class="bi-person-arms-up"></i>
+            <span class="d-none d-sm-inline">Trainers</span>
+          </a>
+        </li>
+        <li *ngIf="isLoggedIn">
+          <a class="nav-link">
+            <i class="bi-calendar"></i>
+            <span class="d-none d-sm-inline">Schedule</span>
+          </a>
+        </li>
+        <li *ngIf="isLoggedIn && (role === 'Trainer' || role === 'Admin')">
+          <a
+            class="nav-link"
+            routerLink="/requests"
+            routerLinkActive="active-route"
+          >
+            <i class="bi-send"></i>
+            <span class="d-none d-sm-inline">Requests</span>
+          </a>
+        </li>
 
-    <li>
-      <a
-        class="nav-link"
-        routerLink="/programs"
-        routerLinkActive="active-route"
-      >
-        <i class="bi-coin"></i>
-         Programs</a
-      >
-    </li>
+        <li>
+          <a
+            class="nav-link"
+            routerLink="/programs"
+            routerLinkActive="active-route"
+          >
+            <i class="bi-coin"></i>
+            <span class="d-none d-sm-inline">Programs</span>
+          </a>
+        </li>
 
-    <li *ngIf="!isLoggedIn">
-      <a
-        class="nav-link"
-        routerLink="/contact"
-        routerLinkActive="active-route"
-      >
-        <i class="bi-telephone"></i>
-        Contact Us</a
-      >
-    </li>
-  </ul>
-</div>
+        <li *ngIf="!isLoggedIn">
+          <a
+            class="nav-link"
+            routerLink="/contact"
+            routerLinkActive="active-route"
+          >
+            <i class="bi-telephone"></i>
+            <span class="d-none d-sm-inline">Contact Us</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 

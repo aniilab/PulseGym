@@ -48,9 +48,14 @@ namespace PulseGym.DAL.Repositories
             var foundClient = await _context.Clients.FindAsync(clientId)
                 ?? throw new NotFoundException(nameof(Client), clientId);
 
-            client.UserId = clientId;
+            foundClient.User = client.User;
+            foundClient.InitialWeight = client.InitialWeight;
+            foundClient.InitialHeight = client.InitialHeight;
+            foundClient.Goal = client.Goal;
+            foundClient.ClientMembershipPrograms = client.ClientMembershipPrograms;
+            foundClient.PersonalTrainer = client.PersonalTrainer;
 
-            _context.Clients.Update(client);
+            _context.Clients.Update(foundClient);
 
             await _context.SaveChangesAsync();
         }

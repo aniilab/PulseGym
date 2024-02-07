@@ -14,7 +14,7 @@
 }
 
 .list-group-item:hover{
-  border-color:blueviolet;
+  background-color: rgb(200, 185, 255);
   cursor: pointer;
 }
 

@@ -1,15 +1,9 @@
-<!-- <div *ngIf="currentRole === 'admin'">
-  <button class="btn btn-primary bg-dark">
+<div *ngIf="currentRole === adminRole">
+  <button mat-raised-button class="add-button" routerLink="create">
     Add new client
   </button>
-</div> -->
+</div>
 
-<ul class="list-group list-group-light">
-  <div class="client-item">
-    <app-client
-    *ngFor="let cl of clients"
-    [client]="cl"
-  ></app-client>
-  </div>
+<ul class="list">
+  <app-client *ngFor="let cl of clients" [client]="cl" [routerLink]="cl.id"></app-client>
 </ul>
-

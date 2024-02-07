@@ -1,10 +1,18 @@
-.btn-primary{
-    margin:10px;
+.add-button {
+  margin: 10px;
+  background-color: black !important;
+  color: white !important;
 }
-.list-group{
-    width:100%;
-}
-.client-item{
-    display: grid;
-    grid-template-columns: auto auto;
+
+.list {
+  display: grid;
+  padding: 0;
+
+  @media screen and (min-width: 600px) {
+    grid-template-columns: 50% 50%;
+  }
+
+  @media screen and (max-width: 599px) {
+    grid-template-columns: 100%;
+  }
 }

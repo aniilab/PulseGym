@@ -14,7 +14,11 @@ namespace PulseGym.API.Extensions
             TypeAdapterConfig<Client, ClientViewDTO>.NewConfig()
                 .Map(dest => dest.Id, src => src.UserId)
                 .Map(dest => dest.FirstName, src => src.User.FirstName)
-                .Map(dest => dest.LastName, src => src.User.LastName);
+                .Map(dest => dest.LastName, src => src.User.LastName)
+                .Map(dest => dest.Email, src => src.User.Email)
+                .Map(dest => dest.ImageUrl, src => src.User.ImageUrl)
+                .Map(dest => dest.Birthday, src => src.User.Birthday)
+                .Map(dest => dest.MembershipPrograms, src => src.ClientMembershipPrograms);
 
             // Trainer
             TypeAdapterConfig<Trainer, TrainerViewDTO>.NewConfig()

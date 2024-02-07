@@ -1,12 +1,8 @@
-<div class="list-group-item">
-  <div class="d-flex align-items-center">
-    <img src="{{ client.ImagePath }}" alt="" class="rounded-circle" />
-    <div class="ms-3">
-      <p class="fw-bold mb-1">{{ client.FirstName + client.LastName }}</p>
-      <p class="text-muted mb-0">
-        {{ client.Birthday | date : "MMMM d, YYYY" }}
-      </p>
-    </div>
+<div class="card">
+  <div class="client-info">
+    <img src="{{ client.imageUrl }}" alt="" class="ava" />
+    <p class="names">
+      {{ client.firstName + " " + client.lastName | uppercase }}
+    </p>
   </div>
-  <span class="badge">{{ client.Program.Name }}</span>
 </div>

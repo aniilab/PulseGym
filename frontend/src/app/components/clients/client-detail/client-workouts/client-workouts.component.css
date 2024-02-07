@@ -1,0 +1,45 @@
+.dummy {
+    color: gray;
+    font-weight: bold;
+    text-align: center;
+    min-height: 100%;
+    max-width: 100%;
+  
+    p {
+      margin-top: 2rem;
+    }
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+  }
+
+  .workout-item {
+    background-color: white;
+    border-radius: 1rem;
+    width: 90%;
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+
+  .badge {
+    background-color: black;
+    border-radius: 1.5rem;
+    font-size: 1rem;
+    margin: 0.5rem;
+    width: fit-content;
+  }
+
+  .title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-right: 0.5rem;
+  }
+
+  .content {
+    display: flex;
+  }
+
+  

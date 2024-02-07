@@ -28,19 +28,24 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatTabsModule } from '@angular/material/tabs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { LoginDialogComponent } from './components/dialogs/login-dialog/login-dialog.component';
 import { ProgramListComponent } from './components/programs/program-list/program-list.component';
 import { ProgramComponent } from './components/programs/program-list/program/program.component';
 import { ProgramService } from './services/program.service';
 import { ProgramCreateComponent } from './components/programs/program-create/program-create.component';
-import { WorkoutRequestService } from './services/workout-request.service';
 import { WorkoutRequestListComponent } from './components/workout-requests/workout-request-list/workout-request-list.component';
 import { WorkoutRequestComponent } from './components/workout-requests/workout-request/workout-request.component';
 import { ClientService } from './services/client.service';
 import { authInterceptorProviders } from './interceptors/authorization.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ClientFormComponent } from './components/clients/client-form/client-form.component';
+import { ClientDetailComponent } from './components/clients/client-detail/client-detail.component';
+import { ClientInfoComponent } from './components/clients/client-detail/client-info/client-info.component';
+import { ClientProgramsComponent } from './components/clients/client-detail/client-programs/client-programs.component';
+import { ClientWorkoutsComponent } from './components/clients/client-detail/client-workouts/client-workouts.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +69,11 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
     WorkoutRequestListComponent,
     WorkoutRequestComponent,
     ConfirmationDialogComponent,
+    ClientFormComponent,
+    ClientDetailComponent,
+    ClientInfoComponent,
+    ClientProgramsComponent,
+    ClientWorkoutsComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,14 +89,14 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
     MatMenuModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatTabsModule,
     DragDropModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     AuthService,
     TrainerService,
     ProgramService,
-    WorkoutRequestService,
     ClientService,
     authInterceptorProviders,
   ],

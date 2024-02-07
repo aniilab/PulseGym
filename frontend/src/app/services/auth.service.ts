@@ -77,9 +77,10 @@ export class AuthService {
   }
 
   refreshToken(refreshToken: string) {
-    debugger;
     const params = new HttpParams().set('refreshToken', refreshToken);
 
-    return this.http.post<TokensDTO>(PATH + AUTH_PATH + '/Refresh', null, { params });
+    return this.http.post<TokensDTO>(PATH + AUTH_PATH + '/Refresh', null, {
+      params,
+    });
   }
 }

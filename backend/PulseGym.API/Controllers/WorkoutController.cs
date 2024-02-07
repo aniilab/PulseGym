@@ -31,7 +31,7 @@ namespace PulseGym.API.Controllers
         }
 
         [HttpGet("{role}/{userId}")]
-        public async Task<ActionResult<ICollection<WorkoutViewDTO>>> GetByUserId(DateTime dateFrom, DateTime dateTo, string role, Guid userId)
+        public async Task<ActionResult<ICollection<WorkoutViewDTO>>> GetByUserId(string role, Guid userId)
         {
             var id = HttpContext.User.FindFirstValue("Id");
             var requestRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
@@ -42,7 +42,7 @@ namespace PulseGym.API.Controllers
                 return Unauthorized();
             }
 
-            var workoutList = await _workoutFacade.GetUserWorkoutsAsync(dateFrom, dateTo, role, userId);
+            var workoutList = await _workoutFacade.GetUserWorkoutsAsync(role, userId);
 
             return Ok(workoutList);
         }

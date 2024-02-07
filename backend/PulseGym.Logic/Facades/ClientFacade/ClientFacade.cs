@@ -68,6 +68,7 @@ namespace PulseGym.Logic.Facades
             foundClient.User.FirstName = clientDTO.FirstName;
             foundClient.User.LastName = clientDTO.LastName;
             foundClient.User.Birthday = clientDTO.Birthday;
+            foundClient.User.ImageUrl = clientDTO.ImageUrl;
             foundClient.Goal = clientDTO.Goal;
             foundClient.InitialHeight = clientDTO.InitialHeight;
             foundClient.InitialWeight = clientDTO.InitialWeight;
