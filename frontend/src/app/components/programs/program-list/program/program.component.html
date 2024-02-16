@@ -1,8 +1,25 @@
-<div class="list-group-item">
-  <div class="d-flex align-items-center">
-    <div class="ms-3">
-      <p class="fw-bold mb-1">{{ program.name | uppercase }}</p>
+<div class="program-card">
+  <mat-list style="width: 100%;">
+    <div class="title">
+      <span>
+        {{ program.name | uppercase }}
+      </span>
+      <span class="badge">{{ program.price }}₴</span>
     </div>
-  </div>
-  <span class="badge">{{ program.price }}₴</span>
+    <mat-list-item class="prop">
+      <mat-icon matListItemIcon>access_time</mat-icon>
+      <div matListItemTitle>{{ program.duration }} days</div>
+    </mat-list-item>
+    <mat-list-item class="prop">
+      <mat-icon matListItemIcon>fitness_center</mat-icon>
+      <div matListItemTitle>
+        {{ workoutTypes[program.workoutType] }}, {{ program.workoutNumber }}
+      </div>
+    </mat-list-item>
+    <div *ngIf="currentRole === adminRole" class="actions">
+      <button mat-fab (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </mat-list>
 </div>

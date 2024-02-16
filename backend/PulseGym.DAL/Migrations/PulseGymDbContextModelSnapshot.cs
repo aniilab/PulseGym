@@ -201,11 +201,11 @@ namespace PulseGym.DAL.Migrations
                     b.Property<string>("Goal")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("InitialHeight")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("InitialHeight")
+                        .HasColumnType("double(18,2)");
 
-                    b.Property<decimal?>("InitialWeight")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("InitialWeight")
+                        .HasColumnType("double(18,2)");
 
                     b.Property<Guid?>("PersonalTrainerId")
                         .HasColumnType("uniqueidentifier");
@@ -282,8 +282,8 @@ namespace PulseGym.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("double(18,2)");
 
                     b.Property<int>("WorkoutNumber")
                         .HasColumnType("int");

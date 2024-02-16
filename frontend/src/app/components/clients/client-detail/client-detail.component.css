@@ -50,9 +50,51 @@
   aspect-ratio: 1/1;
 }
 
+.dropdown-ava {
+  aspect-ratio: 1/1;
+  width:30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.trainer-label {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 0.1rem;
+  display: flex;
+}
+
+.trainer-field {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 30px 10px 10px 10px;
+
+  button {
+    background-color: transparent;
+    margin: 3px;
+    box-shadow: none;
+    width: fit-content;
+    height: fit-content;
+    color: gray;
+
+    .edit-icon {
+      font-size: 20px;
+      position: absolute;
+      top: -1px;
+      left: -3px;
+    }
+  }
+
+  button:hover {
+    color: black;
+  }
+}
+
 .actions {
   text-align: center;
   max-width: 100%;
+  margin-top: 20px;
 
   button {
     border-radius: 1rem;

@@ -3,18 +3,52 @@
   background-color: rgb(11, 11, 36);
   color: white;
   font-weight: bold;
+  margin-right:10px;
 }
 
-.list-group-item {
-  margin: 10px;
-  border-radius: 10px;
+.program-card {
+  background-color: white;
+  border-radius: 1rem;
+  margin: 0.5rem;
   align-items: center;
-  justify-content: space-between;
   display: flex;
+  padding: 0.7rem;
+  min-width: 90%;
 }
 
-.list-group-item:hover{
-  background-color: rgb(200, 185, 255);
-  cursor: pointer;
+.title {
+  font-weight: 500;
+  font-size: 14pt;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 1rem;
+  min-width: 100%;
 }
 
+.prop {
+  height: fit-content;
+  margin: -5px 0 -15px 0;
+
+  mat-icon {
+    margin-right: 5px;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: end;
+  button {
+    background-color: transparent;
+    margin: 3px;
+    box-shadow: none;
+    width: 30px;
+    height: 30px;
+    color: gray;
+  }
+
+  button:hover {
+    background-color: rgb(135, 135, 192, 0.3);
+    color: black;
+  }
+}

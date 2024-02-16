@@ -1,15 +1,20 @@
 .h1 {
   text-align: center;
 }
-label {
-  color: rgb(135, 135, 192);
-  margin-bottom: 2px;
+
+.input-field {
+  margin: 3px 5px -8px 5px;
+  width: 100%;
 }
-.input-div {
-  margin-top: 10px;
-  margin-bottom: 15px;
+
+.duration-number {
+  display: grid;
+  grid-template-columns: 50% 50%;
 }
-button {
-  margin: 0 auto;
-  margin-right: 5px;
+
+.actions {
+  justify-content: center !important;
+   button {
+    margin: -12px 3px 0px 3px;
+   }
 }

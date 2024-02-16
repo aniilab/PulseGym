@@ -1,60 +1,65 @@
 <div class="info-card">
-  <h1 class="title">Personal</h1>
+  <div class="edit-mode-indication" *ngIf="currentRole===AdminRole">
+    <mat-slide-toggle [(ngModel)]="editMode" (change)="onSlide($event.checked)" color="primary">Edit Mode</mat-slide-toggle>
+    <button mat-raised-button type="submit" (click)="onSubmit()" *ngIf="editMode">Save</button>
+  </div>
+  <form [formGroup]="infoForm" (ngSubmit)="onSubmit()">
+    <h1 class="title">Personal</h1>
 
-  <p>{{infoForm.touched}}</p>
-  <form [formGroup]="infoForm">
     <div class="info-field">
       <p class="category">FIRST NAME</p>
-        <input type="text" formControlName="firstName" class="static-data-input"/>
+        <input type="text" formControlName="firstName" class="static-data-input" (click)="onInputClick()"/>
     </div>
 
     <div class="info-field">
       <p class="category">LAST NAME</p>
-        <input type="text" formControlName="lastName" class="static-data-input"/>
+        <input type="text" formControlName="lastName" class="static-data-input" (click)="onInputClick()"/>
+    </div>
+
+    <div class="info-field">
+      <p class="category">BIRTHDAY</p>
+      <div style="display: flex; justify-content: flex-end; align-items: center">
+        <mat-datepicker-toggle
+        *ngIf="editMode"
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker ></mat-datepicker>
+        <input [matDatepicker]="picker" readonly="true" formControlName="birthday" class="static-data-input" (click)="onInputClick()"/>
+      </div>
     </div>
 
     <div class="info-field">
       <p class="category">EMAIL</p>
-      <input type="email" formControlName="email" class="static-data-input"/>
+      <input type="email" [readonly]="true" formControlName="email" class="static-data-input" (click)="onInputClick()"/>
     </div>
 
-    <div *ngIf="client.personalTrainer || infoForm.touched" class="info-field">
-      <p class="category">TRAINER</p>
-      <p>
-        {{
-          client.personalTrainer.firstName +
-            " " +
-            client.personalTrainer.lastName
-        }}
-      </p>
+    <div *ngIf="editMode" class="info-field">
+      <p class="category">IMAGE URL</p>
+      <input type="url" formControlName="imageUrl" class="static-data-input" (click)="onInputClick()"/>
     </div>
 
     <h1
-      *ngIf="client.goal || client.initialHeight || client.initialWeight"
+      *ngIf="client.goal || client.initialHeight || client.initialWeight || editMode" 
       class="title"
     >
       Motivation
     </h1>
-    <div *ngIf="client.goal" class="info-field">
-      <p class="category">
-        <mat-icon>grade</mat-icon>
-        GOAL
-      </p>
-      <p>{{ client.goal }}</p>
+    <div *ngIf="client.goal || editMode" class="info-field">
+      <p class="category">GOAL</p>
+        <input type="text" formControlName="goal" class="static-data-input" (click)="onInputClick()"/>
     </div>
-    <div *ngIf="client.goal" class="info-field">
+    <div *ngIf="client.initialWeight || editMode" class="info-field">
       <p class="category">
-        <mat-icon>grade</mat-icon>
         INITIAL WEIGHT
       </p>
-      <p>{{ client.initialWeight }}</p>
+      <input type="number" formControlName="initialWeight" class="static-data-input" (click)="onInputClick()"/>
     </div>
-    <div *ngIf="client.goal" class="info-field">
+    <div *ngIf="client.initialHeight || editMode" class="info-field">
       <p class="category">
-        <mat-icon>grade</mat-icon>
         INITIAL HEIGHT
       </p>
-      <p>{{ client.initialHeight }}</p>
+      <input type="number" formControlName="initialHeight" class="static-data-input" (click)="onInputClick()"/>
     </div>
   </form>
 </div>

@@ -15,3 +15,7 @@
     margin-top: 2rem;
   }
 }
+
+.activity-item {
+  max-width: 90%;
+}

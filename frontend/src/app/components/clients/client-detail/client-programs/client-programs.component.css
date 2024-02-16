@@ -10,6 +10,21 @@
   }
 }
 
+.actions {
+  text-align: center;
+  max-width: 100%;
+  margin-top: 20px;
+
+  button {
+    border-radius: 1rem;
+    border: none;
+    width: 80%;
+    background-color: rgba(126, 126, 126, 0.36) !important;
+    box-shadow: none;
+    font-size: large;
+  }
+}
+
 .program-item {
   background-color: white;
   border-radius: 1rem;
@@ -50,4 +65,26 @@
 .history-tab:hover {
   background-color: rgba(255, 255, 255, 0.375);
   cursor: pointer;
+}
+
+.program-choice {
+  display: flex; 
+  flex-direction: row; 
+  align-items: center;
+  margin: 0 16px 0 16px;
+  justify-content: center;
+
+  button {
+    box-shadow: none;
+    width: 30px;
+    height: 30px;
+    color: gray;
+    margin: auto 2px;
+    display: flex;
+  }
+
+  button:hover {
+    background-color: rgb(135, 135, 192, 0.3);
+    color: black;
+  }
 }

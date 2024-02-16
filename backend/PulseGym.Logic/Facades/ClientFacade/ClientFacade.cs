@@ -111,11 +111,11 @@ namespace PulseGym.Logic.Facades
             return occupiedDateTime;
         }
 
-        public async Task AddPersonalTrainer(Guid clientId, Guid trainerId)
+        public async Task AddPersonalTrainer(Guid clientId, Guid? trainerId)
         {
-            if (!await _trainerFacade.ExistsAsync(trainerId))
+            if (trainerId.HasValue && !await _trainerFacade.ExistsAsync(trainerId.Value))
             {
-                throw new NotFoundException(nameof(Trainer), trainerId);
+                throw new NotFoundException(nameof(Trainer), trainerId.Value);
             }
 
             var client = await _clientRepository.GetByIdAsync(clientId);

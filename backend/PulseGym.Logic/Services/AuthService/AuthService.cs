@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-using PulseGym.Entities.Exceptions;
 using PulseGym.DAL.Models;
+using PulseGym.Entities.Exceptions;
 using PulseGym.Logic.DTO;
 
 namespace PulseGym.Logic.Services
@@ -33,7 +33,7 @@ namespace PulseGym.Logic.Services
 
             if (!result.Succeeded)
             {
-                throw new BadInputException($"Registration failed. {result.Errors}");
+                throw new BadInputException($"Registration failed. {result.Errors.First().Description}");
             }
 
             var identityRole = new IdentityRole<Guid>(role);

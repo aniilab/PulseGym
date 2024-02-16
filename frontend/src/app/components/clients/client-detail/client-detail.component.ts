@@ -8,6 +8,11 @@ import { ClientService } from 'src/app/services/client.service';
 import { ClientInfoComponent } from './client-info/client-info.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { StateService } from 'src/app/services/state.service';
+import { TrainerViewDTO } from 'src/app/models/trainer/trainer-view-dto';
+import { TrainerService } from 'src/app/services/trainer.service';
+import { FormControl } from '@angular/forms';
+import { TrainerCategory } from 'src/app/enums/trainer-category';
 
 @Component({
   selector: 'app-client-detail',
@@ -20,21 +25,33 @@ export class ClientDetailComponent implements OnInit {
   public navLinks: any[] = [];
   public adminRole: string = ADMIN;
 
+  public trainers: TrainerViewDTO[] = [];
+  public trainerChange: boolean = false;
+  public personalTrainerControl: FormControl<TrainerViewDTO | null>;
+  public personalTrainer: TrainerViewDTO | null;
+
   constructor(
     private authService: AuthService,
     private clientService: ClientService,
     private route: ActivatedRoute,
     private matDialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private stateService: StateService,
+    private trainerService: TrainerService
   ) {}
 
   ngOnInit(): void {
+    this.getClient();
+    this.getTrainers();
+
     this.authService.currentRole.subscribe((role: string) => {
       this.currentRole = role;
+      this.setNavLinks();
     });
 
-    this.setNavLinks();
-    this.getClient();
+    this.stateService.clients$.subscribe(() => {
+      this.getClient();
+    });
   }
 
   setNavLinks() {
@@ -59,8 +76,31 @@ export class ClientDetailComponent implements OnInit {
 
     this.clientService
       .getClient(clientId)
-      .pipe(tap((client: ClientViewDTO) => (this.client = client)))
+      .pipe(tap((client: ClientViewDTO) => {
+        this.client = client;
+        if(!!client.personalTrainer){
+          this.personalTrainer = client.personalTrainer;
+        } 
+      })).subscribe();
+  }
+
+  getTrainers(): void {
+    this.trainerService
+      .getAllTrainers()
+      .pipe(tap((trainers: TrainerViewDTO[]) => (this.trainers = trainers)))
       .subscribe();
+  }
+
+  onSetTrainer(): void {
+    const newTrainerId = !!this.personalTrainer ? this.personalTrainer.id : null;
+
+    this.clientService
+    .addClientsTrainer(this.client.id, newTrainerId)
+    .pipe(tap(() => {
+      this.getClient();
+      this.trainerChange = false;
+    }))
+    .subscribe();
   }
 
   onOutletLoaded(component) {

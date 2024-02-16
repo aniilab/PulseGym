@@ -11,9 +11,9 @@ namespace PulseGym.DAL.Models
 
         public string? Goal { get; set; }
 
-        public decimal? InitialWeight { get; set; }
+        public double? InitialWeight { get; set; }
 
-        public decimal? InitialHeight { get; set; }
+        public double? InitialHeight { get; set; }
 
         public Guid? PersonalTrainerId { get; set; }
 

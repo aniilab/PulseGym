@@ -20,6 +20,6 @@ namespace PulseGym.Logic.Facades
 
         Task<ICollection<DateTime>> GetOccupiedDateTimeAsync(Guid userId);
 
-        Task AddPersonalTrainer(Guid clientId, Guid trainerId);
+        Task AddPersonalTrainer(Guid clientId, Guid? trainerId);
     }
 }

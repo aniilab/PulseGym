@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ClientViewDTO } from '../models/client/client-view-dto';
 import { CLIENT_PATH, PATH } from '../constants/uri-paths';
 import { ClientInDTO } from '../models/client/client-in-dto';
+import { ClientUpdateDTO } from '../models/client/client-update-dto';
 
 @Injectable()
 export class ClientService {
@@ -29,6 +30,9 @@ export class ClientService {
           if (!client.imageUrl) {
             client.imageUrl = '../../assets/ava.jpg';
           }
+          if (!!client.personalTrainer && !client.personalTrainer?.imageUrl) {
+            client.personalTrainer.imageUrl = '../../assets/ava.jpg';
+          }
         })
     );
   }
@@ -37,9 +41,14 @@ export class ClientService {
     return this.http.post<any>(this.path, client);
   }
 
-  // updateActivity(id: string, activity: ActivityInDTO): Observable<void> {
-  //   return this.http.put<any>(PATH + ACTIVITY_PATH + '/' + id, activity);
-  // }
+  updateClient(id: string, client: ClientUpdateDTO): Observable<void> {
+    return this.http.put<any>(this.path + '/' + id, client);
+  }
+
+  addClientsTrainer(clientId: string, trainerId: string | null): Observable<void> {
+    debugger;
+    return this.http.put<any>(this.path + '/AddTrainer', {clientId: clientId, trainerId: trainerId});
+  }
 
   deleteClient(id: string): Observable<void> {
     return this.http.delete<any>(this.path + '/' + id);

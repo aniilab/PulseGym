@@ -1,12 +1,13 @@
 .container {
   padding: 0px;
   margin: 0px;
-  min-width: 100%;
+  max-width: 100%;
   background-color: rgb(229, 227, 232, 0.5);
 }
 
 .router {
-  width: 82rem;
+  width: 80%;
+  max-width: 80%;
   margin: 10px;
 }
 
@@ -16,7 +17,7 @@
 }
 
 .sidebar {
-  width: 18rem;
+  width: 20%;
 }
 
 * {

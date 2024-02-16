@@ -3,11 +3,14 @@
     Add new activity
   </button>
 </div>
-<app-activity
+
+<div class="activity-item">
+  <app-activity
   *ngFor="let activity of activities"
   [activity]="activity"
   (onDelete)="onDelete($event)"
 ></app-activity>
+</div>
 
 <div class="dummy" *ngIf="activities.length< 1">
   <p>There are no activities yet.</p>

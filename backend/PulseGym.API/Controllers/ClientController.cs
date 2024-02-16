@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
-
+using PulseGym.Logic.DTO.ClientDTO;
 using PulseGym.Logic.Facades;
 
 namespace PulseGym.API.Controllers
@@ -88,20 +88,20 @@ namespace PulseGym.API.Controllers
             return Ok();
         }
 
-        [HttpPut("{clientId}/AddTrainer/{trainerId}")]
+        [HttpPut("AddTrainer")]
         [Authorize(Roles = $"{RoleNames.Admin}, {RoleNames.Trainer}")]
-        public async Task<ActionResult> AddPersonalTrainer(Guid clientId, Guid trainerId)
+        public async Task<ActionResult> AddPersonalTrainer(ClientTrainerDTO clientTrainerDto)
         {
             var id = HttpContext.User.FindFirstValue("Id");
             var requestRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
             if (!Guid.TryParse(id, out Guid requestUserId) || requestRole == null
-            || (requestRole == RoleNames.Trainer && trainerId != requestUserId))
+            || (requestRole == RoleNames.Trainer && clientTrainerDto.TrainerId != requestUserId))
             {
                 return Unauthorized();
             }
 
-            await _clientFacade.AddPersonalTrainer(clientId, trainerId);
+            await _clientFacade.AddPersonalTrainer(clientTrainerDto.ClientId, clientTrainerDto.TrainerId);
 
             return Ok();
         }

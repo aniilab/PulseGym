@@ -6,8 +6,11 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { tap } from 'rxjs';
+import { ADMIN } from 'src/app/constants/role-names';
 import { WorkoutType } from 'src/app/enums/workout-type';
 import { ClientProgramViewDTO } from 'src/app/models/program/client-program-view-dto';
+import { ProgramViewDTO } from 'src/app/models/program/program-view-dto';
+import { AuthService } from 'src/app/services/auth.service';
 import { ProgramService } from 'src/app/services/program.service';
 
 @Component({
@@ -25,27 +28,48 @@ export class ClientProgramsComponent implements OnInit {
     hidden: true,
   };
 
+  public currentRole: string = '';
+  public adminRole: string = ADMIN;
+
+  public addProgram: boolean = false;
+  public newProgram: ProgramViewDTO;
+  public programs: ProgramViewDTO[] = [];
+
+  public clientId: string = '';
+
   constructor(
     private programService: ProgramService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    const clientId = this.route.parent.snapshot.paramMap.get('id');
+    this.clientId = this.route.parent.snapshot.paramMap.get('id');
 
+    this.authService.currentRole.subscribe((role) => (this.currentRole = role));
+    this.fetchClientsPrograms();
+    this.getAllPrograms();
+  }
+
+  fetchClientsPrograms(): void {
     this.programService
-      .getClientPrograms(clientId)
+      .getClientPrograms(this.clientId)
       .pipe(
         tap((programs: ClientProgramViewDTO[]) => {
-          programs.map((program: ClientProgramViewDTO) => {
-            if (
-              new Date(program.expirationDate).getTime() > new Date().getTime()
-            ) {
-              this.expiredPrograms.push(program);
-            } else {
-              this.activePrograms.push(program);
-            }
-          });
+          this.activePrograms = programs
+            .filter((program) => new Date(program.expirationDate) >= new Date())
+            .sort(
+              (a, b) =>
+                new Date(a.expirationDate).getTime() -
+                new Date(b.expirationDate).getTime()
+            );
+          this.expiredPrograms = programs.filter(
+            (program) => new Date(program.expirationDate) <= new Date()
+          ).sort(
+            (a, b) =>
+              new Date(a.expirationDate).getTime() -
+              new Date(b.expirationDate).getTime()
+          );;
         })
       )
       .subscribe();
@@ -60,5 +84,20 @@ export class ClientProgramsComponent implements OnInit {
       this.historyButton.label = 'Hide';
       this.historyButton.icon = 'keyboard_arrow_up';
     }
+  }
+
+  getAllPrograms(): void {
+    this.programService.getAllPrograms().subscribe((programs) => {
+      this.programs = programs;
+    });
+  }
+
+  onAddProgram(): void {
+    this.programService
+      .addClientProgram(this.clientId, this.newProgram.id)
+      .subscribe(() => {
+        this.fetchClientsPrograms();
+        this.addProgram = false;
+      });
   }
 }

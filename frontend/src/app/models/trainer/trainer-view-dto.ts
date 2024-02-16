@@ -5,5 +5,6 @@ export interface TrainerViewDTO {
     firstName: string;
     lastName: string;
     category: TrainerCategory;
+    imageUrl: string | null;
   }
   

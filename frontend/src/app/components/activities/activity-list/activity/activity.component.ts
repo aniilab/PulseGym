@@ -9,8 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./activity.component.css'],
 })
 export class ActivityComponent implements OnInit {
-  @Input()
-  public activity: ActivityViewDTO;
+  @Input() public activity: ActivityViewDTO;
   public currentRole: string;
   @Output('onDelete') activityDelete: Subject<string> = new Subject<string>();
 

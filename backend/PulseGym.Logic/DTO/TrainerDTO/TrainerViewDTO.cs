@@ -11,5 +11,7 @@ namespace PulseGym.Logic.DTO
         public required string LastName { get; set; }
 
         public required TrainerCategory Category { get; set; }
+
+        public string? ImageUrl { get; set; }
     }
 }

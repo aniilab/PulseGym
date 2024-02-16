@@ -2,9 +2,15 @@
   background-color: white;
   border-radius: 1rem;
   padding:3rem;
+  padding-top: 1rem;
   margin: 1rem;
   text-align: center;
   width: 90%;
+
+  h1 {
+    margin-bottom: 8px;
+    margin-top: 16px;
+  }
 }
 
 .title {
@@ -62,6 +68,14 @@
   cursor:auto;
 }
 
+.edit-mode-indication {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.7rem;
+  align-items: center;
+  min-height: 40px;
+}
 
-
-
+.edit-mode-slide {
+  color: rgb(93, 65, 128);
+}

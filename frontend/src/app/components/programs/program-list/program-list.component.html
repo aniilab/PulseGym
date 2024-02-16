@@ -1,12 +1,8 @@
-<!-- <div *ngIf="currentRole === 'admin'">
-  <button
-    mat-raised-button
-    (click)="openCreateDialog()"
-    class="btn btn-primary bg-dark"
-  >
+<div *ngIf="currentRole === adminRole">
+  <button mat-raised-button class="add-button" (click)="openCreateDialog()">
     Add new program
   </button>
-</div> -->
-<ul class="list-group list-group-light">
+</div>
+<ul class="list">
   <app-program *ngFor="let pr of programs" [program]="pr"></app-program>
 </ul>

@@ -1,7 +1,32 @@
 <div>
+  <div *ngIf="currentRole === adminRole" class="actions">
+    <button mat-raised-button (click)="addProgram = true" *ngIf="!addProgram">Add Program</button>
+
+    <div *ngIf="addProgram" class="program-choice">
+      <mat-form-field style="width:80%">
+        <mat-label>Choose a program</mat-label>
+        <mat-select [(value)]="newProgram">
+          <mat-option *ngFor="let program of programs" [value]="program">
+            {{program.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <button mat-fab (click)="onAddProgram()">
+        <mat-icon>done</mat-icon>
+      </button>
+      <button mat-fab (click)="addProgram=false">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+
+
   <div class="dummy" *ngIf="activePrograms.length < 1">
     <p>This client has no active programs.</p>
   </div>
+
   <div *ngFor="let program of activePrograms" class="program-item">
     <p class="program-name">{{ program.name }}</p>
     <div class="content">

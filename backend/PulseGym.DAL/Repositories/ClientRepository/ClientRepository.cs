@@ -29,6 +29,7 @@ namespace PulseGym.DAL.Repositories
                                                .Include(c => c.Workouts)
                                                .Include(c => c.WorkoutRequests)
                                                .Include(c => c.PersonalTrainer)
+                                                .ThenInclude(t => t.User)
                                                .FirstOrDefaultAsync(t => t.UserId == userId)
                                                ?? throw new NotFoundException(nameof(Client), userId);
 
@@ -53,7 +54,7 @@ namespace PulseGym.DAL.Repositories
             foundClient.InitialHeight = client.InitialHeight;
             foundClient.Goal = client.Goal;
             foundClient.ClientMembershipPrograms = client.ClientMembershipPrograms;
-            foundClient.PersonalTrainer = client.PersonalTrainer;
+            foundClient.PersonalTrainerId = client.PersonalTrainerId;
 
             _context.Clients.Update(foundClient);
 

@@ -10,27 +10,27 @@ namespace PulseGym.DAL.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<decimal>(
+            migrationBuilder.AlterColumn<double>(
                 name: "Price",
                 table: "MembershipPrograms",
-                type: "decimal(18,2)",
+                type: "double(18,2)",
                 nullable: false,
                 oldClrType: typeof(double),
                 oldType: "float");
 
-            migrationBuilder.AlterColumn<decimal>(
+            migrationBuilder.AlterColumn<double>(
                 name: "InitialWeight",
                 table: "Clients",
-                type: "decimal(18,2)",
+                type: "double(18,2)",
                 nullable: true,
                 oldClrType: typeof(double),
                 oldType: "float",
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<decimal>(
+            migrationBuilder.AlterColumn<double>(
                 name: "InitialHeight",
                 table: "Clients",
-                type: "decimal(18,2)",
+                type: "double(18,2)",
                 nullable: true,
                 oldClrType: typeof(double),
                 oldType: "float",
@@ -53,16 +53,16 @@ namespace PulseGym.DAL.Migrations
                 table: "MembershipPrograms",
                 type: "float",
                 nullable: false,
-                oldClrType: typeof(decimal),
-                oldType: "decimal(18,2)");
+                oldClrType: typeof(double),
+                oldType: "double(18,2)");
 
             migrationBuilder.AlterColumn<double>(
                 name: "InitialWeight",
                 table: "Clients",
                 type: "float",
                 nullable: true,
-                oldClrType: typeof(decimal),
-                oldType: "decimal(18,2)",
+                oldClrType: typeof(double),
+                oldType: "double(18,2)",
                 oldNullable: true);
 
             migrationBuilder.AlterColumn<double>(
@@ -70,8 +70,8 @@ namespace PulseGym.DAL.Migrations
                 table: "Clients",
                 type: "float",
                 nullable: true,
-                oldClrType: typeof(decimal),
-                oldType: "decimal(18,2)",
+                oldClrType: typeof(double),
+                oldType: "double(18,2)",
                 oldNullable: true);
         }
     }
