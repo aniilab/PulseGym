@@ -50,6 +50,8 @@ import { ClientDetailComponent } from './components/clients/client-detail/client
 import { ClientInfoComponent } from './components/clients/client-detail/client-info/client-info.component';
 import { ClientProgramsComponent } from './components/clients/client-detail/client-programs/client-programs.component';
 import { ClientWorkoutsComponent } from './components/clients/client-detail/client-workouts/client-workouts.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { TrainerFormComponent } from './components/trainers/trainer-form/trainer-form.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,8 @@ import { ClientWorkoutsComponent } from './components/clients/client-detail/clie
     ClientInfoComponent,
     ClientProgramsComponent,
     ClientWorkoutsComponent,
+    FilterPipe,
+    TrainerFormComponent
   ],
   imports: [
     BrowserModule,

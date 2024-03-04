@@ -1,8 +1,20 @@
-<div class="card">
-  <img class="card-img-top" src="{{ trainer.PicturePath }}" alt="Card image" />
-  <div class="card-body">
-    <h4 class="card-title">{{ trainer.FirstName }} {{ trainer.LastName }}</h4>
-    <p class="card-text">{{ trainer.Category }}</p>
-    <a href="#" class="btn btn-primary">See Profile</a>
+<div class="trainer-card">
+  <img class="ava" src="{{ trainer.imageUrl }}" />
+  <div class="info">
+    <h4>
+      {{ trainer.firstName | uppercase }} {{ trainer.lastName | uppercase }}
+    </h4>
+    <div class="category">
+      <mat-icon>star</mat-icon>
+      <p>{{ trainerCategories[trainer.category] | lowercase }}</p>
+    </div>
+    <div *ngIf="currentRole === adminRole" class="actions">
+      <button mat-fab>
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-fab (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
   </div>
 </div>

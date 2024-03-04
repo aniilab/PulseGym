@@ -10,7 +10,7 @@ namespace PulseGym.Logic.DTO
 
         public DateTime Birthday { get; set; }
 
-        public WorkoutType Category { get; set; }
+        public TrainerCategory Category { get; set; }
 
         public required string Email { get; set; }
 

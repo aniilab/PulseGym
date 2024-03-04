@@ -13,5 +13,7 @@ namespace PulseGym.Logic.Facades
         Task<bool> CheckTrainerAvailabilityAsync(Guid userId, DateTime dateTime);
 
         Task<ICollection<DateTime>> GetOccupiedDateTimeAsync(Guid userId);
+
+        Task DeleteTrainerAsync(Guid userId);
     }
 }

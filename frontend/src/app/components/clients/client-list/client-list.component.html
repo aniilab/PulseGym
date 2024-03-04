@@ -1,9 +1,14 @@
-<div *ngIf="currentRole === adminRole">
-  <button mat-raised-button class="add-button" routerLink="create">
+<div class="toolbar">
+  <mat-form-field class="full-width">
+    <span matPrefix> </span>
+    <input matInput placeholder="Search" name= "search" [(ngModel)]= "searchText">
+    <button matSuffix mat-button><mat-icon >search</mat-icon></button>
+    </mat-form-field>
+  <button mat-raised-button class="add-button" routerLink="create" *ngIf="currentRole === adminRole">
     Add new client
   </button>
 </div>
 
 <ul class="list">
-  <app-client *ngFor="let cl of clients" [client]="cl" [routerLink]="cl.id"></app-client>
+  <app-client *ngFor="let cl of clients | filter: searchText" [client]="cl" [routerLink]="cl.id"></app-client>
 </ul>

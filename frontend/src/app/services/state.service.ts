@@ -7,13 +7,16 @@ import { Observable, Subject } from 'rxjs';
 export class StateService {
   public clients$: Observable<void> = new Observable<void>();
   public programs$: Observable<void> = new Observable<void>();
+  public trainers$: Observable<void> = new Observable<void>();
 
   private clients: Subject<void> = new Subject<void>();
   private programs: Subject<void> = new Subject<void>();
+  private trainers: Subject<void> = new Subject<void>();
 
   constructor() {
     this.clients$ = this.clients.asObservable();
     this.programs$ = this.programs.asObservable();
+    this.trainers$ = this.trainers.asObservable();
   }
 
   public clientsUpdated() {
@@ -22,5 +25,9 @@ export class StateService {
 
   public programsUpdated() {
     this.programs.next();
+  }
+
+  public trainersUpdated() {
+    this.trainers.next();
   }
 }

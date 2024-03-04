@@ -9,5 +9,7 @@ namespace PulseGym.DAL.Repositories
         Task<ICollection<Trainer>> GetAllAsync();
 
         Task<Trainer> GetByIdAsync(Guid userId);
+
+        Task DeleteAsync(Guid trainerId);
     }
 }

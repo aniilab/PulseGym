@@ -46,7 +46,6 @@ export class ClientService {
   }
 
   addClientsTrainer(clientId: string, trainerId: string | null): Observable<void> {
-    debugger;
     return this.http.put<any>(this.path + '/AddTrainer', {clientId: clientId, trainerId: trainerId});
   }
 

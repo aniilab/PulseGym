@@ -42,5 +42,15 @@ namespace PulseGym.DAL.Repositories
 
             return trainer;
         }
+
+        public async Task DeleteAsync(Guid trainerId)
+        {
+            var foundTrainer = await _context.Trainers.FindAsync(trainerId)
+                ?? throw new NotFoundException(nameof(Trainer), trainerId);
+
+            _context.Trainers.Remove(foundTrainer);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

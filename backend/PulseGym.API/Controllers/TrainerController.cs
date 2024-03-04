@@ -49,5 +49,14 @@ namespace PulseGym.API.Controllers
 
             return Ok(dateTimeList);
         }
+
+        [HttpDelete("{trainerId}")]
+        [Authorize(Roles = RoleNames.Admin)]
+        public async Task<ActionResult> DeleteTrainer(Guid trainerId)
+        {
+            await _trainerFacade.DeleteTrainerAsync(trainerId);
+
+            return Ok();
+        }
     }
 }

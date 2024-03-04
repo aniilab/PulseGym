@@ -63,13 +63,13 @@ export class ClientProgramsComponent implements OnInit {
                 new Date(a.expirationDate).getTime() -
                 new Date(b.expirationDate).getTime()
             );
-          this.expiredPrograms = programs.filter(
-            (program) => new Date(program.expirationDate) <= new Date()
-          ).sort(
-            (a, b) =>
-              new Date(a.expirationDate).getTime() -
-              new Date(b.expirationDate).getTime()
-          );;
+          this.expiredPrograms = programs
+            .filter((program) => new Date(program.expirationDate) <= new Date())
+            .sort(
+              (a, b) =>
+                new Date(a.expirationDate).getTime() -
+                new Date(b.expirationDate).getTime()
+            );
         })
       )
       .subscribe();

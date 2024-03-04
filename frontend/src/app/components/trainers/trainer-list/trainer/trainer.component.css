@@ -1,3 +1,68 @@
-.card {
-  width: 400px;
+.trainer-card {
+  background-color: white;
+  border-radius: 1rem;
+  margin: 1rem;
+  align-items: center;
+  display: grid;
+  padding: 0 0 0.7rem 0;
+  min-width: 90%;
+  grid-template-rows: 70% 30%;
+}
+
+.ava {
+  object-fit: cover;
+  aspect-ratio: 1/1;
+  width: 100%;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.info {
+  h4 {
+    font-weight: 550;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .category {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: violet;
+
+    p {
+      margin-bottom: 0;
+    }
+
+    mat-icon {
+      font-size: 13pt;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+.actions {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: end;
+
+  button {
+    background-color: transparent;
+    margin: 3px;
+    margin-bottom: 0;
+    box-shadow: none;
+    width: 24px;
+    height: 24px;
+    color: gray;
+
+    mat-icon{
+      font-size: 14pt;
+    }
+    
+  }
 }

@@ -1,8 +1,11 @@
 ﻿using Mapster;
 
+using Microsoft.AspNetCore.Identity;
+
 using PulseGym.DAL.Models;
 using PulseGym.DAL.Repositories;
 using PulseGym.Entities.Enums;
+using PulseGym.Entities.Exceptions;
 using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
 using PulseGym.Logic.Services;
@@ -13,12 +16,15 @@ namespace PulseGym.Logic.Facades
     {
         private readonly IAuthService _authService;
 
-        ITrainerRepository _trainerRepository;
+        private readonly ITrainerRepository _trainerRepository;
 
-        public TrainerFacade(IAuthService authService, ITrainerRepository trainerRepository)
+        private readonly UserManager<User> _userManager;
+
+        public TrainerFacade(IAuthService authService, ITrainerRepository trainerRepository, UserManager<User> userManager)
         {
             _authService = authService;
             _trainerRepository = trainerRepository;
+            _userManager = userManager;
         }
 
         public async Task<bool> ExistsAsync(Guid userId)
@@ -69,6 +75,16 @@ namespace PulseGym.Logic.Facades
                                                     .ToList();
 
             return occupiedDateTime;
+        }
+
+        public async Task DeleteTrainerAsync(Guid userId)
+        {
+            await _trainerRepository.DeleteAsync(userId);
+
+            var user = await _userManager.FindByIdAsync(userId.ToString())
+                ?? throw new NotFoundException(nameof(User), userId);
+
+            await _userManager.DeleteAsync(user);
         }
     }
 }

@@ -34,7 +34,6 @@ export class ProgramComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((dialogResult) => {
       if (dialogResult) {
-        this.programService
         this.programService.deleteProgram(this.program.id).subscribe(() => this.stateService.programsUpdated());
       }
     });

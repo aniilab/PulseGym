@@ -17,6 +17,7 @@ import { ClientDetailComponent } from './components/clients/client-detail/client
 import { ClientInfoComponent } from './components/clients/client-detail/client-info/client-info.component';
 import { ClientProgramsComponent } from './components/clients/client-detail/client-programs/client-programs.component';
 import { ClientWorkoutsComponent } from './components/clients/client-detail/client-workouts/client-workouts.component';
+import { TrainerFormComponent } from './components/trainers/trainer-form/trainer-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'activities', pathMatch: 'full' },
@@ -41,6 +42,13 @@ const routes: Routes = [
     component: TrainerListComponent,
     canActivate: [canActivateLoggedInGuard],
     pathMatch: 'full',
+  },
+  {
+    path: 'trainers/create',
+    component: TrainerFormComponent,
+    pathMatch: 'full',
+    canActivate: [canActivateIsAdminGuard],
+    canDeactivate: [canDeactivateGuard],
   },
   {
     path: 'clients',

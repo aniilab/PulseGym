@@ -1,4 +1,14 @@
-<div *ngIf="currentRole === 'admin'">
-  <button class="btn btn-primary bg-dark m-2">Add new trainer</button>
+<div class="toolbar">
+  <mat-form-field class="full-width">
+    <span matPrefix> </span>
+    <input matInput placeholder="Search" name= "search" [(ngModel)]= "searchText">
+    <button matSuffix mat-button><mat-icon >search</mat-icon></button>
+    </mat-form-field>
+  <button mat-raised-button class="add-button" routerLink="create" *ngIf="currentRole === adminRole">
+    Add new trainer
+  </button>
 </div>
-<app-trainer *ngFor="let tr of trainers" [trainer]="tr"></app-trainer>
+
+<ul class="list">
+  <app-trainer *ngFor="let tr of trainers | filter: searchText" [trainer]="tr"></app-trainer>
+</ul>

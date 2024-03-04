@@ -13,6 +13,7 @@ export class ClientListComponent implements OnInit {
   public clients: ClientViewDTO[];
   public currentRole: string = '';
   public adminRole: string = ADMIN;
+  public searchText: string = "";
 
   constructor(
     private authService: AuthService,

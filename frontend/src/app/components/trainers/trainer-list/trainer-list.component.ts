@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Trainer } from 'src/app/models/trainer.model';
 import { TrainerService } from 'src/app/services/trainer.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ADMIN } from 'src/app/constants/role-names';
+import { TrainerViewDTO } from 'src/app/models/trainer/trainer-view-dto';
+import { tap } from 'rxjs';
+import { StateService } from 'src/app/services/state.service';
 
 @Component({
   selector: 'app-trainer-list',
@@ -10,19 +14,33 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class TrainerListComponent implements OnInit {
   public currentRole: string = '';
-  public trainers: Trainer[];
+  public adminRole = ADMIN;
+  public trainers: TrainerViewDTO[];
+  public searchText: string = '';
 
   constructor(
     private trainerService: TrainerService,
-    private authService: AuthService
+    private authService: AuthService,
+    private stateService: StateService
   ) {}
 
   ngOnInit(): void {
-    this.trainers = this.trainerService.getTrainers();
+    this.fetchTrainers();
 
-    // this.currentRole = this.authService.getRole();
-    // this.authService.authRoleChanged.subscribe((role: string) => {
-    //   this.currentRole = role;
-    // });
+    this.authService.currentRole.subscribe((role: string) => {
+      this.currentRole = role;
+    });
+
+    this.stateService.trainers$.subscribe(() => {
+      this.fetchTrainers();
+    })
+  }
+
+  private fetchTrainers(): void {
+    this.trainerService.getAllTrainers().pipe(
+      tap((trainers) => {
+        this.trainers = trainers;
+      })
+    ).subscribe();
   }
 }
