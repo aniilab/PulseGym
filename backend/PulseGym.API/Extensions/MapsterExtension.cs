@@ -42,10 +42,10 @@ namespace PulseGym.API.Extensions
                 .Map(dest => dest.Status, src => WorkoutRequestStatus.New);
 
             TypeAdapterConfig<WorkoutRequest, Workout>.NewConfig()
+                 .Map(dest => dest.Id, src => new Guid())
                 .Map(dest => dest.WorkoutRequestId, src => src.Id)
                 .Map(dest => dest.Status, src => WorkoutStatus.Planned)
-                .Map(dest => dest.WorkoutType, src => WorkoutType.Personal)
-                .Map(dest => dest.Clients, src => new List<Client>() { src.Client });
+                .Map(dest => dest.WorkoutType, src => WorkoutType.Personal);
         }
     }
 }

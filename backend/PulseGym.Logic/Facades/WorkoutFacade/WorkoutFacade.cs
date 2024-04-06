@@ -241,7 +241,7 @@ namespace PulseGym.Logic.Facades
                 throw new BadInputException("Wrong role received!");
             }
 
-            return workoutRequestList.Adapt<List<WorkoutRequestViewDTO>>();
+            return userWorkoutRequests.Adapt<List<WorkoutRequestViewDTO>>();
         }
 
         public async Task CreateWorkoutRequestAsync(WorkoutRequestInDTO workoutRequestDTO)
@@ -283,7 +283,10 @@ namespace PulseGym.Logic.Facades
             }
 
             var newWorkout = foundRequest.Adapt<Workout>();
-            await _workoutRepository.CreateAsync(newWorkout);
+            var created = await _workoutRepository.CreateAsync(newWorkout);
+
+            created.Clients.Add(foundRequest.Client);
+            await _workoutRepository.UpdateAsync(created.Id, created);
 
             foundRequest.Status = WorkoutRequestStatus.AcceptedToSchedule;
 

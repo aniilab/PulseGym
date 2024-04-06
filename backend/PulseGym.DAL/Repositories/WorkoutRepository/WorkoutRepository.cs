@@ -14,11 +14,12 @@ namespace PulseGym.DAL.Repositories
             _context = context;
         }
 
-        public async Task CreateAsync(Workout newWorkout)
+        public async Task<Workout> CreateAsync(Workout newWorkout)
         {
-            await _context.Workouts.AddAsync(newWorkout);
+            var result = await _context.Workouts.AddAsync(newWorkout);
 
             await _context.SaveChangesAsync();
+            return result.Entity;
         }
 
         public async Task<ICollection<Workout>> GetAllAsync()
@@ -51,7 +52,7 @@ namespace PulseGym.DAL.Repositories
 
             workout.Id = id;
 
-            _context.Update(workout);
+            _context.Workouts.Update(workout);
 
             await _context.SaveChangesAsync();
         }

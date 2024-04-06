@@ -32,7 +32,7 @@ namespace PulseGym.DAL.Repositories
 
         public async Task<WorkoutRequest> GetByIdAsync(Guid id)
         {
-            var foundWorkoutRequest = await _context.WorkoutRequests.FindAsync(id)
+            var foundWorkoutRequest = await _context.WorkoutRequests.Include(wr => wr.Client).ThenInclude(c => c.User).FirstOrDefaultAsync(w => w.Id == id)
                 ?? throw new NotFoundException(nameof(WorkoutRequest), id);
 
             return foundWorkoutRequest;

@@ -1,0 +1,27 @@
+<mat-toolbar class="toolbar">
+  <mat-button-toggle-group [(ngModel)]="selectedFilter" (change)="onFilterSelected()">
+    <mat-button-toggle *ngIf="currentRole != adminRole" value="User">My Schedule</mat-button-toggle>
+    <mat-button-toggle value="Group">Groups</mat-button-toggle>
+    <mat-button-toggle *ngIf="currentRole === adminRole" value="Trainer">Trainers</mat-button-toggle>
+    <mat-button-toggle *ngIf="currentRole === adminRole" value="Client">Clients</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <div class="sorting">
+    <mat-form-field *ngIf="currentRole === adminRole && (selectedFilter === 'Trainer' || selectedFilter === 'Client')">
+      <mat-label>Select User</mat-label>
+      <mat-select
+        [(value)]="selectedUserId"
+        (selectionChange)="onUserSelected()"
+      >
+        <mat-option *ngFor="let user of users" [value]="user.id">
+          {{ user.firstName }} {{ user.lastName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-toolbar>
+<full-calendar
+  #fullcalendar
+  class="purple-calendar"
+  [options]="calendarOptions"
+></full-calendar>

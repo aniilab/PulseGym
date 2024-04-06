@@ -34,7 +34,9 @@
           </a>
         </li>
         <li *ngIf="isLoggedIn">
-          <a class="nav-link">
+          <a class="nav-link"
+          routerLink="/schedule"
+          routerLinkActive="active-route">
             <i class="bi-calendar"></i>
             <span class="d-none d-sm-inline">Schedule</span>
           </a>

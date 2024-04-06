@@ -16,7 +16,8 @@
         </button>
       </div>
      
-      <div *ngIf="!trainerChange" style="display: flex; flex-direction: row; align-items: center; text-align: left;"><img class="dropdown-ava" src="{{ client.personalTrainer?.imageUrl }}" alt="">
+      <div *ngIf="!trainerChange" style="display: flex; flex-direction: row; align-items: center; text-align: left;">
+        <img class="dropdown-ava" src="{{ client.personalTrainer?.imageUrl }}" alt="">
         <p style="margin-bottom: 0; margin-left: 3px;">
           {{
             client.personalTrainer?.firstName +

@@ -22,7 +22,7 @@ import { TrainerService } from './services/trainer.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -37,12 +37,11 @@ import { ProgramComponent } from './components/programs/program-list/program/pro
 import { ProgramService } from './services/program.service';
 import { ProgramCreateComponent } from './components/programs/program-create/program-create.component';
 import { WorkoutRequestListComponent } from './components/workout-requests/workout-request-list/workout-request-list.component';
-import { WorkoutRequestComponent } from './components/workout-requests/workout-request/workout-request.component';
 import { ClientService } from './services/client.service';
 import { authInterceptorProviders } from './interceptors/authorization.interceptor';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatSelectModule} from '@angular/material/select';
-import {MatListModule} from '@angular/material/list'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ClientFormComponent } from './components/clients/client-form/client-form.component';
@@ -52,6 +51,13 @@ import { ClientProgramsComponent } from './components/clients/client-detail/clie
 import { ClientWorkoutsComponent } from './components/clients/client-detail/client-workouts/client-workouts.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { TrainerFormComponent } from './components/trainers/trainer-form/trainer-form.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TableModule } from 'primeng/table';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { ScheduleComponent } from './components/schedule/schedule.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { WorkoutCreateComponent } from './components/schedule/workout-create/workout-create.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +79,6 @@ import { TrainerFormComponent } from './components/trainers/trainer-form/trainer
     ProgramComponent,
     ProgramCreateComponent,
     WorkoutRequestListComponent,
-    WorkoutRequestComponent,
     ConfirmationDialogComponent,
     ClientFormComponent,
     ClientDetailComponent,
@@ -81,7 +86,9 @@ import { TrainerFormComponent } from './components/trainers/trainer-form/trainer
     ClientProgramsComponent,
     ClientWorkoutsComponent,
     FilterPipe,
-    TrainerFormComponent
+    TrainerFormComponent,
+    ScheduleComponent,
+    WorkoutCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +111,13 @@ import { TrainerFormComponent } from './components/trainers/trainer-form/trainer
     MatSlideToggleModule,
     FormsModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
+    MatTableModule,
+    MatCheckboxModule,
+    TableModule,
+    BrowserModule,
+    FullCalendarModule,
+    MatButtonToggleModule,
   ],
   providers: [
     AuthService,

@@ -1,9 +1,12 @@
-﻿using PulseGym.Entities.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+
+using PulseGym.Entities.Enums;
 
 namespace PulseGym.DAL.Models
 {
     public class Workout
     {
+        [Key]
         public Guid Id { get; set; }
 
         public DateTime WorkoutDateTime { get; set; }
@@ -27,5 +30,10 @@ namespace PulseGym.DAL.Models
         public WorkoutRequest? WorkoutRequest { get; set; }
 
         public required ICollection<Client> Clients { get; set; }
+
+        public Workout()
+        {
+            Clients = new List<Client>();
+        }
     }
 }

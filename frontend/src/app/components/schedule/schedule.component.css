@@ -1,0 +1,43 @@
+.group-check {
+
+}
+
+.toolbar {
+  gap: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 !important;
+
+  .actions {
+    button {
+      margin: 5px;
+      color: white;
+
+      &.accept {
+        background-color: #488c98 !important;
+      }
+
+      &.decline {
+        background-color: #8c1298 !important;
+      }
+    }
+
+    button:disabled {
+      background-color: darkgray !important;
+    }
+  }
+}
+
+.purple-calendar {
+    --fc-button-bg-color: #a69dbd;
+    --fc-button-border-color: #9f8cc1;
+    --fc-button-hover-bg-color: #B091EA;
+    --fc-button-active-bg-color: #7B57BF;
+    --fc-button-active-border-color: #7c5bb8;
+    --bs-link-color-rgb: black;
+    --bs-link-hover-color-rgb: #7B57BF;
+    --fc-today-bg-color: #b7abd329;
+    --fc-event-bg-color: #340a61;
+    --fc-event-border-color: #250448;
+}

@@ -18,6 +18,7 @@ import { ClientInfoComponent } from './components/clients/client-detail/client-i
 import { ClientProgramsComponent } from './components/clients/client-detail/client-programs/client-programs.component';
 import { ClientWorkoutsComponent } from './components/clients/client-detail/client-workouts/client-workouts.component';
 import { TrainerFormComponent } from './components/trainers/trainer-form/trainer-form.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'activities', pathMatch: 'full' },
@@ -62,6 +63,12 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [canActivateIsAdminGuard],
     canDeactivate: [canDeactivateGuard],
+  },
+  {
+    path: 'schedule',
+    component: ScheduleComponent,
+    pathMatch: 'full',
+    canActivate: [canActivateLoggedInGuard]
   },
   {
     path: 'clients/:id',

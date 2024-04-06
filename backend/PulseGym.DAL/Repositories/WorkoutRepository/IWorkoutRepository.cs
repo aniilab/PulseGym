@@ -4,7 +4,7 @@ namespace PulseGym.DAL.Repositories
 {
     public interface IWorkoutRepository
     {
-        Task CreateAsync(Workout workout);
+        Task<Workout> CreateAsync(Workout workout);
 
         Task<ICollection<Workout>> GetAllAsync();
 

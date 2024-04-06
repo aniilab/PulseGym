@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs';
+import { CLIENT } from 'src/app/constants/role-names';
 import { WorkoutStatus } from 'src/app/enums/workout-status';
 import { WorkoutType } from 'src/app/enums/workout-type';
 import { WorkoutViewDTO } from 'src/app/models/workout/workout-view-dto';
@@ -25,7 +26,7 @@ export class ClientWorkoutsComponent implements OnInit {
     const clientId = this.route.parent.snapshot.paramMap.get('id');
 
     this.workoutService
-      .getClientWorkouts(clientId)
+      .getUserWorkouts(CLIENT ,clientId)
       .pipe(tap((workouts: WorkoutViewDTO[]) => (this.workouts = workouts)))
       .subscribe();
   }

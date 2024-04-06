@@ -47,7 +47,7 @@ export class ActivityFormComponent implements OnInit, CanComponentDeactivate {
       title: [null, Validators.required],
       description: [null, Validators.required],
       imageUrl: [null],
-      date: [new Date(), Validators.required],
+      date: [new Date()],
     });
   }
 
@@ -117,7 +117,6 @@ export class ActivityFormComponent implements OnInit, CanComponentDeactivate {
 
   editActivity(): void {
     if (this.newActivity && this.isFormChanged()) {
-      debugger;
       this.activityService
         .updateActivity(this.activityEditId, this.newActivity)
         .pipe(

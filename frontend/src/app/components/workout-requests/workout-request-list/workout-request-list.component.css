@@ -1,3 +1,70 @@
-.list-group {
-  width: 100%;
+.toolbar {
+  gap: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .actions {
+
+    button {
+      margin: 5px;
+      color: white;
+
+      &.accept {
+        background-color: #488c98 !important;
+      }
+
+      &.decline {
+        background-color: #8c1298 !important;
+      }
+    }
+
+    button:disabled{
+      background-color: darkgray !important;
+    }
+  }
+}
+
+.request-table {
+  th {
+    text-align: center;
+  }
+  td {
+    text-align: center;
+  }
+}
+
+.badge {
+  border-radius: 3px;
+  color: black;
+  font-weight: 500;
+  margin-right: 10px;
+  font-size: 10pt;
+
+  &.New {
+    background-color: #8686ac4d;
+  }
+
+  &.DeclinedByAdmin {
+    background-color: #f3454569;
+  }
+
+  &.DeclinedByTrainer {
+    background-color: #f3454569;
+  }
+
+  &.DeclinedByClient {
+    background-color: #f3a24569;
+  }
+
+  &.AcceptedToSchedule {
+    background-color: #4fca4f85;
+  }
+}
+
+.ava {
+  aspect-ratio: 1/1;
+  width: 30px;
+  border-radius: 50%;
+  object-fit: cover;
 }

@@ -1,6 +1,103 @@
-<ul class="list-group list-group-light">
-  <app-workout-request
-    *ngFor="let wr of requests"
-    [workoutRequest]="wr"
-  ></app-workout-request>
-</ul>
+<mat-toolbar class="toolbar">
+  <div class="sorting" *ngIf="currentRole === adminRole">
+    <mat-form-field>
+      <mat-label>Sort By</mat-label>
+      <mat-select [(value)]="selectedRole" (selectionChange)="onRoleSelected()">
+        <mat-option [value]="'Trainer'">Trainer</mat-option>
+        <mat-option [value]="'Client'"> Client </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Select User</mat-label>
+      <mat-select
+        [(value)]="selectedUserId"
+        (selectionChange)="onUserSelected()"
+      >
+        <mat-option *ngFor="let user of users" [value]="user.id">
+          {{ user.firstName }} {{ user.lastName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="actions">
+    <button *ngIf="currentRole === trainerRole" mat-raised-button class="accept" (click)="onAcceptClicked()" [disabled]="!selection.hasValue()">Accept</button>
+    <button mat-raised-button class="decline" [disabled]="!selection.hasValue()" (click)="onDeclineClicked()">Decline</button>
+  </div>
+</mat-toolbar>
+
+<table mat-table [dataSource]="requests" class="request-table">
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let request">
+      {{ request.dateTime | date : "mediumDate" }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="time">
+    <th mat-header-cell *matHeaderCellDef>Time</th>
+    <td mat-cell *matCellDef="let request">
+      {{ request.dateTime | date : "shortTime" }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="trainer">
+    <th mat-header-cell *matHeaderCellDef>Trainer</th>
+    <td mat-cell *matCellDef="let request">
+      <img class="ava" src="{{ request.trainer.imageUrl }}" alt="" />
+      {{ request.trainer.firstName }} {{ request.trainer.lastName }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="client">
+    <th mat-header-cell *matHeaderCellDef>Client</th>
+    <td mat-cell *matCellDef="let request">
+      <img class="ava" src="{{ request.client.imageUrl }}" alt="" />
+      {{ request.client.firstName }} {{ request.client.lastName }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let request">
+      <p [class]="'badge ' + requestStatus[request.status]">
+        {{ requestStatus[request.status] }}
+      </p>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        (change)="$event ? toggleAllRows() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        color="primary"
+        [disabled]="isDisabledHeaderCheckbox()"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)"
+        color="primary"
+        [disabled]="isDisabledCheckbox(row)"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td
+      class="mat-cell"
+      [colSpan]="displayedColumns.length"
+      style="text-align: center; padding: 10px; font-weight: 500"
+    >
+      No data matching the filter.
+    </td>
+  </tr>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
