@@ -47,7 +47,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
           !authReq.url.includes(AUTH_PATH + '/Login') &&
           error.status === 401
         ) {
-          return this.handle401Error(authReq, next);
+          this.handle401Error(authReq, next).subscribe();
         }
 
         throw error;
@@ -84,9 +84,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
           }),
           catchError((error) => {
             this.isRefreshing = false;
-            console.log(error);
             this.tokenStorageService.signOut();
-            alert(error);
             throw error;
           })
         );

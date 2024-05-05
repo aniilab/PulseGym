@@ -76,6 +76,7 @@ builder.Services.AddScoped<IWorkoutFacade, WorkoutFacade>();
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IOpenAIService, OpenAIService>();
 
 // Middlewares
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();

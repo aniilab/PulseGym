@@ -48,7 +48,7 @@ export class AuthService {
       );
   }
 
-  getUser(): Observable<string> {
+  getUser(): Observable<UserLoginResponseDTO> {
     return this.http.get<UserLoginResponseDTO>(PATH + AUTH_PATH + '/User').pipe(
       tap((user: UserLoginResponseDTO) => {
         if (!user.imageUrl) {

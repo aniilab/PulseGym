@@ -1,0 +1,81 @@
+<div class="heading">
+  <div class="info">
+    <h1>Hi, {{ client.firstName }}</h1>
+    <p>
+      I am your personal AI assistant. You can choose which schedule you want to
+      receive: <b>workout</b> or <b>meal</b>.
+    </p>
+    <p>
+      Currently you have following characteristics, based on which your schedule
+      will be generated. You can update this information <a href="#">here</a>.
+    </p>
+  </div>
+  <div></div>
+  <div class="personal-data">
+    <p><b>Goal:</b> {{ client.goal }}</p>
+    <p><b>Current weight:</b> {{ client.initialWeight }}kg</p>
+    <p><b>Current height:</b> {{ client.initialHeight }}cm</p>
+  </div>
+</div>
+
+<div class="generated-block">
+  <div class="generated-column">
+    <div class="d-flex gap-4">
+      <h2>Workout Schedule</h2>
+      <button (click)="generateWorkout()" mat-button>
+        {{ workouts.length ? "Regenerate" : "Generate" }}
+        <i class="bi bi-person-arms-up"></i>
+      </button>
+    </div>
+    <div *ngIf="workouts.length && !wLoading" class="results">
+      <div *ngFor="let workout of workouts" class="result-row">
+        <p class="week-day">{{ workout.weekDay | uppercase }}</p>
+        <div class="exercises">
+          <ul>
+            <li *ngFor="let exercise of workout.exercises">
+              {{ exercise.exerciseName }} {{ exercise.count }} ({{
+                exercise.setNumber
+              }}
+              sets)
+            </li>
+          </ul>
+          <p class="duration">{{ workout.workoutDuration }}</p>
+        </div>
+      </div>
+    </div>
+    <mat-spinner
+      *ngIf="wLoading"
+      style="width: 30px; height: 30px; margin: 64px 0"
+    ></mat-spinner>
+  </div>
+  <mat-divider [vertical]="true"></mat-divider>
+  <div class="generated-column">
+    <div class="d-flex gap-4">
+      <h2>Meal Schedule</h2>
+      <button (click)="generateMeal()" mat-button>
+        {{ meals.length ? "Regenerate" : "Generate" }}
+        <i class="bi bi-egg-fried"></i>
+      </button>
+    </div>
+    <div *ngIf="meals.length && !mLoading" class="results">
+      <div *ngFor="let meal of meals" class="result-row">
+        <p class="week-day meal">{{ meal.weekDay | uppercase }}</p>
+        <ul class="meals">
+          <li *ngFor="let meal of meal.meals" class="meal-item">
+            <p class="meal-type">{{ meal.mealType | uppercase }}</p>
+            <div
+              class="dish"
+            >
+              <p>{{ meal.dishName }} ({{ meal.weight }})</p>
+              <p class="dish-calories">{{ meal.caloriesCount }} kcal</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <mat-spinner
+      *ngIf="mLoading"
+      style="width: 30px; height: 30px; margin: 64px 0"
+    ></mat-spinner>
+  </div>
+</div>

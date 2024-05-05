@@ -5,58 +5,57 @@ using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
 using PulseGym.Logic.Facades;
 
-namespace PulseGym.API.Controllers
+namespace PulseGym.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[Authorize]
+public class TrainerController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
-    public class TrainerController : ControllerBase
+    ITrainerFacade _trainerFacade;
+
+    public TrainerController(ITrainerFacade trainerFacade)
     {
-        ITrainerFacade _trainerFacade;
+        _trainerFacade = trainerFacade;
+    }
 
-        public TrainerController(ITrainerFacade trainerFacade)
+    [HttpPost("Create")]
+    [Authorize(Roles = RoleNames.Admin)]
+    public async Task<ActionResult> Create(TrainerCreateDTO newTrainer)
+    {
+        var isCreated = await _trainerFacade.CreateTrainerAsync(newTrainer);
+
+        if (isCreated)
         {
-            _trainerFacade = trainerFacade;
-        }
-
-        [HttpPost("Create")]
-        [Authorize(Roles = RoleNames.Admin)]
-        public async Task<ActionResult> Create(TrainerCreateDTO newTrainer)
-        {
-            var isCreated = await _trainerFacade.CreateTrainerAsync(newTrainer);
-
-            if (isCreated)
-            {
-                return Ok();
-            }
-
-            return BadRequest();
-        }
-
-        [HttpGet]
-        [Authorize(Roles = RoleNames.Admin)]
-        public async Task<ActionResult<ICollection<TrainerViewDTO>>> Get()
-        {
-            var trainerList = await _trainerFacade.GetTrainersAsync();
-
-            return Ok(trainerList);
-        }
-
-        [HttpGet("OccupiedTime/{id}")]
-        public async Task<ActionResult<ICollection<DateTime>>> GetTrainerOccupiedTime(Guid id)
-        {
-            var dateTimeList = await _trainerFacade.GetOccupiedDateTimeAsync(id);
-
-            return Ok(dateTimeList);
-        }
-
-        [HttpDelete("{trainerId}")]
-        [Authorize(Roles = RoleNames.Admin)]
-        public async Task<ActionResult> DeleteTrainer(Guid trainerId)
-        {
-            await _trainerFacade.DeleteTrainerAsync(trainerId);
-
             return Ok();
         }
+
+        return BadRequest();
+    }
+
+    [HttpGet]
+    [Authorize(Roles = RoleNames.Admin)]
+    public async Task<ActionResult<ICollection<TrainerViewDTO>>> Get()
+    {
+        var trainerList = await _trainerFacade.GetTrainersAsync();
+
+        return Ok(trainerList);
+    }
+
+    [HttpGet("OccupiedTime/{id}")]
+    public async Task<ActionResult<ICollection<DateTime>>> GetTrainerOccupiedTime(Guid id)
+    {
+        var dateTimeList = await _trainerFacade.GetOccupiedDateTimeAsync(id);
+
+        return Ok(dateTimeList);
+    }
+
+    [HttpDelete("{trainerId}")]
+    [Authorize(Roles = RoleNames.Admin)]
+    public async Task<ActionResult> DeleteTrainer(Guid trainerId)
+    {
+        await _trainerFacade.DeleteTrainerAsync(trainerId);
+
+        return Ok();
     }
 }

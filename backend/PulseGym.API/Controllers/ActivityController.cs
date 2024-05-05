@@ -5,60 +5,59 @@ using PulseGym.Entities.Infrastructure;
 using PulseGym.Logic.DTO;
 using PulseGym.Logic.Facades;
 
-namespace PulseGym.API.Controllers
+namespace PulseGym.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class ActivityController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ActivityController : ControllerBase
+    private readonly IActivityFacade _activityFacade;
+
+    public ActivityController(IActivityFacade activityFacade)
     {
-        private readonly IActivityFacade _activityFacade;
+        _activityFacade = activityFacade;
+    }
 
-        public ActivityController(IActivityFacade activityFacade)
-        {
-            _activityFacade = activityFacade;
-        }
+    [HttpGet]
+    public async Task<ActionResult<ICollection<ActivityViewDTO>>> Get()
+    {
+        var activityList = await _activityFacade.GetActivitiesAsync();
 
-        [HttpGet]
-        public async Task<ActionResult<ICollection<ActivityViewDTO>>> Get()
-        {
-            var activityList = await _activityFacade.GetActivitiesAsync();
+        return Ok(activityList);
+    }
 
-            return Ok(activityList);
-        }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ActivityViewDTO>> GetById(Guid id)
+    {
+        var activity = await _activityFacade.GetActivityAsync(id);
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ActivityViewDTO>> GetById(Guid id)
-        {
-            var activity = await _activityFacade.GetActivityAsync(id);
+        return Ok(activity);
+    }
 
-            return Ok(activity);
-        }
+    [HttpPost]
+    [Authorize(Roles = RoleNames.Admin)]
+    public async Task<ActionResult> Create(ActivityInDTO activityDTO)
+    {
+        await _activityFacade.CreateActivityAsync(activityDTO);
 
-        [HttpPost]
-        [Authorize(Roles = RoleNames.Admin)]
-        public async Task<ActionResult> Create(ActivityInDTO activityDTO)
-        {
-            await _activityFacade.CreateActivityAsync(activityDTO);
+        return Ok();
+    }
 
-            return Ok();
-        }
+    [HttpPut("{id}")]
+    [Authorize(Roles = RoleNames.Admin)]
+    public async Task<ActionResult> Update(Guid id, ActivityInDTO activityDTO)
+    {
+        await _activityFacade.UpdateActivityAsync(id, activityDTO);
 
-        [HttpPut("{id}")]
-        [Authorize(Roles = RoleNames.Admin)]
-        public async Task<ActionResult> Update(Guid id, ActivityInDTO activityDTO)
-        {
-            await _activityFacade.UpdateActivityAsync(id, activityDTO);
+        return Ok();
+    }
 
-            return Ok();
-        }
+    [HttpDelete("{id}")]
+    [Authorize(Roles = RoleNames.Admin)]
+    public async Task<ActionResult> Delete(Guid id)
+    {
+        await _activityFacade.DeleteActivityAsync(id);
 
-        [HttpDelete("{id}")]
-        [Authorize(Roles = RoleNames.Admin)]
-        public async Task<ActionResult> Delete(Guid id)
-        {
-            await _activityFacade.DeleteActivityAsync(id);
-
-            return Ok();
-        }
+        return Ok();
     }
 }

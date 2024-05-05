@@ -1,0 +1,159 @@
+.heading {
+  display: grid;
+  grid-template-columns: 50% 10% 40%;
+  padding: 16px;
+}
+
+.info {
+  h1 {
+    color: rgb(94, 57, 180) !important;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin-top: 0;
+  }
+
+  a {
+    font-weight: 500;
+    color: rgb(94, 57, 180);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: rgb(72, 0, 255);
+    text-decoration: underline;
+  }
+}
+
+.personal-data {
+  background-color: white;
+  border-radius: 16px;
+  padding: 24px 36px;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  p b {
+    color: rgb(94, 57, 180);
+  }
+}
+
+.generated-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px;
+  margin-top: 20px;
+
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  button {
+    padding: 12px 24px;
+    border-radius: 8px;
+    background-color: rgba(144, 137, 238, 0.288);
+  }
+
+  button:hover {
+    background-color: rgba(152, 135, 248, 0.283);
+  }
+
+  .generated-column {
+    @media screen and (max-width: 900px) {
+      width: 100%;
+    }
+
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .results {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.result-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+  gap: 1rem;
+  border-bottom: 1px solid rgb(80, 80, 232);
+
+  li {
+    font-size: 14px;
+    list-style: none;
+    margin: 4px 0;
+    color: navy;
+  }
+
+  .week-day {
+    color: rgb(113, 75, 251);
+    transform: rotate(180deg);
+    writing-mode: vertical-rl;
+    font-weight: 700;
+  }
+
+  .week-day.meal {
+    color: rgb(75, 172, 251);
+  }
+
+  .exercises {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+  }
+
+  .meals {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    gap: 0.5rem;
+    margin-bottom: 0 !important;
+
+    .meal-type {
+      font-size: 11px;
+      font-weight: 600;
+      color: navy;
+    }
+
+    .meal-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .dish {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .dish-calories {
+      font-size: 10px;
+      font-weight: 500;
+    }
+  }
+
+  .duration {
+    font-size: 12px;
+    font-weight: 600;
+  }
+}

@@ -58,6 +58,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { WorkoutCreateComponent } from './components/schedule/workout-create/workout-create.component';
+import { AssistantComponent } from './components/assistant/assistant.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -88,7 +90,8 @@ import { WorkoutCreateComponent } from './components/schedule/workout-create/wor
     FilterPipe,
     TrainerFormComponent,
     ScheduleComponent,
-    WorkoutCreateComponent
+    WorkoutCreateComponent,
+    AssistantComponent,
   ],
   imports: [
     BrowserModule,
@@ -118,6 +121,7 @@ import { WorkoutCreateComponent } from './components/schedule/workout-create/wor
     BrowserModule,
     FullCalendarModule,
     MatButtonToggleModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     AuthService,

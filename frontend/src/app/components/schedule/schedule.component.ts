@@ -44,8 +44,8 @@ export class ScheduleComponent implements OnInit {
     customButtons: {
       addEvent: {
         text: 'Create',
-        click: async function () {
-          await this.matDialog.open(WorkoutCreateComponent, {
+        click: function () {
+          this.matDialog.open(WorkoutCreateComponent, {
             width: '450px',
           });
         },

@@ -4,17 +4,19 @@
   <span class="example-spacer"></span>
 
   <mat-dialog-actions *ngIf="!isLoggedIn">
-    <button
-      mat-raised-button
-      (click)="openDialog()"
-      class="login-button"
-    >
+    <button mat-raised-button (click)="openDialog()" class="login-button">
       Login
     </button>
   </mat-dialog-actions>
 
   <div class="nav-item" *ngIf="isLoggedIn">
-    <div class="currentUser">
+    <a
+      class="currentUser"
+      href="{{
+        (currentUser.role === 'Client' ? '/clients/' : '/trainers/') +
+          currentUser.id
+      }}"
+    >
       <img src="{{ currentUser.imageUrl }}" alt="Avatar Logo" class="avatar" />
 
       <div class="info">
@@ -23,7 +25,7 @@
         </span>
         <span class="role">{{ currentUser.role }}</span>
       </div>
-    </div>
+    </a>
 
     <button mat-icon-button (click)="onLogOut()">
       <mat-icon class="icon">logout</mat-icon>
